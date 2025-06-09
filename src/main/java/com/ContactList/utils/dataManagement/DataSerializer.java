@@ -1,7 +1,6 @@
 package com.ContactList.utils.dataManagement;
 
-import com.ContactList.core.payloads.UserPayload;
-import com.ContactList.core.payloads.UserResponse;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DataSerializer {

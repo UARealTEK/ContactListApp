@@ -33,6 +33,11 @@ public class BaseService {
                 .post(endpoint);
     }
 
+    protected Response postRequest(String token, String endpoint) {
+        return requestSpecification.headers(Map.of(Headers.AUTHORIZATION.getHeader(), token))
+                .post(endpoint);
+    }
+
     protected Response getRequest(String endpoint) {
         return requestSpecification.get(endpoint);
     }

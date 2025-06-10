@@ -52,9 +52,9 @@ public class BaseService {
         return spec.get(endpoint);
     }
 
-    protected Response patchRequest(String token, Object body, String endpoint) {
+    protected Response patchRequest(Map<String,String> headers, Object body, String endpoint) {
         return requestSpecification.contentType(ContentType.JSON)
-                .headers(Map.of(Headers.AUTHORIZATION.getHeader(), token))
+                .headers(headers)
                 .body(body)
                 .patch(endpoint);
     }

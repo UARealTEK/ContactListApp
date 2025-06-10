@@ -27,7 +27,8 @@ public class UserService extends BaseService {
 
     public Response patchUserRequest(UserBodyPayload payload, String token) {
         String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
-        return patchRequest(token, DataSerializer.serializeUserPayload(payload), path);
+        Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), token);
+        return patchRequest(headers, DataSerializer.serializeUserPayload(payload), path);
     }
 
     public Response logoutUser(UserResponse userToken) {

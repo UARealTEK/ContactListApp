@@ -2,7 +2,9 @@ package com.ContactList.config.enums.endpoints;
 
 public enum UserEndpoints {
 
-    ME("me");
+    ME("me"),
+    LOGIN("login"),
+    LOGOUT("logout");
 
     private final String endpoint;
 

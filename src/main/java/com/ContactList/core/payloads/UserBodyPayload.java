@@ -1,15 +1,13 @@
 package com.ContactList.core.payloads;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class UserPayload {
+public class UserBodyPayload {
 
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public UserPayload(String firstName, String lastName, String email, String password) {
+    public UserBodyPayload(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

@@ -33,6 +33,11 @@ public class BaseService {
                 .post(endpoint);
     }
 
+    protected Response postRequest(String token, String endpoint) {
+        return requestSpecification.headers(Map.of(Headers.AUTHORIZATION.getHeader(), token))
+                .post(endpoint);
+    }
+
     protected Response getRequest(String endpoint) {
         return requestSpecification.get(endpoint);
     }
@@ -47,10 +52,15 @@ public class BaseService {
         return spec.get(endpoint);
     }
 
-    protected Response patchRequest(String token, Object body, String endpoint) {
+    protected Response patchRequest(Map<String,String> headers, Object body, String endpoint) {
         return requestSpecification.contentType(ContentType.JSON)
-                .headers(Map.of(Headers.AUTHORIZATION.getHeader(), token))
+                .headers(headers)
                 .body(body)
                 .patch(endpoint);
+    }
+
+    protected Response deleteRequest(String endpoint, Map<String,String> headers) {
+        return requestSpecification.headers(headers)
+                .delete(endpoint);
     }
 }

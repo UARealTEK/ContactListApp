@@ -58,4 +58,9 @@ public class BaseService {
                 .body(body)
                 .patch(endpoint);
     }
+
+    protected Response deleteRequest(String endpoint, Map<String,String> headers) {
+        return requestSpecification.headers(headers)
+                .delete(endpoint);
+    }
 }

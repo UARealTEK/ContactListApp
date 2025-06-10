@@ -75,4 +75,16 @@ public class UserTests {
         soft.assertAll();
     }
 
+    @Test
+    public void checkDeleteUser() {
+        SoftAssertions soft = new SoftAssertions();
+        UserResponse user = UserApiHelper.createRandomUser();
+        Response response = new UserService().deleteUser(user.getToken());
+
+        soft.assertThat(response.getStatusCode()).isEqualTo(200);
+        soft.assertThat(response.getBody().asString()).isEmpty();
+
+        soft.assertAll();
+    }
+
 }

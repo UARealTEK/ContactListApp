@@ -27,7 +27,7 @@ public class UserTests {
     @Test
     public void checkGetUser() {
         SoftAssertions soft = new SoftAssertions();
-        Response response = new UserService().getUserProfile(UserApiHelper.createRandomUser().getToken());
+        Response response = new UserService().getUserProfile(UserApiHelper.createRandomUser());
 
         soft.assertThat(response.getStatusCode()).isEqualTo(200);
 
@@ -39,7 +39,7 @@ public class UserTests {
     public void checkUpdateUser() {
         SoftAssertions soft = new SoftAssertions();
         UserResponse user = UserApiHelper.createRandomUser();
-        Response patch = new UserService().patchUserRequest(DataGenerator.getRandomUserPayload(), user.getToken());
+        Response patch = new UserService().patchUserRequest(DataGenerator.getRandomUserPayload(), user);
 
         soft.assertThat(user.getUser().getId()).isEqualTo(patch.as(UserResponse.User.class).getId());
         soft.assertThat(patch.getStatusCode()).isEqualTo(200);
@@ -79,7 +79,7 @@ public class UserTests {
     public void checkDeleteUser() {
         SoftAssertions soft = new SoftAssertions();
         UserResponse user = UserApiHelper.createRandomUser();
-        Response response = new UserService().deleteUser(user.getToken());
+        Response response = new UserService().deleteUser(user);
 
         soft.assertThat(response.getStatusCode()).isEqualTo(200);
         soft.assertThat(response.getBody().asString()).isEmpty();

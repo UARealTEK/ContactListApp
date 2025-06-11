@@ -9,7 +9,7 @@ import java.util.Map;
 
 //TODO: work on it!
 @Data
-public class ContactsResponse {
+public class ContactsBodyPayload {
 
     @JsonProperty("_id")
     private String id;

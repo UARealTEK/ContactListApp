@@ -1,6 +1,6 @@
 package com.ContactList.utils.dataManagement;
 
-import com.ContactList.core.payloads.UserBodyPayload;
+import com.ContactList.core.payloads.UserPayloads.UserBodyPayload;
 import com.github.javafaker.Faker;
 
 public class DataGenerator {

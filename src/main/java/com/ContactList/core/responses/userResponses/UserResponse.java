@@ -1,4 +1,4 @@
-package com.ContactList.core.payloads;
+package com.ContactList.core.responses.userResponses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

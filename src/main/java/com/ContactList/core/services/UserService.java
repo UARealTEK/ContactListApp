@@ -2,9 +2,9 @@ package com.ContactList.core.services;
 
 import com.ContactList.config.enums.endpoints.UserEndpoints;
 import com.ContactList.config.enums.headers.Headers;
-import com.ContactList.core.payloads.UserBodyPayload;
-import com.ContactList.core.payloads.UserLoginPayload;
-import com.ContactList.core.payloads.UserResponse;
+import com.ContactList.core.payloads.UserPayloads.UserBodyPayload;
+import com.ContactList.core.payloads.UserPayloads.UserLoginPayload;
+import com.ContactList.core.responses.userResponses.UserResponse;
 import io.restassured.response.Response;
 
 import java.util.Map;

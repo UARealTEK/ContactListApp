@@ -1,8 +1,8 @@
 package com.ContactList.utils.helpers;
 
-import com.ContactList.core.payloads.UserBodyPayload;
-import com.ContactList.core.payloads.UserLoginPayload;
-import com.ContactList.core.payloads.UserResponse;
+import com.ContactList.core.payloads.UserPayloads.UserBodyPayload;
+import com.ContactList.core.payloads.UserPayloads.UserLoginPayload;
+import com.ContactList.core.responses.userResponses.UserResponse;
 import com.ContactList.core.services.UserService;
 import com.ContactList.utils.dataManagement.DataGenerator;
 import io.restassured.response.Response;

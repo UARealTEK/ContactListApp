@@ -1,7 +1,7 @@
 package com.ContactList.tests.api;
 
-import com.ContactList.core.payloads.UserBodyPayload;
-import com.ContactList.core.payloads.UserResponse;
+import com.ContactList.core.payloads.UserPayloads.UserBodyPayload;
+import com.ContactList.core.responses.userResponses.UserResponse;
 import com.ContactList.core.services.UserService;
 import com.ContactList.utils.dataManagement.DataGenerator;
 import com.ContactList.utils.helpers.UserApiHelper;

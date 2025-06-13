@@ -20,4 +20,10 @@ public class ContactsService extends BaseService {
         System.out.println(payload);
         return postRequest(payload, Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken()), BASE_PATH);
     }
+
+    public Response addRichContactRequest() {
+        UserResponse user = UserApiHelper.createRandomUser();
+        ContactsBodyPayload payload = DataGenerator.getRandomRichContactPayload();
+        return postRequest(payload, Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken()), BASE_PATH);
+    }
 }

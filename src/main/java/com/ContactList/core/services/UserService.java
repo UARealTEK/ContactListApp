@@ -8,7 +8,6 @@ import com.ContactList.core.responses.userResponses.UserResponse;
 import io.restassured.response.Response;
 
 import java.util.Map;
-//TODO: "Review the logic of using serialization (try working with serialization in RestAssured using .as(UserResponse.class)).
 
 public class UserService extends BaseService {
     private static final String BASE_PATH = "users";

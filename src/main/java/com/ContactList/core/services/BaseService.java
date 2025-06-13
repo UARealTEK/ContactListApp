@@ -34,7 +34,16 @@ public class BaseService {
     }
 
     protected Response postRequest(Map<String,String> headers, String endpoint) {
-        return requestSpecification.headers(headers)
+        return requestSpecification.contentType(ContentType.JSON)
+                .headers(headers)
+                .post(endpoint);
+    }
+
+    protected Response postRequest(Object payload, Map<String,String> headers, String endpoint) {
+        return requestSpecification.contentType(ContentType.JSON)
+                .log().all()
+                .headers(headers)
+                .body(payload)
                 .post(endpoint);
     }
 

@@ -1,33 +1,49 @@
 package com.ContactList.core.payloads.ContactsPayloads;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO: work on it!
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ContactsBodyPayload {
 
-    @JsonProperty("_id")
-    private String id;
+    @JsonProperty("firstName")
     private String firstName;
-    private String lastName;
-    private String birthdate;
-    private String email;
-    private String phone;
-    private String street;
-    private String city;
-    private String stateProvince;
-    private String postalCode;
-    private String country;
-    private String owner;
-    @JsonProperty("__v")
-    private String version;
 
-    Map<String,String> streetFields = new HashMap<>();
+    @JsonProperty("lastName")
+    private String lastName;
+
+    @JsonProperty("birthdate")
+    private String birthdate;
+
+    @JsonProperty("email")
+    private String email;
+
+    @JsonProperty("phone")
+    private String phone;
+
+    @JsonProperty("city")
+    private String city;
+
+    @JsonProperty("stateProvince")
+    private String stateProvince;
+
+    @JsonProperty("postalCode")
+    private String postalCode;
+
+    @JsonProperty("country")
+    private String country;
+
+    private final Map<String,String> streetFields = new HashMap<>();
 
     @JsonAnySetter
     public void collectStreetFields(String key, String value) {

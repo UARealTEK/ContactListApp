@@ -22,6 +22,11 @@ public class UserService extends BaseService {
         return getRequest(path, headers);
     }
 
+    /**
+     * @param payload -> payload which will be used as a data replacement
+     * FYI:
+     * PATCH request method is only allowed for changing the user data. PUT is not permitted
+     */
     public Response patchUserRequest(UserBodyPayload payload, UserResponse userToken) {
         String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
         Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), userToken.getToken());

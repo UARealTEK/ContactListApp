@@ -1,5 +1,6 @@
 package com.ContactList.core.responses.contactsResponses;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -36,5 +37,10 @@ public class ContactResponse {
         if (key.startsWith("street")) {
             streetFields.put(key,value);
         }
+    }
+
+    @JsonAnyGetter
+    public Map<String,String> getStreetFields() {
+        return streetFields;
     }
 }

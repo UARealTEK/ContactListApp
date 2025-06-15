@@ -4,9 +4,6 @@ import com.ContactList.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.core.payloads.UserPayloads.UserBodyPayload;
 import com.github.javafaker.Faker;
 
-import javax.swing.text.DateFormatter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;

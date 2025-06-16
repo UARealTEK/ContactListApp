@@ -15,6 +15,10 @@ import java.util.Map;
  * Parameters -> for current implementation -> only Objects are used as parameters
  * I might overload methods to allow Tokens being passed directly as Strings later
  * Return types -> only RESPONSE for now. To allow assertions for status codes in Tests
+ *
+ * FYI:
+ *    For now -> generating RANDOM user Payload in some methods (e.g {@code addContactRequest()})
+ *    Might improve it later so it accepts a preferred Payload as an argument ({@code ContactsBodyPayload})
  */
 
 public class ContactsService extends BaseService {
@@ -57,5 +61,17 @@ public class ContactsService extends BaseService {
         Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken());
         String path = BASE_PATH + "/" + contactID.getId();
         return putRequest(headers,payload,path);
+    }
+
+    public Response patchContactRequest(UserResponse user, ContactsBodyPayload payload, ContactResponse contactID) {
+        Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken());
+        String path = BASE_PATH + "/" + contactID.getId();
+        return patchRequest(headers,payload,path);
+    }
+
+    public Response deleteContactRequest(UserResponse user, ContactResponse contact) {
+        Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken());
+        String path = BASE_PATH + "/" + contact.getId();
+        return deleteRequest(path,headers);
     }
 }

@@ -60,14 +60,20 @@ public class UserTests {
         soft.assertAll();
     }
 
+    /**
+     * {@code UserApiHelper.getUserLoginPayload()} provides credentials for a logged-in user.
+     * <p>
+     * The returned object contains the email and password,
+     * which were originally obtained from {@link UserBodyPayload} after executing {@code addUserRequest()}.
+     * <p>
+     * This is confirmed by the fact that executing a login request with these credentials returns a 200 OK response.
+     */
+
     @Test
     public void checkLoginUser() {
         SoftAssertions soft = new SoftAssertions();
 
-        // UserApiHelper.getUserLoginPayload() -> also provides a credentials for the logged-in user
-        // (UserLoginPayload object contains email / password which were obtained from UserBodyPayload after executing addUserRequest())
-        // This thought comes from the fact that executing login request returns 200 using the provided email / password
-        Response response = new UserService().loginUser(UserApiHelper.getUserLoginPayload());
+        Response response = new UserService().loginUser(DataGenerator.getUserLoginPayload());
 
         System.out.println(response.getBody().as(UserResponse.class).toString());
         soft.assertThat(response.getStatusCode()).isEqualTo(200);

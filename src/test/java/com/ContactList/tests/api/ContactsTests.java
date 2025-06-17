@@ -5,14 +5,13 @@ import com.ContactList.core.responses.contactsResponses.ContactResponse;
 import com.ContactList.core.responses.userResponses.UserResponse;
 import com.ContactList.core.services.ContactsService;
 import com.ContactList.utils.dataManagement.DataGenerator;
+import com.ContactList.utils.helpers.ContactApiHelper;
 import com.ContactList.utils.helpers.UserApiHelper;
 import io.restassured.response.Response;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * FYI:
@@ -23,6 +22,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * 3. Assertions. For current implementation I'm asserting only for positive Request execution (status codes 200 / 201)
  */
 
+@Tag("api")
+@Tag("contacts")
 public class ContactsTests {
 
     @RepeatedTest(3)
@@ -36,8 +37,6 @@ public class ContactsTests {
         soft.assertAll();
     }
 
-    //TODO:
-    // fix it. receiving 400
     @RepeatedTest(3)
     public void checkAddContactWithStreet() {
         SoftAssertions soft = new SoftAssertions();
@@ -98,38 +97,24 @@ public class ContactsTests {
         SoftAssertions soft = new SoftAssertions();
         ContactsService service = new ContactsService();
 
-        UserResponse user = UserApiHelper.createRandomUser();
+        UserResponse user = UserApiHelper.createRandomUserWithOneContact();
+        ContactResponse contact = ContactApiHelper.getAnyContact(user);
         ContactsBodyPayload payload = DataGenerator.getRandomContactPayloadEntry();
-        ContactResponse contact = service.addContactRequest(user).as(ContactResponse.class);
-
-        System.out.println("Payload -> " + payload);
-        System.out.println("Contact -> " + contact);
 
         Response response = service.patchContactRequest(user,payload,contact);
-
-        System.out.println(response.as(ContactResponse.class));
 
         soft.assertThat(response.getStatusCode()).isEqualTo(200);
 
         soft.assertAll();
     }
 
-    //TODO:
-    // improve logic. Test is doing too much -> probably violates SRP
-    // Possible improvements :
-    //    UserResponse user = UserApiHelper.createRandomUserWithOneContact();
-    //    ContactResponse contact = ContactApiHelper.getAnyContact(user);
     @Test
     public void checkDeleteRandomContact() {
         SoftAssertions soft = new SoftAssertions();
-        ContactsService service = new ContactsService();
-        ThreadLocalRandom random = ThreadLocalRandom.current();
+        UserResponse user = UserApiHelper.createRandomUserWithOneContact();
+        ContactResponse contact = ContactApiHelper.getAnyContact(user);
 
-        UserResponse user = UserApiHelper.createRandomUser();
-        service.addContactRequest(user).as(ContactResponse.class);
-        List<ContactResponse> contacts = service.getAllContacts(user);
-
-        Response response = service.deleteContactRequest(user,contacts.get(random.nextInt(contacts.size())));
+        Response response = new ContactsService().deleteContactRequest(user,contact);
 
         soft.assertThat(response.getStatusCode()).isEqualTo(200);
 

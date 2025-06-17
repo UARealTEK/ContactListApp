@@ -6,9 +6,12 @@ import com.ContactList.core.services.UserService;
 import com.ContactList.utils.dataManagement.DataGenerator;
 import com.ContactList.utils.helpers.UserApiHelper;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.SoftAssertions;
 
+@Tag("api")
+@Tag("users")
 public class UserTests {
 
     @Test

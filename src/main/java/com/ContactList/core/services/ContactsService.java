@@ -27,6 +27,7 @@ public class ContactsService extends BaseService {
 
     public Response addContactRequest(UserResponse user) {
         ContactsBodyPayload payload = DataGenerator.getRandomContactPayload();
+        System.out.printf("user data: %s%n", user.getToken());
         return postRequest(payload, Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken()), BASE_PATH);
     }
 

@@ -43,6 +43,7 @@ public class BaseService {
         return requestSpecification.contentType(ContentType.JSON)
                 .headers(headers)
                 .body(payload)
+                .log().all()
                 .post(endpoint);
     }
 

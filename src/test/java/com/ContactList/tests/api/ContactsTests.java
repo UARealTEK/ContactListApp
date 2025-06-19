@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 @Tag("contacts")
 public class ContactsTests {
 
-    @RepeatedTest(3)
+    @RepeatedTest(20)
     public void checkAddContact() {
         SoftAssertions soft = new SoftAssertions();
         UserResponse user = UserApiHelper.createRandomUser();

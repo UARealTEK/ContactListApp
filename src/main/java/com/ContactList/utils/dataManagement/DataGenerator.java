@@ -51,7 +51,7 @@ public class DataGenerator {
     }
 
     public static UserBodyPayload getRandomUserPayload() {
-        String firstName = faker.name().name();
+        String firstName = faker.name().name().substring(0,3);
         String lastName = faker.name().lastName();
         String email = faker.internet().emailAddress();
         String password = faker.internet().password();
@@ -70,14 +70,14 @@ public class DataGenerator {
     }
 
     public static ContactsBodyPayload getRandomContactPayload() {
-        String firstName = faker.name().name().substring(0,10);
+        String firstName = faker.name().name().substring(0,3);
         String lastName = faker.name().lastName();
         String email = faker.internet().emailAddress();
         String phone = faker.number().digits(10);
         String city = faker.address().city();
         String stateProvince = faker.address().state();
         String postalCode = faker.address().zipCode();
-        String country = faker.address().country();
+        String country = faker.address().country().substring(0,3);
         return new ContactsBodyPayload(firstName, lastName, getRandomBirthday(), email, phone, city, stateProvince, postalCode, country);
     }
 

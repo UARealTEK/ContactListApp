@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'   # or your current version
+          java-version: '22'   # or your current version
 
       - name: Run API tests with tag
         run: mvn test -Djunit.jupiter.tags=api

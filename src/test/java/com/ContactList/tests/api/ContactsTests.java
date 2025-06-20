@@ -7,8 +7,12 @@ import com.ContactList.core.services.ContactsService;
 import com.ContactList.utils.dataManagement.DataGenerator;
 import com.ContactList.utils.helpers.ContactApiHelper;
 import com.ContactList.utils.helpers.UserApiHelper;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -26,6 +30,10 @@ import org.junit.jupiter.api.Test;
 @Tag("contacts")
 public class ContactsTests {
 
+    @Owner("Volodymyr")
+    @Feature("ContactsAPI")
+    @DisplayName("Request for adding a Contact")
+    @Story("addContact request")
     @RepeatedTest(20)
     public void checkAddContact() {
         SoftAssertions soft = new SoftAssertions();
@@ -37,6 +45,10 @@ public class ContactsTests {
         soft.assertAll();
     }
 
+    @Owner("Volodymyr")
+    @Feature("ContactsAPI")
+    @DisplayName("Request for adding a Contact that contains 'street' field in its payload")
+    @Story("addContact request")
     @RepeatedTest(3)
     public void checkAddContactWithStreet() {
         SoftAssertions soft = new SoftAssertions();
@@ -48,6 +60,10 @@ public class ContactsTests {
         soft.assertAll();
     }
 
+    @Owner("Volodymyr")
+    @Feature("ContactsAPI")
+    @DisplayName("Request for getting ALL Contacts")
+    @Story("getAllContact request")
     @Test
     public void checkGetContactList() {
         SoftAssertions soft = new SoftAssertions();
@@ -62,6 +78,10 @@ public class ContactsTests {
         soft.assertAll();
     }
 
+    @Owner("Volodymyr")
+    @Feature("ContactsAPI")
+    @DisplayName("Request for getting a random Contact")
+    @Story("getContact request")
     @Test
     public void checkGetRandomContact() {
         SoftAssertions soft = new SoftAssertions();
@@ -76,6 +96,10 @@ public class ContactsTests {
         soft.assertAll();
     }
 
+    @Owner("Volodymyr")
+    @Feature("ContactsAPI")
+    @DisplayName("Request for editing a Contact")
+    @Story("putContact request")
     @Test
     public void checkUpdateRandomContact() {
         SoftAssertions soft = new SoftAssertions();
@@ -92,7 +116,11 @@ public class ContactsTests {
         soft.assertAll();
     }
 
-    @Test
+    @Owner("Volodymyr")
+    @Feature("ContactsAPI")
+    @DisplayName("Request for partially editing a Contact")
+    @Story("patchContact request")
+    @RepeatedTest(10)
     public void checkPartiallyUpdateRandomContact() {
         SoftAssertions soft = new SoftAssertions();
         ContactsService service = new ContactsService();
@@ -108,6 +136,10 @@ public class ContactsTests {
         soft.assertAll();
     }
 
+    @Owner("Volodymyr")
+    @Feature("ContactsAPI")
+    @DisplayName("Request for removing a Contact")
+    @Story("deleteContact request")
     @Test
     public void checkDeleteRandomContact() {
         SoftAssertions soft = new SoftAssertions();

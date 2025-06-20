@@ -18,7 +18,23 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '22'   # or your current version
+          java-version: '22'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
 
       - name: Run API tests with tag
-        run: mvn test -Djunit.jupiter.tags=api
+        run: mvn clean test -Djunit.jupiter.tags=api
+
+      - name: Generate Allure Report
+        run: mvn allure:report
+
+      - name: Upload Allure Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin

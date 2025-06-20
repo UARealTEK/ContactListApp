@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import io.qameta.allure.*;
 
 /**
  * FYI:
@@ -33,6 +34,7 @@ public class ContactsTests {
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for adding a Contact")
+    @Step("Request for adding a Contact")
     @Story("addContact request")
     @RepeatedTest(20)
     public void checkAddContact() {
@@ -48,6 +50,7 @@ public class ContactsTests {
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for adding a Contact that contains 'street' field in its payload")
+    @Step("Request for adding a Contact that contains 'street' field in its payload")
     @Story("addContact request")
     @RepeatedTest(3)
     public void checkAddContactWithStreet() {
@@ -63,6 +66,7 @@ public class ContactsTests {
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for getting ALL Contacts")
+    @Step("Request for getting ALL Contacts")
     @Story("getAllContact request")
     @Test
     public void checkGetContactList() {
@@ -81,6 +85,7 @@ public class ContactsTests {
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for getting a random Contact")
+    @Step("Request for getting a random Contact")
     @Story("getContact request")
     @Test
     public void checkGetRandomContact() {
@@ -99,6 +104,7 @@ public class ContactsTests {
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for editing a Contact")
+    @Step("Request for editing a Contact")
     @Story("putContact request")
     @Test
     public void checkUpdateRandomContact() {
@@ -119,6 +125,7 @@ public class ContactsTests {
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for partially editing a Contact")
+    @Step("Request for partially editing a Contact")
     @Story("patchContact request")
     @RepeatedTest(10)
     public void checkPartiallyUpdateRandomContact() {
@@ -139,6 +146,7 @@ public class ContactsTests {
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for removing a Contact")
+    @Step("Request for removing a Contact")
     @Story("deleteContact request")
     @Test
     public void checkDeleteRandomContact() {

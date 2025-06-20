@@ -65,7 +65,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version> <!-- Or latest stable version -->
+            <version>1.18.32</version>
             <scope>provided</scope>
         </dependency>
 
@@ -84,6 +84,13 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
+                    <argLine>
+                        --add-opens java.base/java.lang=ALL-UNNAMED
+                        -Djunit.platform.listeners.default=io.qameta.allure.junitplatform.AllureJunitPlatform
+                    </argLine>
+                    <systemPropertyVariables>
+                        <allure.results.directory>target/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
                     <includes>
                         <include>**/*Tests.java</include>
                     </includes>
@@ -92,17 +99,33 @@
                             junit.jupiter.execution.parallel.enabled = true
                         </configurationParameters>
                     </properties>
-                    <systemPropertyVariables>
-                        <file.encoding>UTF-8</file.encoding>
-                    </systemPropertyVariables>
                 </configuration>
             </plugin>
+
 
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
                 <version>2.11.2</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>21</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.32</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+
 
         </plugins>
     </build>

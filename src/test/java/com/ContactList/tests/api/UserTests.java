@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.SoftAssertions;
+import io.qameta.allure.*;
 
 @Tag("api")
 @Tag("users")
@@ -21,6 +22,7 @@ public class UserTests {
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for adding a User")
+    @Step("Request for adding a User")
     @Story("addUser request")
     @Test
     public void checkAddUser() {
@@ -38,6 +40,7 @@ public class UserTests {
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for getting a User")
+    @Step("Request for getting a User")
     @Story("getUser request")
     @Test
     public void checkGetUser() {
@@ -53,6 +56,7 @@ public class UserTests {
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for updating a User")
+    @Step("Request for updating a User")
     @Story("putUser request")
     @Test
     public void checkUpdateUser() {
@@ -69,6 +73,7 @@ public class UserTests {
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for logging out of a system as a User")
+    @Step("Request for logging out of a system as a User")
     @Story("postUser request to logout endpoint")
     @Test
     public void checkLogoutUser() {
@@ -95,6 +100,7 @@ public class UserTests {
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for logging in a system as an existing User")
+    @Step("Request for logging in a system as an existing User")
     @Story("postUser request to login endpoint")
     @Test
     public void checkLoginUser() {
@@ -111,6 +117,7 @@ public class UserTests {
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for removing a User")
+    @Step("Request for removing a User")
     @Story("deleteUser request")
     @Test
     public void checkDeleteUser() {

@@ -1,12 +1,12 @@
 package com.ContactList.tests.api;
 
-import com.ContactList.core.payloads.ContactsPayloads.ContactsBodyPayload;
-import com.ContactList.core.responses.contactsResponses.ContactResponse;
-import com.ContactList.core.responses.userResponses.UserResponse;
-import com.ContactList.core.services.ContactsService;
-import com.ContactList.utils.dataManagement.DataGenerator;
-import com.ContactList.utils.helpers.ContactApiHelper;
-import com.ContactList.utils.helpers.UserApiHelper;
+import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
+import com.ContactList.API.core.responses.contactsResponses.ContactResponse;
+import com.ContactList.API.core.responses.userResponses.UserResponse;
+import com.ContactList.API.core.services.ContactsService;
+import com.ContactList.API.utils.dataManagement.DataGenerator;
+import com.ContactList.API.utils.helpers.ContactApiHelper;
+import com.ContactList.API.utils.helpers.UserApiHelper;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Story;

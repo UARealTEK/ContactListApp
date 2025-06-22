@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum AppEndpoints {
 
-    BASE_PATH("https://thinking-tester-contact-list.herokuapp.com/");
+    BASE_PATH("https://thinking-tester-contact-list.herokuapp.com/"),
+    USER_PAGE("contactList");
 
     private String endpoint;
 

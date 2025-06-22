@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Getter
 public class LoginPage extends BasePage{
@@ -29,29 +30,22 @@ public class LoginPage extends BasePage{
         return getDriver().findElement(submitButton);
     }
 
-    //TODO: think about moving it to separate Utility
-    private void insertUserData(UserLoginPayload payload) {
+    private LoginPage insertUserData(UserLoginPayload payload) {
         new Actions(getDriver())
-                .scrollToElement(getEmailField())
-                .click(getEmailField())
-                .sendKeys(payload.getEmail())
-                .scrollToElement(getPasswordField())
-                .click(getPasswordField())
-                .sendKeys(payload.getPassword())
-                .build()
-                .perform();
+                .scrollToElement(getEmailField()).click(getEmailField()).sendKeys(payload.getEmail())
+                .scrollToElement(getPasswordField()).click(getPasswordField()).sendKeys(payload.getPassword())
+                .build().perform();
+        return this;
     }
 
-    private void clickSubmitButton() {
-        getSubmitButton().click();
-    }
-
-    //TODO:
-    // Page chaining logic is misplaced. change it
-    protected UserPage loginUser(UserLoginPayload payload) {
-        LoginPage page = navigateToBaseURL();
-        insertUserData(payload);
-        page.clickSubmitButton();
+    private UserPage clickSubmitButton() {
+        new Actions(getDriver())
+                .scrollToElement(getSubmitButton()).click(getSubmitButton())
+                .build().perform();
         return new UserPage();
+    }
+
+    public UserPage loginUser(UserLoginPayload payload) {
+        return insertUserData(payload).clickSubmitButton();
     }
 }

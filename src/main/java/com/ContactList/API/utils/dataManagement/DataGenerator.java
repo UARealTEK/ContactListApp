@@ -63,6 +63,7 @@ public class DataGenerator {
         Response response = new UserService().addUserRequest(payload);
 
         if (response.getStatusCode() != 201) {
+            System.out.println(response.getBody().asPrettyString());
             throw new RuntimeException(String.format("failed to create a user. Status code is -> %s", response.getStatusCode()));
         }
 

@@ -105,7 +105,7 @@ public class ContactsTests {
     @DisplayName("Request for editing a Contact")
     @Step("Request for editing a Contact")
     @Story("putContact request")
-    @Test
+    @RepeatedTest(10)
     public void checkUpdateRandomContact() {
         SoftAssertions soft = new SoftAssertions();
         ContactsService service = new ContactsService();

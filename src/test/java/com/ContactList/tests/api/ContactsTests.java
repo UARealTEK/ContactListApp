@@ -28,7 +28,6 @@ import io.qameta.allure.*;
  */
 
 @Tag("api")
-@Tag("contacts")
 public class ContactsTests {
 
     @Owner("Volodymyr")

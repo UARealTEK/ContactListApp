@@ -56,6 +56,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./target/site/allure-maven-plugin
 
+      - name: Debug allure-results
+        run: ls -l target/allure-results
+
       - name: Comment on PR with Allure Report URL
         if: github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@v2

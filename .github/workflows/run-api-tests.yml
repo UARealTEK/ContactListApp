@@ -50,6 +50,9 @@ jobs:
           mkdir -p target/site/allure-maven-plugin/history
           cp -R target/allure-results/history/* target/site/allure-maven-plugin/history || echo "No history to copy"
 
+      - name: Clean old gh-pages output
+        run: rm -rf gh-pages/* || echo "No gh-pages dir to clean"
+
       - name: Deploy Allure Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:

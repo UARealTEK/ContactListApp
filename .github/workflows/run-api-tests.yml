@@ -49,9 +49,26 @@ jobs:
           sudo mv allure-2.24.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
+      - name: Verify Allure CLI installation
+        run: allure --version
+
       - name: Generate Allure Report via CLI
         run: |
+          set -e
+          echo "Generating Allure report..."
           allure generate target/allure-results --clean -o target/allure-report
+          echo "Allure report files:"
+          find target/allure-report -type f
+
+      - name: Verify target/allure-report exists
+        run: |
+          if [ ! -d "target/allure-report" ]; then
+            echo "❌ ERROR: target/allure-report directory not found"
+            exit 1
+          else
+            echo "✅ target/allure-report successfully generated"
+            ls -la target/allure-report
+          fi
 
       - name: Copy history to final report
         run: |
@@ -68,7 +85,11 @@ jobs:
           publish_dir: ./target/allure-report
 
       - name: Debug allure-results
-        run: ls -l target/allure-results
+        run: |
+          echo "Files in target/allure-results:"
+          ls -la target/allure-results
+          echo "Looking for *.json"
+          find target/allure-results -name '*.json'
 
       - name: Comment on PR with Allure Report URL
         if: github.event_name == 'pull_request'
@@ -77,3 +98,8 @@ jobs:
           message: |
             ✅ Allure report has been generated:  
             🔗 [View Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/)
+
+      - name: Debug Allure Report Files
+        run: |
+          find target/allure-report -type f
+          cat target/allure-report/widgets/summary.json || echo "Missing summary.json"      

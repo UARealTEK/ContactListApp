@@ -121,7 +121,6 @@ public class ContactsTests {
         soft.assertAll();
     }
 
-    //trigger CI
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for partially editing a Contact")

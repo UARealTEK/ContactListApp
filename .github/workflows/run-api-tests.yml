@@ -42,8 +42,16 @@ jobs:
           mkdir -p target/allure-results/history
           cp -R gh-pages/history/* target/allure-results/history || echo "No previous history found"
 
-      - name: Generate Allure Report
-        run: mvn allure:report
+      - name: Download and install Allure CLI
+        run: |
+          curl -o allure-2.24.0.tgz -L https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
+          tar -xzf allure-2.24.0.tgz
+          sudo mv allure-2.24.0 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+
+      - name: Generate Allure Report via CLI
+        run: |
+          allure generate target/allure-results --clean -o target/allure-report
 
       - name: Copy history to final report
         run: |
@@ -57,7 +65,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/site/allure-maven-plugin
+          publish_dir: ./target/allure-report
 
       - name: Debug allure-results
         run: ls -l target/allure-results

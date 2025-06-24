@@ -1,4 +1,1 @@
-{
-  "total" : 0,
-  "items" : [ ]
-}
+{"total":2,"items":[{"uid":"654da6de05cec321b32efc988244fb26","name":"UserAPI","statistic":{"failed":0,"broken":0,"skipped":0,"passed":6,"unknown":0,"total":6}},{"uid":"32ae620167e3269eb1bbcfcee94d068e","name":"ContactsAPI","statistic":{"failed":0,"broken":0,"skipped":0,"passed":6,"unknown":0,"total":6}}]}

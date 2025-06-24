@@ -1,4 +1,1 @@
-{
-  "total" : 0,
-  "items" : [ ]
-}
+{"total":2,"items":[{"uid":"dea543b798bb12b38163776caf970ffb","name":"com.ContactList.tests.api.ContactsTests","statistic":{"failed":0,"broken":0,"skipped":0,"passed":46,"unknown":0,"total":46}},{"uid":"298d3e42d8351e6c450932edaaa980c5","name":"com.ContactList.tests.api.UserTests","statistic":{"failed":0,"broken":0,"skipped":0,"passed":6,"unknown":0,"total":6}}]}

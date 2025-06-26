@@ -1,4 +1,4 @@
-package com.ContactList.core.payloads;
+package com.ContactList.core.payloads.UserPayloads;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -34,7 +34,16 @@ public class BaseService {
     }
 
     protected Response postRequest(Map<String,String> headers, String endpoint) {
-        return requestSpecification.headers(headers)
+        return requestSpecification.contentType(ContentType.JSON)
+                .headers(headers)
+                .post(endpoint);
+    }
+
+    protected Response postRequest(Object payload, Map<String,String> headers, String endpoint) {
+        return requestSpecification.contentType(ContentType.JSON)
+                .headers(headers)
+                .body(payload)
+                .log().all()
                 .post(endpoint);
     }
 
@@ -57,6 +66,13 @@ public class BaseService {
                 .headers(headers)
                 .body(body)
                 .patch(endpoint);
+    }
+
+    protected Response putRequest(Map<String,String> headers, Object body, String endpoint) {
+        return requestSpecification.contentType(ContentType.JSON)
+                .headers(headers)
+                .body(body)
+                .put(endpoint);
     }
 
     protected Response deleteRequest(String endpoint, Map<String,String> headers) {

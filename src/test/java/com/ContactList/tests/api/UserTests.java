@@ -1,16 +1,28 @@
 package com.ContactList.tests.api;
 
-import com.ContactList.core.payloads.UserBodyPayload;
-import com.ContactList.core.payloads.UserResponse;
+import com.ContactList.core.payloads.UserPayloads.UserBodyPayload;
+import com.ContactList.core.responses.userResponses.UserResponse;
 import com.ContactList.core.services.UserService;
 import com.ContactList.utils.dataManagement.DataGenerator;
 import com.ContactList.utils.helpers.UserApiHelper;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.SoftAssertions;
+import io.qameta.allure.*;
 
+@Tag("api")
 public class UserTests {
 
+    @Owner("Volodymyr")
+    @Feature("UserAPI")
+    @DisplayName("Request for adding a User")
+    @Step("Request for adding a User")
+    @Story("addUser request")
     @Test
     public void checkAddUser() {
         SoftAssertions soft = new SoftAssertions();
@@ -18,12 +30,19 @@ public class UserTests {
         Response response = new UserService().addUserRequest(payload);
 
         System.out.println(response.getBody().asPrettyString());
+        System.out.println(payload);
+
 
         soft.assertThat(response.getStatusCode()).isEqualTo(201);
 
         soft.assertAll();
     }
 
+    @Owner("Volodymyr")
+    @Feature("UserAPI")
+    @DisplayName("Request for getting a User")
+    @Step("Request for getting a User")
+    @Story("getUser request")
     @Test
     public void checkGetUser() {
         SoftAssertions soft = new SoftAssertions();
@@ -35,6 +54,11 @@ public class UserTests {
         soft.assertAll();
     }
 
+    @Owner("Volodymyr")
+    @Feature("UserAPI")
+    @DisplayName("Request for updating a User")
+    @Step("Request for updating a User")
+    @Story("putUser request")
     @Test
     public void checkUpdateUser() {
         SoftAssertions soft = new SoftAssertions();
@@ -47,6 +71,11 @@ public class UserTests {
         soft.assertAll();
     }
 
+    @Owner("Volodymyr")
+    @Feature("UserAPI")
+    @DisplayName("Request for logging out of a system as a User")
+    @Step("Request for logging out of a system as a User")
+    @Story("postUser request to logout endpoint")
     @Test
     public void checkLogoutUser() {
         SoftAssertions soft = new SoftAssertions();
@@ -60,14 +89,25 @@ public class UserTests {
         soft.assertAll();
     }
 
+    /**
+     * {@code UserApiHelper.getUserLoginPayload()} provides credentials for a logged-in user.
+     * <p>
+     * The returned object contains the email and password,
+     * which were originally obtained from {@link UserBodyPayload} after executing {@code addUserRequest()}.
+     * <p>
+     * This is confirmed by the fact that executing a login request with these credentials returns a 200 OK response.
+     */
+
+    @Owner("Volodymyr")
+    @Feature("UserAPI")
+    @DisplayName("Request for logging in a system as an existing User")
+    @Step("Request for logging in a system as an existing User")
+    @Story("postUser request to login endpoint")
     @Test
     public void checkLoginUser() {
         SoftAssertions soft = new SoftAssertions();
 
-        // UserApiHelper.getUserLoginPayload() -> also provides a credentials for the logged-in user
-        // (UserLoginPayload object contains email / password which were obtained from UserBodyPayload after executing addUserRequest())
-        // This thought comes from the fact that executing login request returns 200 using the provided email / password
-        Response response = new UserService().loginUser(UserApiHelper.getUserLoginPayload());
+        Response response = new UserService().loginUser(DataGenerator.getUserLoginPayload());
 
         System.out.println(response.getBody().as(UserResponse.class).toString());
         soft.assertThat(response.getStatusCode()).isEqualTo(200);
@@ -75,6 +115,11 @@ public class UserTests {
         soft.assertAll();
     }
 
+    @Owner("Volodymyr")
+    @Feature("UserAPI")
+    @DisplayName("Request for removing a User")
+    @Step("Request for removing a User")
+    @Story("deleteUser request")
     @Test
     public void checkDeleteUser() {
         SoftAssertions soft = new SoftAssertions();

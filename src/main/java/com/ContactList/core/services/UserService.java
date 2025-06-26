@@ -2,13 +2,12 @@ package com.ContactList.core.services;
 
 import com.ContactList.config.enums.endpoints.UserEndpoints;
 import com.ContactList.config.enums.headers.Headers;
-import com.ContactList.core.payloads.UserBodyPayload;
-import com.ContactList.core.payloads.UserLoginPayload;
-import com.ContactList.core.payloads.UserResponse;
+import com.ContactList.core.payloads.UserPayloads.UserBodyPayload;
+import com.ContactList.core.payloads.UserPayloads.UserLoginPayload;
+import com.ContactList.core.responses.userResponses.UserResponse;
 import io.restassured.response.Response;
 
 import java.util.Map;
-//TODO: "Review the logic of using serialization (try working with serialization in RestAssured using .as(UserResponse.class)).
 
 public class UserService extends BaseService {
     private static final String BASE_PATH = "users";
@@ -23,6 +22,11 @@ public class UserService extends BaseService {
         return getRequest(path, headers);
     }
 
+    /**
+     * @param payload -> payload which will be used as a data replacement
+     * FYI:
+     * PATCH request method is only allowed for changing the user data. PUT is not permitted
+     */
     public Response patchUserRequest(UserBodyPayload payload, UserResponse userToken) {
         String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
         Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), userToken.getToken());

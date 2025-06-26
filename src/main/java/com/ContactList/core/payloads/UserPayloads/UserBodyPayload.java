@@ -1,5 +1,10 @@
-package com.ContactList.core.payloads;
+package com.ContactList.core.payloads.UserPayloads;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class UserBodyPayload {
 
     private String firstName;
@@ -12,38 +17,6 @@ public class UserBodyPayload {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String userFirstName) {
-        this.firstName = userFirstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String userLastName) {
-        this.lastName = userLastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String userEmail) {
-        this.email = userEmail;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String userPassword) {
-        this.password = userPassword;
     }
 
     @Override

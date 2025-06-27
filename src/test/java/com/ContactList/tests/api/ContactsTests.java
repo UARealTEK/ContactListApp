@@ -28,7 +28,6 @@ import io.qameta.allure.*;
  */
 
 @Tag("api")
-@Tag("contacts")
 public class ContactsTests {
 
     @Owner("Volodymyr")
@@ -106,7 +105,7 @@ public class ContactsTests {
     @DisplayName("Request for editing a Contact")
     @Step("Request for editing a Contact")
     @Story("putContact request")
-    @Test
+    @RepeatedTest(10)
     public void checkUpdateRandomContact() {
         SoftAssertions soft = new SoftAssertions();
         ContactsService service = new ContactsService();

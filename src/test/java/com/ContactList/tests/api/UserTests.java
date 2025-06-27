@@ -16,7 +16,6 @@ import org.assertj.core.api.SoftAssertions;
 import io.qameta.allure.*;
 
 @Tag("api")
-@Tag("users")
 public class UserTests {
 
     @Owner("Volodymyr")
@@ -31,6 +30,8 @@ public class UserTests {
         Response response = new UserService().addUserRequest(payload);
 
         System.out.println(response.getBody().asPrettyString());
+        System.out.println(payload);
+
 
         soft.assertThat(response.getStatusCode()).isEqualTo(201);
 

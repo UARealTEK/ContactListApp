@@ -39,4 +39,10 @@ public abstract class BaseTest {
         page = browserContext.newPage();
         loginPage = createInstance(LoginPage.class);
     }
+
+    @AfterEach
+    public void closePage() {
+        page.close();
+        browserContext.close();
+    }
 }

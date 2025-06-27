@@ -1,40 +1,27 @@
 package com.ContactList.UI.pages;
 
-import com.ContactList.UI.driver.DriverManager;
-import com.ContactList.UI.enums.AppEndpoints;
+import com.ContactList.API.core.payloads.UserPayloads.UserLoginPayload;
+import com.ContactList.API.core.responses.userResponses.UserResponse;
+import com.ContactList.API.utils.dataManagement.DataGenerator;
+import com.microsoft.playwright.Page;
 import lombok.Getter;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.Arrays;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
+import static com.ContactList.UI.config.ConfigurationManager.config;
+@Getter
+public abstract class BasePage {
 
-public class BasePage {
+    protected Page page;
+    protected UserResponse user;
 
-    @Getter
-    private final WebDriver driver;
-    @Getter
-    private final WebDriverWait wait;
-
-    public BasePage() {
-        this.driver = DriverManager.getDriver();
-        this.wait = DriverManager.getWait();
+    public void configurePage(Page page, UserResponse user) {
+        this.page = page;
+        this.user = user;
+        page.setDefaultTimeout(config().timeout());
     }
 
-    public <T extends BasePage> T navigateTo(Supplier<T> supplier, AppEndpoints... endpoint) {
-        if (endpoint.length == 0) {
-            getDriver().get(AppEndpoints.BASE_PATH.getEndpoint());
-        } else {
-            String url = Arrays.stream(endpoint)
-                    .map(AppEndpoints::getEndpoint)
-                    .collect(Collectors.joining("/"));
+    public abstract void initComponents();
 
-            getDriver().get(AppEndpoints.BASE_PATH.getEndpoint() + "/" + url);
-        }
-
-        return supplier.get();
+    public String getCurrentURL() {
+        return page.url();
     }
-
-
 }

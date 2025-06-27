@@ -1,6 +1,6 @@
 package com.ContactList.UI.pages;
 
-import com.ContactList.UI.utils.BasePageFactory;
+import com.ContactList.UI.utils.factories.BasePageFactory;
 import com.ContactList.UI.utils.BrowserManager;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
@@ -11,10 +11,10 @@ import org.junit.jupiter.api.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class BaseTest {
 
-    protected Page page;
     protected Playwright playwright;
     protected Browser browser;
     protected BrowserContext browserContext;
+    protected Page page;
     protected LoginPage loginPage;
 
     protected <T extends BasePage> T createInstance(Class<T> tClass) {

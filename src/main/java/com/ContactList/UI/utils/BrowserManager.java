@@ -1,5 +1,6 @@
 package com.ContactList.UI.utils;
 
+import com.ContactList.UI.utils.factories.BrowserFactory;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Playwright;
 

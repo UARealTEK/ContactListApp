@@ -7,7 +7,8 @@ import com.ContactList.API.utils.helpers.UserApiHelper;
 import com.ContactList.UI.pages.BaseTest;
 import com.ContactList.UI.pages.ListPage;
 import com.ContactList.UI.pages.LoginPage;
-import com.ContactList.UI.utils.endpoints.ListPageEndpoints;
+import com.ContactList.UI.pages.SignUpPage;
+import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,6 @@ public class LoginTest extends BaseTest {
         soft.assertAll();
     }
 
-    //TODO: work on this flow. Pay attention to login button locator
     @Test
     public void checkUserLogin() {
         SoftAssertions soft = new SoftAssertions();
@@ -34,7 +34,17 @@ public class LoginTest extends BaseTest {
 
         ListPage page = loginPage.loginAsUser(payload);
 
-        soft.assertThat(page.getCurrentURL()).isEqualTo(ListPageEndpoints.getFullContactListURL());
+        soft.assertThat(page.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactListURL());
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkSignUpPageOpening() {
+        SoftAssertions soft = new SoftAssertions();
+        SignUpPage page = loginPage.openSignUpPage();
+
+        soft.assertThat(page.getCurrentURL()).isEqualTo(PageEndpoints.getFullSignUpURL());
 
         soft.assertAll();
     }

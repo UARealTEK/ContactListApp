@@ -22,6 +22,13 @@ public class LoginPage extends BasePage {
         return this;
     }
 
+    @Step("Open SignUpPage")
+    public SignUpPage openSignUpPage() {
+        this.openLoginPage();
+        controllers.clickOnSignUp();
+        return BasePageFactory.createInstance(page, SignUpPage.class);
+    }
+
     @Step("Log in as a user with specified Credentials")
     public ListPage loginAsUser(UserBodyPayload payload) {
         openLoginPage();

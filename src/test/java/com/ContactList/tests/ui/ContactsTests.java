@@ -26,4 +26,13 @@ public class ContactsTests extends BaseTest {
         soft.assertThat(page.getCurrentURL()).isEqualTo(PageEndpoints.getFullAddContactURL());
         soft.assertAll();
     }
+
+    @Test
+    public void checkContactAddingFlow() {
+        SoftAssertions soft = new SoftAssertions();
+        DataGenerator.getRandomContactPayload();
+
+
+        soft.assertAll();
+    }
 }

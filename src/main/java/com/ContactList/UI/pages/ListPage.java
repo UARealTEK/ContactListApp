@@ -1,9 +1,7 @@
 package com.ContactList.UI.pages;
 
 import com.ContactList.UI.components.ListPageControllers;
-import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.ContactList.UI.utils.factories.BasePageFactory;
-import com.microsoft.playwright.PlaywrightException;
 import io.qameta.allure.Step;
 
 public class ListPage extends BasePage {

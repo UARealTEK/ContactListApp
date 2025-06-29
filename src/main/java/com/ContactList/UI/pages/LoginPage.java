@@ -31,7 +31,7 @@ public class LoginPage extends BasePage {
 
     @Step("Log in as a user with specified Credentials")
     public ListPage loginAsUser(UserBodyPayload payload) {
-        openLoginPage();
+        this.openLoginPage();
         controllers.fillUserName(payload);
         controllers.fillPassword(payload);
         controllers.clickOnLogin();

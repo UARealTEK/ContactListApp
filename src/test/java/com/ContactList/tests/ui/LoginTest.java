@@ -1,7 +1,6 @@
 package com.ContactList.tests.ui;
 
 import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
-import com.ContactList.API.core.responses.userResponses.UserResponse;
 import com.ContactList.API.utils.dataManagement.DataGenerator;
 import com.ContactList.API.utils.helpers.UserApiHelper;
 import com.ContactList.UI.pages.BaseTest;
@@ -45,6 +44,28 @@ public class LoginTest extends BaseTest {
         SignUpPage page = loginPage.openSignUpPage();
 
         soft.assertThat(page.getCurrentURL()).isEqualTo(PageEndpoints.getFullSignUpURL());
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkUserSignUp() {
+        SoftAssertions soft = new SoftAssertions();
+        UserBodyPayload payload = DataGenerator.getRandomUserPayload();
+
+        ListPage page = loginPage.openSignUpPage().signUpUser(payload);
+
+        soft.assertThat(page.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactListURL());
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkCancelSignUpProcess() {
+        SoftAssertions soft = new SoftAssertions();
+        LoginPage page = loginPage.openSignUpPage().cancelSignUp();
+
+        soft.assertThat(page.getCurrentURL()).isEqualTo(PageEndpoints.getFullLoginURL());
 
         soft.assertAll();
     }

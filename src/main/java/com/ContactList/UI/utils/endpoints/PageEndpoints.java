@@ -8,7 +8,8 @@ import static com.ContactList.UI.config.ConfigurationManager.config;
 public enum PageEndpoints {
 
     CONTACT_LIST("contactList"),
-    ADD_USER("addUser");
+    ADD_USER("addUser"),
+    LOGIN("login");
 
     private String endpoint;
 
@@ -22,5 +23,9 @@ public enum PageEndpoints {
 
     public static String getFullSignUpURL() {
         return config().baseURL() + ADD_USER.getEndpoint();
+    }
+
+    public static String getFullLoginURL() {
+        return config().baseURL() + LOGIN.getEndpoint();
     }
 }

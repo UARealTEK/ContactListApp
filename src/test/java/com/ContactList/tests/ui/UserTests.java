@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.ContactList.UI.config.ConfigurationManager.config;
 
-public class LoginTest extends BaseTest {
+public class UserTests extends BaseTest {
 
     @Test
     public void checkBasePageOpening() {
@@ -25,6 +25,12 @@ public class LoginTest extends BaseTest {
         soft.assertAll();
     }
 
+    /**
+     * In this specific case -> signUp was done using separate API calls (methods)
+     * Therefore The login credentials Payload for the user was received using those specific API calls
+     *
+     * in the following tests user credentials will be obtained using natural manual flow (see {@code checkUserSignUp()})
+     */
     @Test
     public void checkUserLogin() {
         SoftAssertions soft = new SoftAssertions();

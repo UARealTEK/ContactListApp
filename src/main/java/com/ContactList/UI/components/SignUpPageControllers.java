@@ -40,7 +40,7 @@ public class SignUpPageControllers extends BaseComponent {
         try {
             page.waitForURL(PageEndpoints.getFullContactListURL());
         } catch (PlaywrightException e) {
-            throw new AssertionError("The Contacts Page was not Loaded. Expected URL to be -> " + PageEndpoints.getFullContactListURL());
+            throw new AssertionError("The List Page was not Loaded. Expected URL to be -> " + PageEndpoints.getFullContactListURL());
         }
     }
 

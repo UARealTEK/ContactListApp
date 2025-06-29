@@ -13,7 +13,7 @@ public enum PageEndpoints {
 
     private String endpoint;
 
-    private PageEndpoints(String endpoint) {
+    PageEndpoints(String endpoint) {
         this.endpoint = endpoint;
     }
 

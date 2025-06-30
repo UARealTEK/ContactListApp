@@ -71,5 +71,21 @@ public class ContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    //TODO: finish the test once getSpecificContactData() works as expected
+    @Test
+    public void checkViewContactDetailsPage() {
+        SoftAssertions soft = new SoftAssertions();
+        UserBodyPayload user = DataGenerator.getRandomUserPayload();
+        ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
+
+        ListPage listPage = loginPage.openSignUpPage()
+                .signUpUser(user)
+                .openAddContactPage()
+                .addContact(richPayload);
+
+
+        soft.assertAll();
+    }
+
 
 }

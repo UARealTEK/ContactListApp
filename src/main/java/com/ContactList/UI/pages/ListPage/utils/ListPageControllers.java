@@ -1,5 +1,6 @@
-package com.ContactList.UI.components;
+package com.ContactList.UI.pages.ListPage.utils;
 
+import com.ContactList.UI.BaseClasses.BaseComponent;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
@@ -10,8 +11,17 @@ public class ListPageControllers extends BaseComponent {
         super(page);
     }
 
+    /**
+     * Inner locator class for local usage
+     */
+
+    private static final class Locators {
+        private static final String ADD_CONTACT = "id=add-contact";
+        private static final String LOGOUT = "id=logout";
+    }
+
     public void clickAddContactButton() {
-        page.click("id=add-contact");
+        page.locator(Locators.ADD_CONTACT).click();
 
         try {
             page.waitForURL(PageEndpoints.getFullAddContactURL());
@@ -22,7 +32,7 @@ public class ListPageControllers extends BaseComponent {
     }
 
     public void clickLogoutButton() {
-        page.click("id=logout");
+        page.locator(Locators.LOGOUT).click();
 
         try {
             page.waitForURL(PageEndpoints.getFullLoginURL());

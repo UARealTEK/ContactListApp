@@ -1,11 +1,14 @@
-package com.ContactList.UI.pages;
+package com.ContactList.UI.pages.LoginPage;
 
 import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
-import com.ContactList.UI.components.LoginPageControllers;
-import com.ContactList.UI.utils.factories.BasePageFactory;
+import com.ContactList.UI.pages.LoginPage.utils.LoginPageControllers;
+import com.ContactList.UI.BaseClasses.BasePage;
+import com.ContactList.UI.pages.ListPage.ListPage;
+import com.ContactList.UI.pages.SignUpPage.SignUpPage;
+import com.ContactList.UI.utils.Managers.PageManager;
 import io.qameta.allure.Step;
 
-import static com.ContactList.UI.config.ConfigurationManager.config;
+import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
 
 public class LoginPage extends BasePage {
 
@@ -26,7 +29,7 @@ public class LoginPage extends BasePage {
     public SignUpPage openSignUpPage() {
         this.openLoginPage();
         controllers.clickOnSignUp();
-        return BasePageFactory.createInstance(page, SignUpPage.class);
+        return PageManager.createInstance(page, SignUpPage.class);
     }
 
     @Step("Log in as a user with specified Credentials")
@@ -35,6 +38,6 @@ public class LoginPage extends BasePage {
         controllers.fillUserName(payload);
         controllers.fillPassword(payload);
         controllers.clickOnLogin();
-        return BasePageFactory.createInstance(page,ListPage.class);
+        return PageManager.createInstance(page,ListPage.class);
     }
 }

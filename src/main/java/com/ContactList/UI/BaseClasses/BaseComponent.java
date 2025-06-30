@@ -1,4 +1,4 @@
-package com.ContactList.UI.components;
+package com.ContactList.UI.BaseClasses;
 
 import com.microsoft.playwright.Page;
 

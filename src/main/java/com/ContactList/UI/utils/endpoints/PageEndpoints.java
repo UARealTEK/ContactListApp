@@ -2,7 +2,7 @@ package com.ContactList.UI.utils.endpoints;
 
 import lombok.Getter;
 
-import static com.ContactList.UI.config.ConfigurationManager.config;
+import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
 
 @Getter
 public enum PageEndpoints {

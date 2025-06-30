@@ -3,15 +3,15 @@ package com.ContactList.tests.ui;
 import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
 import com.ContactList.API.utils.dataManagement.DataGenerator;
 import com.ContactList.API.utils.helpers.UserApiHelper;
-import com.ContactList.UI.pages.BaseTest;
-import com.ContactList.UI.pages.ListPage;
-import com.ContactList.UI.pages.LoginPage;
-import com.ContactList.UI.pages.SignUpPage;
+import com.ContactList.UI.BaseClasses.BaseTest;
+import com.ContactList.UI.pages.ListPage.ListPage;
+import com.ContactList.UI.pages.LoginPage.LoginPage;
+import com.ContactList.UI.pages.SignUpPage.SignUpPage;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-import static com.ContactList.UI.config.ConfigurationManager.config;
+import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
 
 public class UserTests extends BaseTest {
 

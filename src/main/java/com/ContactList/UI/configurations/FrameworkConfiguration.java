@@ -1,10 +1,10 @@
-package com.ContactList.UI.config;
+package com.ContactList.UI.configurations;
 
 import org.aeonbits.owner.Config;
 
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({"system:properties", "classpath:allure.properties", "classpath:config.properties"})
-public interface Configuration extends Config {
+public interface FrameworkConfiguration extends Config {
 
     @Key("allure.results.directory")
     String allureResultsDir();

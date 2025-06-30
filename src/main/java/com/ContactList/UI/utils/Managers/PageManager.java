@@ -1,9 +1,9 @@
-package com.ContactList.UI.utils.factories;
+package com.ContactList.UI.utils.Managers;
 
-import com.ContactList.UI.pages.BasePage;
+import com.ContactList.UI.BaseClasses.BasePage;
 import com.microsoft.playwright.Page;
 
-public class BasePageFactory {
+public class PageManager {
 
     public static <T extends BasePage> T createInstance(Page page, Class<T> tClass) {
         try {

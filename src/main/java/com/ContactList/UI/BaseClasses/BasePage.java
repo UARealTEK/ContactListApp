@@ -1,11 +1,9 @@
-package com.ContactList.UI.pages;
+package com.ContactList.UI.BaseClasses;
 
 import com.microsoft.playwright.Page;
 import lombok.Getter;
 
-import java.util.Objects;
-
-import static com.ContactList.UI.config.ConfigurationManager.config;
+import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
 @Getter
 public abstract class BasePage {
 

@@ -2,9 +2,9 @@ name: Run API Tests and Deploy Allure Report
 
 on:
   push:
-    branches: [ main, dev, feature ]
+    branches: [ main, dev, feature, UIFeature ]
   pull_request:
-    branches: [ main, dev, feature ]
+    branches: [ main, dev, feature, UIFeature ]
 
 jobs:
   run-api-tests:

@@ -5,6 +5,7 @@ import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
 import com.ContactList.API.utils.dataManagement.DataGenerator;
 import com.ContactList.UI.pages.AddContactPage.AddContactPage;
 import com.ContactList.UI.BaseClasses.BaseTest;
+import com.ContactList.UI.pages.ContactDetailsPage;
 import com.ContactList.UI.pages.ListPage.ListPage;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import org.assertj.core.api.SoftAssertions;
@@ -71,18 +72,20 @@ public class ContactsTests extends BaseTest {
         soft.assertAll();
     }
 
-    //TODO: finish the test once getSpecificContactData() works as expected
+    //TODO: verify the data in the test
     @Test
-    public void checkViewContactDetailsPage() {
+    public void checkViewContactDetailsPage() throws InterruptedException {
         SoftAssertions soft = new SoftAssertions();
         UserBodyPayload user = DataGenerator.getRandomUserPayload();
         ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
 
-        ListPage listPage = loginPage.openSignUpPage()
+        ContactDetailsPage detailsPage = loginPage.openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage()
-                .addContact(richPayload);
+                .addContact(richPayload)
+                .openContactDetailsPage();
 
+        soft.assertThat(detailsPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactDetailsURL());
 
         soft.assertAll();
     }

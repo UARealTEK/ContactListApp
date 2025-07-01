@@ -10,7 +10,8 @@ public enum PageEndpoints {
     CONTACT_LIST("contactList"),
     ADD_USER("addUser"),
     LOGIN("login"),
-    ADD_CONTACT("addContact");
+    ADD_CONTACT("addContact"),
+    CONTACT_DETAILS("contactDetails");
 
     private final String endpoint;
 
@@ -32,5 +33,9 @@ public enum PageEndpoints {
 
     public static String getFullAddContactURL() {
         return config().baseURL() + ADD_CONTACT.getEndpoint();
+    }
+
+    public static String getFullContactDetailsURL() {
+        return config().baseURL() + CONTACT_DETAILS.getEndpoint();
     }
 }

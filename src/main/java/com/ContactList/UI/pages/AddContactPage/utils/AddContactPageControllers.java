@@ -2,10 +2,11 @@ package com.ContactList.UI.pages.AddContactPage.utils;
 
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
+import com.ContactList.UI.utils.controllerUtils.WaitUtils;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.PlaywrightException;
+import lombok.Getter;
 
 import java.util.Map;
 
@@ -15,14 +16,10 @@ public class AddContactPageControllers extends BaseComponent {
         super(page);
     }
 
-    /**
-     * Inner locator class for local usage
-     */
-
-    private static final class Locators {
-        private static final String SUBMIT = "id=submit";
-        private static final String CANCEL = "id=cancel";
-    }
+    @Getter
+    private static final String SUBMIT = "id=submit";
+    @Getter
+    private static final String CANCEL = "id=cancel";
 
     /**
      * @param payload -> expected Contact Payload to add
@@ -75,22 +72,16 @@ public class AddContactPageControllers extends BaseComponent {
         Locator locator = page.locator("id=" + key);
         if (locator.count() > 0) {
             locator.fill(value);
-        } else System.out.println("The field -> " + key + " <- was not found on the page");
+        } else throw new AssertionError("The field -> " + key + " <- was not found on the page");
     }
 
     public void clickSubmit() {
-        page.locator(Locators.SUBMIT).click();
-
-        try {
-            page.waitForURL(PageEndpoints.getFullContactListURL());
-        } catch (PlaywrightException e) {
-            throw new AssertionError("The expected page was not opened -> " +
-                    PageEndpoints.getFullContactListURL(), e);
-        }
+        page.locator(SUBMIT).click();
+        WaitUtils.waitForPageURL(page,PageEndpoints.CONTACT_LIST);
     }
 
     public void clickCancel() {
-        page.locator(Locators.CANCEL).click();
+        page.locator(CANCEL).click();
     }
 
 }

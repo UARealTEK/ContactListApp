@@ -9,8 +9,10 @@ import com.ContactList.UI.pages.LoginPage.LoginPage;
 import com.ContactList.UI.pages.SignUpPage.SignUpPage;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
+import static com.ContactList.API.utils.dataManagement.DataGenerator.getRandomSafeUserPayload;
 import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
 
 public class UserTests extends BaseTest {
@@ -34,7 +36,7 @@ public class UserTests extends BaseTest {
     @Test
     public void checkUserLogin() {
         SoftAssertions soft = new SoftAssertions();
-        UserBodyPayload payload = DataGenerator.getRandomUserPayload();
+        UserBodyPayload payload = DataGenerator.getRandomSafeUserPayload();
         UserApiHelper.createSpecificUser(payload);
 
         ListPage page = loginPage.loginAsUser(payload);
@@ -54,10 +56,10 @@ public class UserTests extends BaseTest {
         soft.assertAll();
     }
 
-    @Test
+    @RepeatedTest(10)
     public void checkUserSignUp() {
         SoftAssertions soft = new SoftAssertions();
-        UserBodyPayload payload = DataGenerator.getRandomUserPayload();
+        UserBodyPayload payload = getRandomSafeUserPayload();
 
         ListPage page = loginPage.openSignUpPage().signUpUser(payload);
 

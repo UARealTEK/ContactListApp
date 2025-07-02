@@ -26,7 +26,7 @@ public class UserTests {
     @Test
     public void checkAddUser() {
         SoftAssertions soft = new SoftAssertions();
-        UserBodyPayload payload = DataGenerator.getRandomUserPayload();
+        UserBodyPayload payload = DataGenerator.getRandomSafeUserPayload();
         Response response = new UserService().addUserRequest(payload);
 
         System.out.println(response.getBody().asPrettyString());
@@ -63,7 +63,7 @@ public class UserTests {
     public void checkUpdateUser() {
         SoftAssertions soft = new SoftAssertions();
         UserResponse user = UserApiHelper.createRandomUser();
-        Response patch = new UserService().patchUserRequest(DataGenerator.getRandomUserPayload(), user);
+        Response patch = new UserService().patchUserRequest(DataGenerator.getRandomSafeUserPayload(), user);
 
         soft.assertThat(user.getUser().getId()).isEqualTo(patch.as(UserResponse.User.class).getId());
         soft.assertThat(patch.getStatusCode()).isEqualTo(200);

@@ -3,7 +3,9 @@ package com.ContactList.API.utils.dataManagement;
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
 import com.ContactList.API.core.payloads.UserPayloads.UserLoginPayload;
+import com.ContactList.API.core.responses.userResponses.UserResponse;
 import com.ContactList.API.core.services.UserService;
+import com.ContactList.API.utils.helpers.UserApiHelper;
 import com.github.javafaker.Faker;
 import io.restassured.response.Response;
 
@@ -52,14 +54,24 @@ public class DataGenerator {
 
     public static UserBodyPayload getRandomUserPayload() {
         String firstName = faker.name().name().substring(0,3);
-        String lastName = faker.name().lastName();
+        String lastName = faker.name().lastName().substring(0,3);
         String email = faker.internet().emailAddress();
         String password = faker.internet().password();
         return new UserBodyPayload(firstName,lastName,email,password);
     }
 
-    public static UserLoginPayload getUserLoginPayload() {
+    /**
+     * <p>Additional method that will generate a unique email address</p>
+     * <p>This approach is aimed at creating the user, storing its email and then deleting it completely to ensure email address is preserved</p>
+     */
+    public static UserBodyPayload getRandomSafeUserPayload() {
         UserBodyPayload payload = DataGenerator.getRandomUserPayload();
+        payload.setEmail(DataGenerator.getValidUserEmail());
+        return payload;
+    }
+
+    public static UserLoginPayload getUserLoginPayload() {
+        UserBodyPayload payload = DataGenerator.getRandomSafeUserPayload();
         Response response = new UserService().addUserRequest(payload);
 
         if (response.getStatusCode() != 201) {
@@ -73,7 +85,7 @@ public class DataGenerator {
     public static ContactsBodyPayload getRandomContactPayload() {
         String firstName = faker.name().name().substring(0,3);
         String lastName = faker.name().lastName();
-        String email = faker.internet().emailAddress();
+        String email = getValidUserEmail();
         String phone = faker.number().digits(10);
         String city = faker.address().city();
         String stateProvince = faker.address().state();
@@ -87,6 +99,14 @@ public class DataGenerator {
         body.collectStreetFields("street1", faker.address().streetAddress());
         body.collectStreetFields("street2", faker.address().secondaryAddress());
         return body;
+    }
+
+    public static String getValidUserEmail() {
+        UserResponse user = UserApiHelper.createRandomUser();
+        String validEmail = user.getUser().getEmail();
+
+        new UserService().deleteUser(user);
+        return validEmail;
     }
 
     /**

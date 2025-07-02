@@ -19,7 +19,7 @@ public class ContactsTests extends BaseTest {
     @Test
     public void checkOpeningAddContactPage() {
         SoftAssertions soft = new SoftAssertions();
-        UserBodyPayload payload = DataGenerator.getRandomUserPayload();
+        UserBodyPayload payload = DataGenerator.getRandomSafeUserPayload();
 
         AddContactPage page = loginPage
                 .openSignUpPage()
@@ -33,7 +33,7 @@ public class ContactsTests extends BaseTest {
     @Test
     public void checkSimpleContactAddingFlow() {
         SoftAssertions soft = new SoftAssertions();
-        UserBodyPayload user = DataGenerator.getRandomUserPayload();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
         ContactsBodyPayload payload = DataGenerator.getRandomContactPayload();
 
         ListPage listPage = loginPage.openSignUpPage()
@@ -47,7 +47,7 @@ public class ContactsTests extends BaseTest {
     @Test
     public void checkRichContactAddFlow() {
         SoftAssertions soft = new SoftAssertions();
-        UserBodyPayload user = DataGenerator.getRandomUserPayload();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
         ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
 
         ListPage listPage = loginPage.openSignUpPage()
@@ -63,7 +63,7 @@ public class ContactsTests extends BaseTest {
     @Test
     public void checkCancelContactAddFlow() {
         SoftAssertions soft = new SoftAssertions();
-        UserBodyPayload user = DataGenerator.getRandomUserPayload();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
 
         ListPage page = loginPage.openSignUpPage().signUpUser(user).openAddContactPage().cancelAddingContact();
 
@@ -76,7 +76,7 @@ public class ContactsTests extends BaseTest {
     @Test
     public void checkViewContactDetailsPage() throws InterruptedException {
         SoftAssertions soft = new SoftAssertions();
-        UserBodyPayload user = DataGenerator.getRandomUserPayload();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
         ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
 
         ContactDetailsPage detailsPage = loginPage.openSignUpPage()

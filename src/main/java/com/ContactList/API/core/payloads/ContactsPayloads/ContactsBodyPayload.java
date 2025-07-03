@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -38,5 +39,30 @@ public class ContactsBodyPayload {
     @JsonAnyGetter
     public Map<String, String> getDynamicFields() {
         return streetFields;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ContactsBodyPayload that)) return false;
+
+        return Objects.equals(firstName, that.firstName)
+                && Objects.equals(lastName, that.lastName)
+                && Objects.equals(birthdate, that.birthdate)
+                && Objects.equals(email, that.email)
+                && Objects.equals(phone, that.phone)
+                && Objects.equals(city, that.city)
+                && Objects.equals(stateProvince, that.stateProvince)
+                && Objects.equals(postalCode, that.postalCode)
+                && Objects.equals(country, that.country)
+                && Objects.equals(streetFields, that.streetFields);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                firstName, lastName, birthdate, email, phone,
+                city, stateProvince, postalCode, country, streetFields
+        );
     }
 }

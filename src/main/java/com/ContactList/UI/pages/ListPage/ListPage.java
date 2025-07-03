@@ -1,12 +1,12 @@
 package com.ContactList.UI.pages.ListPage;
 
-import com.ContactList.UI.pages.ContactDetailsPage;
+import com.ContactList.UI.pages.ContactDetailsPage.ContactDetailsPage;
 import com.ContactList.UI.pages.ListPage.utils.ContactTableControllers;
 import com.ContactList.UI.pages.ListPage.utils.ListPageControllers;
 import com.ContactList.UI.pages.AddContactPage.AddContactPage;
 import com.ContactList.UI.BaseClasses.BasePage;
 import com.ContactList.UI.utils.Managers.PageManager;
-import com.ContactList.UI.utils.controllerUtils.WaitUtils;
+import com.ContactList.UI.utils.customUtils.WaitUtils;
 import io.qameta.allure.Step;
 import lombok.Getter;
 

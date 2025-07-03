@@ -1,7 +1,7 @@
 package com.ContactList.UI.pages.ListPage.utils;
 
 import com.ContactList.UI.BaseClasses.BaseComponent;
-import com.ContactList.UI.utils.controllerUtils.WaitUtils;
+import com.ContactList.UI.utils.customUtils.WaitUtils;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;

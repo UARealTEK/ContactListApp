@@ -72,7 +72,11 @@ public class ContactsTests extends BaseTest {
         soft.assertAll();
     }
 
-    //TODO: verify the data in the test
+    /**
+     * used {@code .usingRecursiveComparison()} due to failed attempts on overriding {@code equals()}
+     * <p>might try to override it later<p>
+     */
+    //TODO: override @equals later
     @Test
     public void checkViewContactDetailsPage() {
         SoftAssertions soft = new SoftAssertions();
@@ -84,7 +88,11 @@ public class ContactsTests extends BaseTest {
                 .openAddContactPage()
                 .addContact(richPayload)
                 .openContactDetailsPage();
-        soft.assertThat(richPayload.equals(detailsPage.getForm().getContactPayload())).isTrue();
+
+        soft.assertThat(richPayload)
+                .usingRecursiveComparison()
+                .isEqualTo(detailsPage.getForm().getContactPayload());
+
         soft.assertThat(detailsPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactDetailsURL());
 
         soft.assertAll();

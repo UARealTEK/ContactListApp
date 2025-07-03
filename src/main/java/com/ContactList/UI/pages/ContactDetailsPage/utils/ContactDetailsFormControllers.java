@@ -3,6 +3,8 @@ package com.ContactList.UI.pages.ContactDetailsPage.utils;
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
 import com.microsoft.playwright.Page;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -33,7 +35,7 @@ public class ContactDetailsFormControllers extends BaseComponent {
         ContactsBodyPayload payload = new ContactsBodyPayload();
 
         FIELD_MAPPINGS.forEach((selector, setter) -> {
-            String value = page.locator(contactForm + " " + selector).innerText();
+            String value = page.locator(contactForm + " " + selector).innerText().trim();
             setter.accept(payload,value);
         });
 
@@ -43,8 +45,8 @@ public class ContactDetailsFormControllers extends BaseComponent {
 
     private void setStreetFields(ContactsBodyPayload payload) {
         Map<String, String> streetFields = Map.of(
-               street1.substring(2), page.locator(street1).innerText(),
-               street2.substring(2), page.locator(street2).innerText()
+               street1.substring(contactForm.length() + 2), page.locator(street1).innerText().trim(),
+               street2.substring(contactForm.length() + 2), page.locator(street2).innerText().trim()
         );
 
         streetFields.forEach((field, value) -> {

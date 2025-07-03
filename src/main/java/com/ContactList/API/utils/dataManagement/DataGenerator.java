@@ -49,7 +49,7 @@ public class DataGenerator {
         Date birthday = faker.date().birthday(10,40);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd");
         LocalDate date = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return date.format(formatter);
+        return date.format(formatter).trim();
     }
 
     public static UserBodyPayload getRandomUserPayload() {
@@ -83,21 +83,21 @@ public class DataGenerator {
     }
 
     public static ContactsBodyPayload getRandomContactPayload() {
-        String firstName = faker.name().name().substring(0,3);
-        String lastName = faker.name().lastName();
-        String email = getValidUserEmail();
-        String phone = faker.number().digits(10);
-        String city = faker.address().city();
-        String stateProvince = faker.address().state();
-        String postalCode = faker.address().zipCode();
-        String country = faker.address().country().substring(0,3);
+        String firstName = faker.name().name().substring(0,3).trim();
+        String lastName = faker.name().lastName().trim();
+        String email = getValidUserEmail().trim();
+        String phone = faker.number().digits(10).trim();
+        String city = faker.address().city().trim();
+        String stateProvince = faker.address().state().trim();
+        String postalCode = faker.address().zipCode().trim();
+        String country = faker.address().country().substring(0,3).trim();
         return new ContactsBodyPayload(firstName, lastName, getRandomBirthday(), email, phone, city, stateProvince, postalCode, country);
     }
 
     public static ContactsBodyPayload getRandomRichContactPayload() {
         ContactsBodyPayload body = getRandomContactPayload();
-        body.collectStreetFields("street1", faker.address().streetAddress());
-        body.collectStreetFields("street2", faker.address().secondaryAddress());
+        body.collectStreetFields("street1", faker.address().streetAddress().trim());
+        body.collectStreetFields("street2", faker.address().secondaryAddress().trim());
         return body;
     }
 

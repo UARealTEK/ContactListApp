@@ -5,6 +5,7 @@ import com.ContactList.UI.BaseClasses.BasePage;
 import com.ContactList.UI.pages.AddContactPage.AddContactPage;
 import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsControllers;
 import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsFormControllers;
+import com.ContactList.UI.pages.EditContactPage.EditContactPage;
 import com.ContactList.UI.utils.Managers.PageManager;
 import io.qameta.allure.Step;
 import lombok.Getter;
@@ -23,8 +24,8 @@ public class ContactDetailsPage extends BasePage {
     }
 
     @Step("Editing contact by clicking on the edit contact button")
-    public AddContactPage openEditContact() {
+    public EditContactPage openEditContact() {
         controllers.clickEditContactButton();
-        return PageManager.createInstance(page, AddContactPage.class);
+        return PageManager.createInstance(page, EditContactPage.class);
     }
 }

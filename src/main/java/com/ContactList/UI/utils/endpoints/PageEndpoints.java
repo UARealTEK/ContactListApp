@@ -11,6 +11,7 @@ public enum PageEndpoints {
     SIGN_UP("addUser"),
     LOGIN("login"),
     ADD_CONTACT("addContact"),
+    EDIT_CONTACT("editContact"),
     CONTACT_DETAILS("contactDetails");
 
     private final String endpoint;
@@ -37,5 +38,9 @@ public enum PageEndpoints {
 
     public static String getFullContactDetailsURL() {
         return config().baseURL() + CONTACT_DETAILS.getEndpoint();
+    }
+
+    public static String getFullEditContactURL() {
+        return config().baseURL() + EDIT_CONTACT.getEndpoint();
     }
 }

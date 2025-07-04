@@ -118,11 +118,10 @@ public class ContactsTests extends BaseTest {
         ListPage listPage = loginPage.openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage()
-                .addContact(richPayload);
+                .addContact(richPayload)
+                .openContactDetailsPage().deleteContact();
 
-        //TODO: think how I can properly check that the new user was added
-        // PERFECT SOLUTION -> assert richPayload with what we have in the latest row in The Contacts Table
-        soft.assertThat(listPage.getTable().getAmountOfRows()).isEqualTo(1);
+        soft.assertThat(listPage.getTable().getAmountOfRows()).isEqualTo(0);
 
         soft.assertAll();
     }

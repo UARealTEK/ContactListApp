@@ -4,7 +4,10 @@ import com.ContactList.UI.BaseClasses.BasePage;
 import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsControllers;
 import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsFormControllers;
 import com.ContactList.UI.pages.EditContactPage.EditContactPage;
+import com.ContactList.UI.pages.ListPage.ListPage;
+import com.ContactList.UI.pages.ListPage.utils.ContactTableControllers;
 import com.ContactList.UI.utils.Managers.PageManager;
+import com.ContactList.UI.utils.customUtils.WaitUtils;
 import io.qameta.allure.Step;
 import lombok.Getter;
 
@@ -25,5 +28,11 @@ public class ContactDetailsPage extends BasePage {
     public EditContactPage openEditContact() {
         controllers.clickEditContactButton();
         return PageManager.createInstance(page, EditContactPage.class);
+    }
+
+    @Step("delete user")
+    public ListPage deleteContact() {
+        controllers.clickDeleteContactButton();
+        return PageManager.createInstance(page, ListPage.class);
     }
 }

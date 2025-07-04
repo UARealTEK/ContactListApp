@@ -9,7 +9,11 @@ import com.ContactList.UI.utils.Managers.PageManager;
 import com.ContactList.UI.utils.customUtils.WaitUtils;
 import io.qameta.allure.Step;
 import lombok.Getter;
-
+/**
+ * NOTE: Verification of equality between submitted Contact info and the actual data in the table
+ * is dubious. I'm not sure how to properly retrieve the data from the Table
+ * since it accepts multiple word input for some fields
+ */
 public class ListPage extends BasePage {
 
     @Getter

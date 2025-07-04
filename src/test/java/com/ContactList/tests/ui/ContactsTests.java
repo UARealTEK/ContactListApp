@@ -73,11 +73,6 @@ public class ContactsTests extends BaseTest {
         soft.assertAll();
     }
 
-    /**
-     * used {@code .usingRecursiveComparison()} due to failed attempts on overriding {@code equals()}
-     * <p>might try to override it later<p>
-     */
-    //TODO: override @equals later
     @Test
     public void checkViewContactDetailsPage() {
         SoftAssertions soft = new SoftAssertions();
@@ -90,10 +85,7 @@ public class ContactsTests extends BaseTest {
                 .addContact(richPayload)
                 .openContactDetailsPage();
 
-        soft.assertThat(richPayload)
-                .usingRecursiveComparison()
-                .isEqualTo(detailsPage.getForm().getContactPayload());
-
+        soft.assertThat(richPayload).isEqualTo(detailsPage.getForm().getContactPayload());
         soft.assertThat(detailsPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactDetailsURL());
 
         soft.assertAll();
@@ -117,5 +109,22 @@ public class ContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    @Test
+    public void checkDeletingExistingContact() {
+        SoftAssertions soft = new SoftAssertions();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
+        ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
+
+        ListPage listPage = loginPage.openSignUpPage()
+                .signUpUser(user)
+                .openAddContactPage()
+                .addContact(richPayload);
+
+        //TODO: think how I can properly check that the new user was added
+        // PERFECT SOLUTION -> assert richPayload with what we have in the latest row in The Contacts Table
+        soft.assertThat(listPage.getTable().getAmountOfRows()).isEqualTo(1);
+
+        soft.assertAll();
+    }
 
 }

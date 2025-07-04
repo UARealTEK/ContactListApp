@@ -1,8 +1,6 @@
 package com.ContactList.UI.pages.ContactDetailsPage;
 
-import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BasePage;
-import com.ContactList.UI.pages.AddContactPage.AddContactPage;
 import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsControllers;
 import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsFormControllers;
 import com.ContactList.UI.pages.EditContactPage.EditContactPage;

@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -38,4 +36,56 @@ public class ContactsBodyPayload {
     public Map<String, String> getDynamicFields() {
         return streetFields;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ContactsBodyPayload that)) return false;
+
+        return Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName) &&
+                Objects.equals(birthdate, that.birthdate) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(phone, that.phone) &&
+                Objects.equals(city, that.city) &&
+                Objects.equals(stateProvince, that.stateProvince) &&
+                Objects.equals(postalCode, that.postalCode) &&
+                Objects.equals(country, that.country) &&
+                streetFieldsEqual(this.streetFields, that.streetFields);
+    }
+
+    private boolean streetFieldsEqual(Map<String, String> a, Map<String, String> b) {
+        if (a == b) return true;
+        if (a == null || b == null) return false;
+        if (a.size() != b.size()) return false;
+
+        for (Map.Entry<String, String> entry : a.entrySet()) {
+            if (!Objects.equals(entry.getValue(), b.get(entry.getKey()))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(
+                firstName,
+                lastName,
+                birthdate,
+                email,
+                phone,
+                city,
+                stateProvince,
+                postalCode,
+                country
+        );
+
+        for (Map.Entry<String, String> entry : streetFields.entrySet()) {
+            result = 31 * result + Objects.hash(entry.getKey(), entry.getValue());
+        }
+
+        return result;
+    }
+
 }

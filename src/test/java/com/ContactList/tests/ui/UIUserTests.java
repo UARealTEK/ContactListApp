@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import static com.ContactList.API.utils.dataManagement.DataGenerator.getRandomSafeUserPayload;
 import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
 
-public class UserTests extends BaseTest {
+public class UIUserTests extends BaseTest {
 
     @Test
     public void checkBasePageOpening() {

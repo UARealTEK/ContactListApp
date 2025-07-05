@@ -16,7 +16,7 @@ import org.assertj.core.api.SoftAssertions;
 import io.qameta.allure.*;
 
 @Tag("api")
-public class UserTests {
+public class APIUserTests {
 
     @Owner("Volodymyr")
     @Feature("UserAPI")

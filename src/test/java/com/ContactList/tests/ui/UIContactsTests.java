@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 //TODO:
 // - think about merging all necessary chain method calls into one (for proper SRP principle to work)
 // - Question for Stanislav -> better to leave as it is? Or to indeed merge those chain calls into one method? how does it work?
-public class ContactsTests extends BaseTest {
+public class UIContactsTests extends BaseTest {
 
     @Test
     public void checkOpeningAddContactPage() {
@@ -81,6 +81,9 @@ public class ContactsTests extends BaseTest {
      * Additional check for verification of the Data in the Contacts Table
      */
 
+    //TODO: have a look at it
+    // detailsPage.getForm().getContactPayload() rarely returns an empty ContactBodyPayload
+    // probably due to some missed point with time management / redirection between pages
     @Test
     public void checkViewContactDetailsPage() {
         SoftAssertions soft = new SoftAssertions();

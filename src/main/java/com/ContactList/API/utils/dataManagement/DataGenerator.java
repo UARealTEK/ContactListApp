@@ -96,8 +96,8 @@ public class DataGenerator {
 
     public static ContactsBodyPayload getRandomRichContactPayload() {
         ContactsBodyPayload body = getRandomContactPayload();
-        body.collectStreetFields("street1", faker.address().streetAddress().trim());
-        body.collectStreetFields("street2", faker.address().secondaryAddress().trim());
+        body.collectStreetFields("street1", faker.address().streetAddress().split(" ")[0].trim());
+        body.collectStreetFields("street2", faker.address().secondaryAddress().split(" ")[0].trim());
         return body;
     }
 

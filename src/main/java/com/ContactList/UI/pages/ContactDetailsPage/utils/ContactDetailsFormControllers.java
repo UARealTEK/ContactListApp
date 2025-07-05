@@ -3,6 +3,7 @@ package com.ContactList.UI.pages.ContactDetailsPage.utils;
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
 import com.microsoft.playwright.Page;
+import lombok.Getter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -15,8 +16,11 @@ public class ContactDetailsFormControllers extends BaseComponent {
         super(page);
     }
 
+    @Getter
     private static final String contactForm = "#contactDetails";
+    @Getter
     private static final String street1 = contactForm + " #street1";
+    @Getter
     private static final String street2 = contactForm + " #street2";
 
     private static final Map<String, BiConsumer<ContactsBodyPayload, String>> FIELD_MAPPINGS = Map.of(

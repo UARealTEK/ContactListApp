@@ -100,6 +100,9 @@ public class ContactsTests extends BaseTest {
 
         soft.assertThat(richPayload).isEqualTo(listPage.getTable().getContactData(1));
 
+        System.out.println(richPayload);
+        System.out.println(listPage.getTable().getContactData(1));
+
         soft.assertAll();
     }
 

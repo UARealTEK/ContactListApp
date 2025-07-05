@@ -9,6 +9,7 @@ public enum TableHeaders {
     BIRTHDATE(1),
     EMAIL(2),
     PHONE(3),
+    ADDRESS(4),
     CITY_STATE_POSTAL_CODE(5),
     COUNTRY(6);
 

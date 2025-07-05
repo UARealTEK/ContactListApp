@@ -2,6 +2,7 @@ package com.ContactList.UI.pages.ListPage.utils;
 
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
+import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsFormControllers;
 import com.ContactList.UI.utils.customUtils.WaitUtils;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Locator;
@@ -12,6 +13,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiConsumer;
 
+//TODO: optimize readability to follow SRP, readability, maintainability
 public class ContactTableControllers extends BaseComponent {
 
     public ContactTableControllers(Page page) {
@@ -30,12 +32,6 @@ public class ContactTableControllers extends BaseComponent {
             TableHeaders.COUNTRY, ContactsBodyPayload::setCountry
     );
 
-    private void assertRowExist(int row) {
-        if (row <= 0 || row > getAmountOfRows()) {
-            throw new AssertionError("row " + (row -1) + "does not exist");
-        }
-    }
-
     public int getAmountOfRows() {
         return page.locator(tableRows).count();
     }
@@ -46,6 +42,7 @@ public class ContactTableControllers extends BaseComponent {
                 .locator("td:not([hidden])")
                 .nth(cell);
     }
+
     public void clickRow(int rowIndex1Based) {
         Locator rows = page.locator(tableRows);
 
@@ -89,6 +86,18 @@ public class ContactTableControllers extends BaseComponent {
         return payload;
     }
 
+    private void setDynamicFields(int row, ContactsBodyPayload payload) {
+        String[] parts = getCell(row, TableHeaders.ADDRESS.getIndex()).innerText().split(" ");
+
+        if (parts.length > 0 && !parts[0].isBlank()) {
+            payload.getDynamicFields().put(ContactDetailsFormControllers.getStreet1().substring(ContactDetailsFormControllers.getContactForm().length() + 2),parts[0]);
+        }
+
+        if (parts.length > 1 && !parts[1].isBlank()) {
+            payload.getDynamicFields().put(ContactDetailsFormControllers.getStreet2().substring(ContactDetailsFormControllers.getContactForm().length() + 2),parts[1]);
+        }
+    }
+
     public ContactsBodyPayload getContactData(int row) {
         ContactsBodyPayload payload = new ContactsBodyPayload();
         payload.setFirstName(getContactName(row).getFirstName());
@@ -101,6 +110,8 @@ public class ContactTableControllers extends BaseComponent {
             String cellText = getCell(row,tableColumn.getIndex()).innerText();
             biconsumer.accept(payload,cellText);
         });
+
+        setDynamicFields(row,payload);
 
         return payload;
     }

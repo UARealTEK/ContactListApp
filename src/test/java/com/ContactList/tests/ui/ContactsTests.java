@@ -66,12 +66,20 @@ public class ContactsTests extends BaseTest {
         SoftAssertions soft = new SoftAssertions();
         UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
 
-        ListPage page = loginPage.openSignUpPage().signUpUser(user).openAddContactPage().cancelAddingContact();
+        ListPage page = loginPage.openSignUpPage()
+                .signUpUser(user)
+                .openAddContactPage()
+                .cancelAddingContact();
 
         soft.assertThat(page.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactListURL());
 
         soft.assertAll();
     }
+
+    /**
+     * The {@code checkViewContactDetailsPage()} Test contains
+     * Additional check for verification of the Data in the Contacts Table
+     */
 
     @Test
     public void checkViewContactDetailsPage() {
@@ -87,6 +95,10 @@ public class ContactsTests extends BaseTest {
 
         soft.assertThat(richPayload).isEqualTo(detailsPage.getForm().getContactPayload());
         soft.assertThat(detailsPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactDetailsURL());
+
+        ListPage listPage = detailsPage.openContactListPage();
+
+        soft.assertThat(richPayload).isEqualTo(listPage.getTable().getContactData(1));
 
         soft.assertAll();
     }
@@ -119,7 +131,8 @@ public class ContactsTests extends BaseTest {
                 .signUpUser(user)
                 .openAddContactPage()
                 .addContact(richPayload)
-                .openContactDetailsPage().deleteContact();
+                .openContactDetailsPage()
+                .deleteContact();
 
         soft.assertThat(listPage.getTable().getAmountOfRows()).isEqualTo(0);
 

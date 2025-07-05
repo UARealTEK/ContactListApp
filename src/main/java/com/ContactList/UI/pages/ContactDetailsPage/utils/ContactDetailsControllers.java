@@ -33,6 +33,8 @@ public class ContactDetailsControllers extends BaseComponent {
 
     public void clickOpenContactListPageButton() {
         page.locator(openContactListPage).click();
+        WaitUtils.waitForPageURL(page,PageEndpoints.CONTACT_LIST);
+        WaitUtils.waitUntilElementIsDisplayed(page, ContactTableControllers.getTable());
     }
 
     public void clickLogoutButton() {

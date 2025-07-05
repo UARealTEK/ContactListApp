@@ -83,14 +83,14 @@ public class DataGenerator {
     }
 
     public static ContactsBodyPayload getRandomContactPayload() {
-        String firstName = faker.name().name().substring(0,3).trim();
-        String lastName = faker.name().lastName().trim();
-        String email = getValidUserEmail().trim();
-        String phone = faker.number().digits(10).trim();
-        String city = faker.address().city().trim();
-        String stateProvince = faker.address().state().trim();
-        String postalCode = faker.address().zipCode().trim();
-        String country = faker.address().country().substring(0,3).trim();
+        String firstName = faker.name().name().substring(0,3).split(" ")[0].trim();
+        String lastName = faker.name().lastName().split(" ")[0].trim();
+        String email = getValidUserEmail().split(" ")[0].trim();
+        String phone = faker.number().digits(10).split(" ")[0].trim();
+        String city = faker.address().city().split(" ")[0].trim();
+        String stateProvince = faker.address().state().split(" ")[0].trim();
+        String postalCode = faker.address().zipCode().split(" ")[0].trim();
+        String country = faker.address().country().substring(0,3).split(" ")[0].trim();
         return new ContactsBodyPayload(firstName, lastName, getRandomBirthday(), email, phone, city, stateProvince, postalCode, country);
     }
 

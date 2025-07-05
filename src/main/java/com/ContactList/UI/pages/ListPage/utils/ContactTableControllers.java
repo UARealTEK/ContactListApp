@@ -1,5 +1,6 @@
 package com.ContactList.UI.pages.ListPage.utils;
 
+import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
 import com.ContactList.UI.utils.customUtils.WaitUtils;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
@@ -7,9 +8,9 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.BiConsumer;
 
 public class ContactTableControllers extends BaseComponent {
 
@@ -20,11 +21,18 @@ public class ContactTableControllers extends BaseComponent {
     @Getter
     private static final String table = "table#myTable";
     @Getter
-    private static final String tableRows = table + " > tr.contactTableBodyRow";
+    private static final String tableRows = "tr.contactTableBodyRow";
+
+    private static final Map<TableHeaders, BiConsumer<ContactsBodyPayload, String>> FIELD_MAPPINGS = Map.of(
+            TableHeaders.BIRTHDATE,ContactsBodyPayload::setBirthdate,
+            TableHeaders.EMAIL, ContactsBodyPayload::setEmail,
+            TableHeaders.PHONE, ContactsBodyPayload::setPhone,
+            TableHeaders.COUNTRY, ContactsBodyPayload::setCountry
+    );
 
     private void assertRowExist(int row) {
         if (row <= 0 || row > getAmountOfRows()) {
-            throw new AssertionError("row " + row + "does not exist");
+            throw new AssertionError("row " + (row -1) + "does not exist");
         }
     }
 
@@ -33,69 +41,67 @@ public class ContactTableControllers extends BaseComponent {
     }
 
     private Locator getCell(int row, int cell) {
-        return page.locator(tableRows).nth(row).locator("td").nth(cell);
+        return page.locator(tableRows)
+                .nth(row - 1)
+                .locator("td:not([hidden])")
+                .nth(cell);
     }
+    public void clickRow(int rowIndex1Based) {
+        Locator rows = page.locator(tableRows);
 
-    public void clickRow(int row) {
-        page.locator(tableRows).nth(row).click();
-    }
-
-    public void clickRandomRow() {
-        Random random = new Random();
-        int row = random.nextInt(getAmountOfRows());
-        clickRow(row);
-        WaitUtils.waitForPageURL(page,PageEndpoints.CONTACT_DETAILS);
-    }
-
-    public void clickSpecificRow(int row) {
-        assertRowExist(row);
-        clickRow(row);
-        WaitUtils.waitForPageURL(page,PageEndpoints.CONTACT_DETAILS);
-    }
-
-    public String getSpecificContactName(int row) {
-        assertRowExist(row);
-        return getCell(row,TableHeaders.NAME.getIndex()).innerText();
-    }
-
-    public String getSpecificContactBirthday(int row) {
-        assertRowExist(row);
-        return getCell(row,TableHeaders.BIRTHDATE.getIndex()).innerText();
-    }
-
-    public String getSpecificContactEmail(int row) {
-        assertRowExist(row);
-        return getCell(row,TableHeaders.EMAIL.getIndex()).innerText();
-    }
-
-    public String getSpecificContactPhone(int row) {
-        assertRowExist(row);
-        return getCell(row,TableHeaders.PHONE.getIndex()).innerText();
-    }
-
-    public String getSpecificContactAddress(int row) {
-        assertRowExist(row);
-        return getCell(row,TableHeaders.ADDRESS.getIndex()).innerText();
-    }
-
-    public String getSpecificContactCityStatePostalCode(int row) {
-        assertRowExist(row);
-        return getCell(row,TableHeaders.CITY_STATE_POSTAL_CODE.getIndex()).innerText();
-    }
-
-    public String getSpecificContactCountry(int row) {
-        assertRowExist(row);
-        return getCell(row,TableHeaders.COUNTRY.getIndex()).innerText();
-    }
-
-    public List<String> getSpecificTableRowData(int row) {
-        assertRowExist(row);
-        ArrayList<String> result = new ArrayList<>();
-
-        for (TableHeaders headers : TableHeaders.values()) {
-            result.add(getCell(row,headers.getIndex()).innerText());
+        int totalRows = rows.count();
+        if (rowIndex1Based < 1 || rowIndex1Based > totalRows) {
+            throw new IllegalArgumentException("Row index out of bounds: " + rowIndex1Based);
         }
 
-        return result;
+        rows.nth(rowIndex1Based - 1).click();
+        WaitUtils.waitForPageURL(page, PageEndpoints.CONTACT_DETAILS);
+    }
+
+
+    public void clickRandomRow() {
+        clickRow(ThreadLocalRandom.current().nextInt(1, getAmountOfRows() + 1));
+        WaitUtils.waitForPageURL(page,PageEndpoints.CONTACT_DETAILS);
+    }
+
+    /**
+     *
+     * @param row -> row for each we are obtaining contact name
+     * @return contact payload filled only with FirstName / LastName
+     *
+     * <p>FYI: not checking for null since FirstName / LastName fields are mandatory<p>
+     */
+    private ContactsBodyPayload getContactName(int row) {
+        ContactsBodyPayload payload = new ContactsBodyPayload();
+        String[] nameParts = getCell(row, TableHeaders.NAME.getIndex()).innerText().split(" ");
+        payload.setFirstName(nameParts.length > 0 ? nameParts[0] : "");
+        payload.setLastName(nameParts.length > 1 ? nameParts[1] : "");
+        return payload;
+    }
+
+    private ContactsBodyPayload getCityStatePostalCode(int row) {
+        ContactsBodyPayload payload = new ContactsBodyPayload();
+        String[] parts = getCell(row, TableHeaders.CITY_STATE_POSTAL_CODE.getIndex()).innerText().split(" ");
+        payload.setCity(parts.length > 0 ? parts[0] : "");
+        payload.setStateProvince(parts.length > 1 ? parts[1] : "");
+        payload.setPostalCode(parts.length > 2 ? parts[2] : "");
+
+        return payload;
+    }
+
+    public ContactsBodyPayload getContactData(int row) {
+        ContactsBodyPayload payload = new ContactsBodyPayload();
+        payload.setFirstName(getContactName(row).getFirstName());
+        payload.setLastName(getContactName(row).getLastName());
+        payload.setCity(getCityStatePostalCode(row).getCity());
+        payload.setStateProvince(getCityStatePostalCode(row).getStateProvince());
+        payload.setPostalCode(getCityStatePostalCode(row).getPostalCode());
+
+        FIELD_MAPPINGS.forEach((tableColumn, biconsumer) -> {
+            String cellText = getCell(row,tableColumn.getIndex()).innerText();
+            biconsumer.accept(payload,cellText);
+        });
+
+        return payload;
     }
 }

@@ -2,13 +2,17 @@ package com.ContactList.UI.pages.ContactDetailsPage.utils;
 
 import com.ContactList.UI.BaseClasses.BaseComponent;
 import com.ContactList.UI.pages.ListPage.utils.ContactTableControllers;
-import com.ContactList.UI.pages.ListPage.utils.ListPageControllers;
 import com.ContactList.UI.utils.customUtils.WaitUtils;
+import com.ContactList.UI.utils.customUtils.mappers.Mappers;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Dialog;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.impl.junit.PageExtension;
-import com.microsoft.playwright.options.LoadState;
+
+import lombok.Getter;
+
+import java.util.Map;
+
+import static com.ContactList.UI.pages.EditContactPage.utils.EditContactControllers.editContactForm;
 
 public class ContactDetailsControllers extends BaseComponent {
 
@@ -16,13 +20,18 @@ public class ContactDetailsControllers extends BaseComponent {
         super(page);
     }
 
+    @Getter
     private final static String editContact = "id=edit-contact";
+    @Getter
     private final static String deleteContact = "id=delete";
+    @Getter
     private final static String openContactListPage = "id=return";
+    @Getter
     private final static String logout = "id=logout";
 
     public void clickEditContactButton() {
         page.locator(editContact).click();
+        WaitUtils.waitForAllEditable(page, Mappers.getFORM_FIELD_EDITOR_MAPPINGS().keySet().stream().toList());
     }
 
     public void clickDeleteContactButton() {

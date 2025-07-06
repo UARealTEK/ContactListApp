@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public class Mappers {
 
@@ -28,5 +29,18 @@ public class Mappers {
             "#stateProvince", ContactsBodyPayload::setStateProvince,
             "#postalCode", ContactsBodyPayload::setPostalCode,
             "#country", ContactsBodyPayload::setCountry
+    );
+
+    @Getter
+    private static final Map<String, Function<ContactsBodyPayload, String>> FORM_FIELD_EDITOR_MAPPINGS = Map.of(
+            "#firstName", ContactsBodyPayload::getFirstName,
+            "#lastName", ContactsBodyPayload::getLastName,
+            "#birthdate", ContactsBodyPayload::getBirthdate,
+            "#email", ContactsBodyPayload::getEmail,
+            "#phone", ContactsBodyPayload::getPhone,
+            "#city", ContactsBodyPayload::getCity,
+            "#stateProvince",ContactsBodyPayload::getStateProvince,
+            "#postalCode", ContactsBodyPayload::getPostalCode,
+            "#country", ContactsBodyPayload::getCountry
     );
 }

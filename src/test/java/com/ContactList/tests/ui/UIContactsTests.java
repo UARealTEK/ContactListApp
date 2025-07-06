@@ -94,13 +94,8 @@ public class UIContactsTests extends BaseTest {
                 .addContact(richPayload)
                 .openContactDetailsPage();
 
-        System.out.println(detailsPage.getForm().getContactPayload());
-
         soft.assertThat(richPayload).isEqualTo(detailsPage.getForm().getContactPayload());
         soft.assertThat(detailsPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactDetailsURL());
-
-        System.out.println("richPayload = " + richPayload);
-        System.out.println("UI payload = " + detailsPage.getForm().getContactPayload());
 
         ListPage listPage = detailsPage.openContactListPage();
 
@@ -124,6 +119,31 @@ public class UIContactsTests extends BaseTest {
                 .openEditContact();
 
         soft.assertThat(contactPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullEditContactURL());
+        soft.assertAll();
+    }
+
+    @RepeatedTest(3)
+    public void checkContactEditing() {
+        SoftAssertions soft = new SoftAssertions();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
+        ContactsBodyPayload payload = DataGenerator.getRandomRichContactPayload();
+        ContactsBodyPayload replacementPayload = DataGenerator.getRandomRichContactPayload();
+
+        ContactDetailsPage contactPage = loginPage.openSignUpPage()
+                .signUpUser(user)
+                .openAddContactPage()
+                .addContact(payload)
+                .openContactDetailsPage()
+                .openEditContact()
+                .editContact(replacementPayload);
+
+        soft.assertThat(contactPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactDetailsURL());
+
+        soft.assertThat(contactPage.getForm().getContactPayload()).isEqualTo(replacementPayload);
+
+        System.out.println("Data in the form -> " + contactPage.getForm().getContactPayload());
+        System.out.println("Data in the replacement payload -> " + replacementPayload);
+
         soft.assertAll();
     }
 

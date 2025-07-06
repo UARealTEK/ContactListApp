@@ -29,6 +29,22 @@ public class WaitUtils {
         }
     }
 
+    /**
+     *Basically another version of {@code waitForAll()} method that handles waiting for the EditContactPage table fields.
+     * This is required to wait until fields become populated with already defined values after Edit mode is enabled
+     */
+    public static void waitForAllEditable(Page page, List<String> selectors) {
+        for (String selector : selectors) {
+            try {
+                Locator locator =  page.locator(selector);
+                page.waitForCondition(() ->
+                        locator.isVisible() && !locator.inputValue().isBlank());
+            } catch (PlaywrightException e) {
+                throw new AssertionError("field " + selector + " was not ready");
+            }
+        }
+    }
+
     public static void waitForPageURL(Page page, PageEndpoints endpoint) {
         String fullPath = config().baseURL() + endpoint.getEndpoint();
         try {

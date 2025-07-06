@@ -15,21 +15,24 @@ public class ContactDetailsFormControllers extends BaseComponent {
         super(page);
     }
 
+    /**
+     * made this variable public to grant other utilities access to it
+     */
     @Getter
-    private static final String contactForm = "#contactDetails";
+    public static final String contactForm = "#contactDetails";
 
     /**
      * Dynamic fields that are involved in "Address" field in the Contact List Table (col-4)
      */
 
     @Getter
-    private static final String street1 = contactForm + " #street1";
+    protected static final String street1 = contactForm + " #street1";
     @Getter
-    private static final String street2 = contactForm + " #street2";
+    protected static final String street2 = contactForm + " #street2";
     @Getter
-    private static final String STREET1_KEY = "street1";
+    protected static final String STREET1_KEY = "street1";
     @Getter
-    private static final String STREET2_KEY = "street2";
+    protected static final String STREET2_KEY = "street2";
 
     /**
      * FYI -> {@code getContactPayload} method waits for all <>span</> elements (generated during runtime) and THEN proceeds to scrape the data

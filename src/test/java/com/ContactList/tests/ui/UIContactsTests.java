@@ -82,9 +82,6 @@ public class UIContactsTests extends BaseTest {
      * Additional check for verification of the Data in the Contacts Table
      */
 
-    //TODO: have a look at it
-    // detailsPage.getForm().getContactPayload() rarely returns an empty ContactBodyPayload
-    // probably due to some missed point with time management / redirection between pages
     @RepeatedTest(3)
     public void checkViewContactDetailsPage() {
         SoftAssertions soft = new SoftAssertions();

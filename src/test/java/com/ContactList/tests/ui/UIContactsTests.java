@@ -10,6 +10,7 @@ import com.ContactList.UI.pages.EditContactPage.EditContactPage;
 import com.ContactList.UI.pages.ListPage.ListPage;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 //TODO:
@@ -84,7 +85,7 @@ public class UIContactsTests extends BaseTest {
     //TODO: have a look at it
     // detailsPage.getForm().getContactPayload() rarely returns an empty ContactBodyPayload
     // probably due to some missed point with time management / redirection between pages
-    @Test
+    @RepeatedTest(3)
     public void checkViewContactDetailsPage() {
         SoftAssertions soft = new SoftAssertions();
         UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
@@ -96,15 +97,17 @@ public class UIContactsTests extends BaseTest {
                 .addContact(richPayload)
                 .openContactDetailsPage();
 
+        System.out.println(detailsPage.getForm().getContactPayload());
+
         soft.assertThat(richPayload).isEqualTo(detailsPage.getForm().getContactPayload());
         soft.assertThat(detailsPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactDetailsURL());
+
+        System.out.println("richPayload = " + richPayload);
+        System.out.println("UI payload = " + detailsPage.getForm().getContactPayload());
 
         ListPage listPage = detailsPage.openContactListPage();
 
         soft.assertThat(richPayload).isEqualTo(listPage.getTable().getContactData(1));
-
-        System.out.println(richPayload);
-        System.out.println(listPage.getTable().getContactData(1));
 
         soft.assertAll();
     }

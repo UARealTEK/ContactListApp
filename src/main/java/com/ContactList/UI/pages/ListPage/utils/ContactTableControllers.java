@@ -2,8 +2,9 @@ package com.ContactList.UI.pages.ListPage.utils;
 
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
+import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsControllers;
+import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsFormControllers;
 import com.ContactList.UI.utils.customUtils.WaitUtils;
-import com.ContactList.UI.utils.customUtils.mappers.Mappers;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -23,7 +24,7 @@ public class ContactTableControllers extends BaseComponent {
     private static final String tableRows = "tr.contactTableBodyRow";
 
     public int getAmountOfRows() {
-        return page.locator(tableRows).count();
+        return page.locator(table + " " + tableRows).count();
     }
 
     public Locator getCell(Locator row, int cell) {
@@ -44,7 +45,7 @@ public class ContactTableControllers extends BaseComponent {
 
     public void clickRandomRow() {
         clickRow(ThreadLocalRandom.current().nextInt(1, getAmountOfRows() + 1));
-        WaitUtils.waitForPageURL(page,PageEndpoints.CONTACT_DETAILS);
+        WaitUtils.waitUntilElementIsDisplayed(page, ContactDetailsFormControllers.getContactForm());
     }
 
     public ContactsBodyPayload getContactData(int row) {

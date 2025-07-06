@@ -35,7 +35,6 @@ public class ListPage extends BasePage {
 
     @Step("click on the random created contact")
     public ContactDetailsPage openContactDetailsPage() {
-        WaitUtils.waitUntilElementIsDisplayed(page,ContactTableControllers.getTable());
         table.clickRandomRow();
         return PageManager.createInstance(page, ContactDetailsPage.class);
     }

@@ -79,7 +79,6 @@ public class AddContactPageControllers extends BaseComponent {
 
     public void clickSubmit() {
         page.locator(SUBMIT).click();
-        WaitUtils.waitForPageURL(page,PageEndpoints.CONTACT_LIST);
         WaitUtils.waitUntilElementIsDisplayed(page, ContactTableControllers.getTable());
     }
 

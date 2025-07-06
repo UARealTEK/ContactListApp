@@ -2,6 +2,7 @@ package com.ContactList.UI.pages.ContactDetailsPage.utils;
 
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
+import com.ContactList.UI.utils.customUtils.WaitUtils;
 import com.ContactList.UI.utils.customUtils.mappers.Mappers;
 import com.microsoft.playwright.Page;
 import lombok.Getter;
@@ -30,12 +31,16 @@ public class ContactDetailsFormControllers extends BaseComponent {
     @Getter
     private static final String STREET2_KEY = "street2";
 
-
+    /**
+     * FYI -> {@code getContactPayload} method waits for all <>span</> elements (generated during runtime) and THEN proceeds to scrape the data
+     * @return -> computed payload which was obtained from the displayed data on the ContactDetails page
+     */
     public ContactsBodyPayload getContactPayload() {
         ContactsBodyPayload payload = new ContactsBodyPayload();
 
+        WaitUtils.waitForAll(page,Mappers.getFORM_FIELD_MAPPINGS().keySet().stream().toList());
         Mappers.getFORM_FIELD_MAPPINGS().forEach((selector, setter) -> {
-            String value = page.locator(contactForm + " " + selector).innerText().trim();
+            String value = page.locator(contactForm + " " + selector).innerText();
             setter.accept(payload,value);
         });
 
@@ -45,8 +50,8 @@ public class ContactDetailsFormControllers extends BaseComponent {
 
     private void setStreetFields(ContactsBodyPayload payload) {
         Map<String, String> streetFields = Map.of(
-               street1.substring(contactForm.length() + 2), page.locator(street1).innerText().trim(),
-               street2.substring(contactForm.length() + 2), page.locator(street2).innerText().trim()
+               STREET1_KEY, page.locator(street1).innerText(),
+               STREET2_KEY, page.locator(street2).innerText()
         );
 
         streetFields.forEach((field, value) -> {

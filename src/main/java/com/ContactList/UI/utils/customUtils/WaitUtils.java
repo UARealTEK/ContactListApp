@@ -6,6 +6,8 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
+import java.util.List;
+
 import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
 
 public class WaitUtils {
@@ -17,6 +19,13 @@ public class WaitUtils {
         } catch (PlaywrightException e) {
             throw new AssertionError("The passed in locator selector -> " + elementPath
             + " was not displayed in time");
+        }
+    }
+
+    public static void waitForAll(Page page, List<String> selectors) {
+        for (String selector : selectors) {
+            page.locator(selector)
+                    .waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3000));
         }
     }
 

@@ -30,4 +30,10 @@ public class EditContactPage extends BasePage {
         controllers.clickSubmitButton();
         return PageManager.createInstance(page, ContactDetailsPage.class);
     }
+
+    @Step()
+        public ContactDetailsPage cancelContactEdit() {
+        controllers.clickCancelButton();
+        return PageManager.createInstance(page, ContactDetailsPage.class);
+    }
 }

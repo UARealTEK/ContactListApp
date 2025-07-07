@@ -5,8 +5,8 @@ import com.ContactList.UI.pages.ListPage.utils.ContactTableControllers;
 import com.ContactList.UI.pages.ListPage.utils.ListPageControllers;
 import com.ContactList.UI.pages.AddContactPage.AddContactPage;
 import com.ContactList.UI.BaseClasses.BasePage;
+import com.ContactList.UI.pages.LoginPage.LoginPage;
 import com.ContactList.UI.utils.Managers.PageManager;
-import com.ContactList.UI.utils.customUtils.WaitUtils;
 import io.qameta.allure.Step;
 import lombok.Getter;
 /**
@@ -37,6 +37,12 @@ public class ListPage extends BasePage {
     public ContactDetailsPage openContactDetailsPage() {
         table.clickRandomRow();
         return PageManager.createInstance(page, ContactDetailsPage.class);
+    }
+
+    @Step("logout current user")
+    public LoginPage logout() {
+        controllers.clickLogoutButton();
+        return PageManager.createInstance(page, LoginPage.class);
     }
 
 }

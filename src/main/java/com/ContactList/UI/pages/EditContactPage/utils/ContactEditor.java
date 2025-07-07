@@ -20,11 +20,10 @@ public class ContactEditor {
      */
 
     public static void editContact(Page page, ContactsBodyPayload replacementPayload) {
-        Mappers.getFORM_FIELD_EDITOR_MAPPINGS().forEach((selector, setter) -> {
-            page.locator(editContactForm + " " + selector)
-                    .fill(Optional.ofNullable(setter.apply(replacementPayload))
-                            .orElse(""));
-        });
+        Mappers.getFORM_FIELD_EDITOR_MAPPINGS()
+                .forEach((selector, setter) -> page.locator(editContactForm + " " + selector)
+                .fill(Optional.ofNullable(setter.apply(replacementPayload))
+                        .orElse("")));
 
         setStreetFields(page,replacementPayload);
     }

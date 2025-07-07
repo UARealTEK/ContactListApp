@@ -21,6 +21,6 @@ public class ListPageControllers extends BaseComponent {
 
     public void clickLogoutButton() {
         page.locator(LOGOUT).click();
-        WaitUtils.waitForPageURL(page,PageEndpoints.LOGIN);
+        WaitUtils.waitForPageURL(page);
     }
 }

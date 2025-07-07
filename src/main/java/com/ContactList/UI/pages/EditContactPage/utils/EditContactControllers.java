@@ -29,5 +29,6 @@ public class EditContactControllers extends BaseComponent {
     public void clickCancelButton() {
         page.locator(cancel).click();
         WaitUtils.waitForPageURL(page, PageEndpoints.CONTACT_DETAILS);
+        WaitUtils.waitForAll(page, Mappers.getFORM_FIELD_MAPPINGS().keySet().stream().toList());
     }
 }

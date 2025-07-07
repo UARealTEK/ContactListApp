@@ -27,6 +27,13 @@ public class ContactsBodyPayload {
     private String postalCode;
     private String country;
 
+    /**
+     * custom utility method that helps to copy data from the payload
+     * which was passed in as an argument into original payload
+     * on which the method was called
+     * @param that -> supplement payload which serves as data source for the copy operation
+     *            into original payload
+     */
     public void mergeFrom(ContactsBodyPayload that) {
         Mappers.getFORM_FIELD_MAPPINGS().forEach((key,setter) -> {
             String value = Mappers.getFORM_FIELD_EDITOR_MAPPINGS().get(key).apply(that);

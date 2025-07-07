@@ -6,7 +6,6 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;

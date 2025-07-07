@@ -47,5 +47,4 @@ public class ContactDetailsPage extends BasePage {
         return PageManager.createInstance(page, LoginPage.class);
     }
 
-
 }

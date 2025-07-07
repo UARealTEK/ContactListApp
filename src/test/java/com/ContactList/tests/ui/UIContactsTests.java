@@ -20,6 +20,20 @@ import org.junit.jupiter.api.Test;
 public class UIContactsTests extends BaseTest {
 
     @Test
+    public void checkLogoutProcessAfterSignUp() {
+        SoftAssertions soft = new SoftAssertions();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
+
+        LoginPage startPage = loginPage
+                .openSignUpPage()
+                .signUpUser(user)
+                .logout();
+
+        soft.assertThat(startPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullDefaultURL());
+        soft.assertAll();
+    }
+
+    @Test
     public void checkOpeningAddContactPage() {
         SoftAssertions soft = new SoftAssertions();
         UserBodyPayload payload = DataGenerator.getRandomSafeUserPayload();
@@ -39,7 +53,8 @@ public class UIContactsTests extends BaseTest {
         UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
         ContactsBodyPayload payload = DataGenerator.getRandomContactPayload();
 
-        ListPage listPage = loginPage.openSignUpPage()
+        ListPage listPage = loginPage
+                .openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage().addContact(payload);
 
@@ -53,7 +68,8 @@ public class UIContactsTests extends BaseTest {
         UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
         ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
 
-        ListPage listPage = loginPage.openSignUpPage()
+        ListPage listPage = loginPage
+                .openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage()
                 .addContact(richPayload);
@@ -68,7 +84,8 @@ public class UIContactsTests extends BaseTest {
         SoftAssertions soft = new SoftAssertions();
         UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
 
-        ListPage page = loginPage.openSignUpPage()
+        ListPage page = loginPage
+                .openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage()
                 .cancelAddingContact();
@@ -89,7 +106,8 @@ public class UIContactsTests extends BaseTest {
         UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
         ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
 
-        ContactDetailsPage detailsPage = loginPage.openSignUpPage()
+        ContactDetailsPage detailsPage = loginPage
+                .openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage()
                 .addContact(richPayload)
@@ -112,7 +130,8 @@ public class UIContactsTests extends BaseTest {
         ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
 
 
-        EditContactPage contactPage = loginPage.openSignUpPage()
+        EditContactPage contactPage = loginPage
+                .openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage()
                 .addContact(richPayload)
@@ -130,7 +149,8 @@ public class UIContactsTests extends BaseTest {
         ContactsBodyPayload payload = DataGenerator.getRandomRichContactPayload();
         ContactsBodyPayload replacementPayload = DataGenerator.getRandomRichContactPayload();
 
-        ContactDetailsPage contactPage = loginPage.openSignUpPage()
+        ContactDetailsPage contactPage = loginPage
+                .openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage()
                 .addContact(payload)
@@ -151,7 +171,8 @@ public class UIContactsTests extends BaseTest {
         ContactsBodyPayload payload = DataGenerator.getRandomRichContactPayload();
         ContactsBodyPayload replacementPayload = DataGenerator.getRandomContactPayloadEntry();
 
-        ContactDetailsPage contactPage = loginPage.openSignUpPage()
+        ContactDetailsPage contactPage = loginPage
+                .openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage()
                 .addContact(payload)
@@ -173,7 +194,8 @@ public class UIContactsTests extends BaseTest {
         UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
         ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
 
-        ListPage listPage = loginPage.openSignUpPage()
+        ListPage listPage = loginPage
+                .openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage()
                 .addContact(richPayload)
@@ -186,12 +208,33 @@ public class UIContactsTests extends BaseTest {
     }
 
     @Test
+    public void checkCancelingOutOfEditContactForm() {
+        SoftAssertions soft = new SoftAssertions();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
+        ContactsBodyPayload payload = DataGenerator.getRandomRichContactPayload();
+
+        ContactDetailsPage detailsPage = loginPage
+                .openSignUpPage()
+                .signUpUser(user)
+                .openAddContactPage()
+                .addContact(payload)
+                .openContactDetailsPage()
+                .openEditContact()
+                .cancelContactEdit();
+
+        soft.assertThat(detailsPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactDetailsURL());
+
+        soft.assertAll();
+    }
+
+    @Test
     public void checkLogoutFromContactDetails() {
         SoftAssertions soft = new SoftAssertions();
         UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
         ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
 
-        LoginPage contactDetailsPage = loginPage.openSignUpPage()
+        LoginPage contactDetailsPage = loginPage
+                .openSignUpPage()
                 .signUpUser(user)
                 .openAddContactPage()
                 .addContact(richPayload)

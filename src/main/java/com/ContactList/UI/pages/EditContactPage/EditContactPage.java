@@ -23,4 +23,11 @@ public class EditContactPage extends BasePage {
         controllers.clickSubmitButton();
         return PageManager.createInstance(page, ContactDetailsPage.class);
     }
+
+    @Step
+    public ContactDetailsPage partialContactEdit(ContactsBodyPayload replacementPayload) {
+        ContactEditor.partialEditContact(page,replacementPayload);
+        controllers.clickSubmitButton();
+        return PageManager.createInstance(page, ContactDetailsPage.class);
+    }
 }

@@ -6,6 +6,7 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
@@ -52,6 +53,15 @@ public class WaitUtils {
         } catch (PlaywrightException e) {
             throw new AssertionError("The page URL has not changed after the click. " +
                     "expected URL to be -> " + fullPath, e);
+        }
+    }
+
+    public static void waitForPageURL(Page page) {
+        try {
+            page.waitForURL(config().baseURL());
+        } catch (PlaywrightException e) {
+            throw new AssertionError("The page URL has not changed after the click. " +
+                    "expected URL to be -> " + config().baseURL(), e);
         }
     }
 }

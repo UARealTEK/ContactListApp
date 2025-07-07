@@ -4,6 +4,7 @@ import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.pages.ListPage.utils.TableHeaders;
 import lombok.Getter;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -43,4 +44,17 @@ public class Mappers {
             "#postalCode", ContactsBodyPayload::getPostalCode,
             "#country", ContactsBodyPayload::getCountry
     );
+
+    public static Map<String,String> CONTACT_PAYLOAD_ENTRY_MAPPING(ContactsBodyPayload payload) {
+        Map<String,String> resultPayload = new HashMap<>();
+
+        getFORM_FIELD_EDITOR_MAPPINGS().forEach((key,getter) -> {
+            String value = getter.apply(payload);
+            if (value != null && !value.isBlank()) {
+                resultPayload.put(key,value);
+            }
+        });
+
+        return resultPayload;
+    }
 }

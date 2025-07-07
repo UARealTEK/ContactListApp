@@ -10,10 +10,6 @@ import com.microsoft.playwright.Page;
 
 import lombok.Getter;
 
-import java.util.Map;
-
-import static com.ContactList.UI.pages.EditContactPage.utils.EditContactControllers.editContactForm;
-
 public class ContactDetailsControllers extends BaseComponent {
 
     public ContactDetailsControllers(Page page) {
@@ -48,5 +44,6 @@ public class ContactDetailsControllers extends BaseComponent {
 
     public void clickLogoutButton() {
         page.locator(logout).click();
+        WaitUtils.waitForPageURL(page);
     }
 }

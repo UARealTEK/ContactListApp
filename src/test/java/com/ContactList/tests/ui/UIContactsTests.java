@@ -8,6 +8,7 @@ import com.ContactList.UI.BaseClasses.BaseTest;
 import com.ContactList.UI.pages.ContactDetailsPage.ContactDetailsPage;
 import com.ContactList.UI.pages.EditContactPage.EditContactPage;
 import com.ContactList.UI.pages.ListPage.ListPage;
+import com.ContactList.UI.pages.LoginPage.LoginPage;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.RepeatedTest;
@@ -138,11 +139,30 @@ public class UIContactsTests extends BaseTest {
                 .editContact(replacementPayload);
 
         soft.assertThat(contactPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactDetailsURL());
-
         soft.assertThat(contactPage.getForm().getContactPayload()).isEqualTo(replacementPayload);
 
-        System.out.println("Data in the form -> " + contactPage.getForm().getContactPayload());
-        System.out.println("Data in the replacement payload -> " + replacementPayload);
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkPartialContactEditing() {
+        SoftAssertions soft = new SoftAssertions();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
+        ContactsBodyPayload payload = DataGenerator.getRandomRichContactPayload();
+        ContactsBodyPayload replacementPayload = DataGenerator.getRandomContactPayloadEntry();
+
+        ContactDetailsPage contactPage = loginPage.openSignUpPage()
+                .signUpUser(user)
+                .openAddContactPage()
+                .addContact(payload)
+                .openContactDetailsPage()
+                .openEditContact()
+                .partialContactEdit(replacementPayload);
+
+        payload.mergeFrom(replacementPayload);
+
+        soft.assertThat(contactPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactDetailsURL());
+        soft.assertThat(contactPage.getForm().getContactPayload()).isEqualTo(payload);
 
         soft.assertAll();
     }
@@ -161,6 +181,24 @@ public class UIContactsTests extends BaseTest {
                 .deleteContact();
 
         soft.assertThat(listPage.getTable().getAmountOfRows()).isEqualTo(0);
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkLogoutFromContactDetails() {
+        SoftAssertions soft = new SoftAssertions();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
+        ContactsBodyPayload richPayload = DataGenerator.getRandomRichContactPayload();
+
+        LoginPage contactDetailsPage = loginPage.openSignUpPage()
+                .signUpUser(user)
+                .openAddContactPage()
+                .addContact(richPayload)
+                .openContactDetailsPage()
+                .logout();
+
+        soft.assertThat(contactDetailsPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullDefaultURL());
 
         soft.assertAll();
     }

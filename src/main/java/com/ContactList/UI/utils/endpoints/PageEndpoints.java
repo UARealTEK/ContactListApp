@@ -20,6 +20,10 @@ public enum PageEndpoints {
         this.endpoint = endpoint;
     }
 
+    public static String getFullDefaultURL() {
+        return config().baseURL();
+    }
+
     public static String getFullContactListURL() {
         return config().baseURL() + CONTACT_LIST.getEndpoint();
     }

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.ContactList.UI.pages.EditContactPage.utils.EditContactControllers.editContactForm;
+import static com.ContactList.UI.utils.customUtils.mappers.Mappers.CONTACT_PAYLOAD_ENTRY_MAPPING;
 
 public class ContactEditor {
 
@@ -17,6 +18,15 @@ public class ContactEditor {
                     .fill(Optional.ofNullable(setter.apply(replacementPayload))
                             .orElse(""));
         });
+
+        setStreetFields(page,replacementPayload);
+    }
+
+    public static void partialEditContact(Page page, ContactsBodyPayload replacementPayload) {
+        Map<String, String> availableFields = CONTACT_PAYLOAD_ENTRY_MAPPING(replacementPayload);
+        availableFields
+                .forEach((key, value) -> page.locator(editContactForm + " " + key)
+                .fill(value));
 
         setStreetFields(page,replacementPayload);
     }

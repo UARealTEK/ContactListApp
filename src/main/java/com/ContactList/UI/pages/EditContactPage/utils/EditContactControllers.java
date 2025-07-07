@@ -23,7 +23,7 @@ public class EditContactControllers extends BaseComponent {
     public void clickSubmitButton() {
         page.locator(submit).click();
         WaitUtils.waitForPageURL(page, PageEndpoints.CONTACT_DETAILS);
-        WaitUtils.waitForAll(page, Mappers.getFORM_FIELD_EDITOR_MAPPINGS().keySet().stream().toList());
+        WaitUtils.waitForAll(page, Mappers.getFORM_FIELD_MAPPINGS().keySet().stream().toList());
     }
 
     public void clickCancelButton() {

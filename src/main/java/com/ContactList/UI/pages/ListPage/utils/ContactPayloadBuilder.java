@@ -5,6 +5,9 @@ import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsFormContr
 import com.ContactList.UI.utils.customUtils.mappers.Mappers;
 import com.microsoft.playwright.Locator;
 
+/**
+ * custom utility used to gather the data from the specific Table row and present it in well-composed ContactBodyPayload
+ */
 public class ContactPayloadBuilder {
 
     private static void populateContactName(Locator rowLocator, ContactsBodyPayload payload) {

@@ -24,7 +24,7 @@ public class EditContactPage extends BasePage {
         return PageManager.createInstance(page, ContactDetailsPage.class);
     }
 
-    @Step
+    @Step("edit existing contact with predefined partial data")
     public ContactDetailsPage partialContactEdit(ContactsBodyPayload replacementPayload) {
         ContactEditor.partialEditContact(page,replacementPayload);
         controllers.clickSubmitButton();

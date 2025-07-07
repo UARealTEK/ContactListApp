@@ -9,6 +9,10 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+/**
+ * <p>Custom utility that is designed to provide Maps that contain field ID's (required for navigation using Locator)<p>
+ *     <p>and BiConsumer / Function which are used to trace / fill GENERALLY ContactBodyPayload data<p>
+ */
 public class Mappers {
 
     @Getter

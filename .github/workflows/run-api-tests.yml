@@ -85,13 +85,16 @@ jobs:
       - name: Clean old gh-pages output
         run: rm -rf gh-pages/* || echo "No gh-pages dir to clean"
 
-      - name: Deploy Allure Report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/allure-report
-          publish_branch: gh-pages
-          force_orphan: true
+          path: ./target/allure-report
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Debug allure-results
         run: |

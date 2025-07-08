@@ -79,7 +79,7 @@ jobs:
 
 
   generate-report:
-    needs: [run-api-tests, run-ui-tests]
+    needs: [ run-api-tests, run-ui-tests ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -95,6 +95,13 @@ jobs:
         with:
           name: ui-results
           path: target/allure-results/ui
+
+      - name: Download Allure history (if exists)
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-history
+          path: target/allure-results/history
+        continue-on-error: true
 
       - name: Download and install Allure CLI
         run: |
@@ -112,11 +119,20 @@ jobs:
       - name: Generate Combined Allure Report
         run: allure generate target/allure-results --clean -o target/allure-report
 
+      - name: Upload Allure history
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-history
+          path: target/allure-report/history
+
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./target/allure-report
           name: github-pages
+
+
 
   pages:
     needs: generate-report

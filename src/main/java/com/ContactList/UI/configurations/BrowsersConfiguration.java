@@ -1,12 +1,12 @@
-package com.ContactList.UI.utils.factories;
+package com.ContactList.UI.configurations;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;
 
-import static com.ContactList.UI.config.ConfigurationManager.config;
+import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
 
-public enum BrowserFactory {
+public enum BrowsersConfiguration {
 
     CHROMIUM {
         @Override

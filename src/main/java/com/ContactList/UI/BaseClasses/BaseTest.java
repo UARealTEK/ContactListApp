@@ -1,7 +1,8 @@
-package com.ContactList.UI.pages;
+package com.ContactList.UI.BaseClasses;
 
-import com.ContactList.UI.utils.factories.BasePageFactory;
-import com.ContactList.UI.utils.BrowserManager;
+import com.ContactList.UI.pages.LoginPage.LoginPage;
+import com.ContactList.UI.utils.Managers.PageManager;
+import com.ContactList.UI.utils.Managers.BrowserManager;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
@@ -18,7 +19,7 @@ public abstract class BaseTest {
     protected LoginPage loginPage;
 
     protected <T extends BasePage> T createInstance(Class<T> tClass) {
-        return BasePageFactory.createInstance(page,tClass);
+        return PageManager.createInstance(page,tClass);
     }
 
     @BeforeAll

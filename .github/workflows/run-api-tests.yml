@@ -155,8 +155,13 @@ jobs:
       - name: Generate UI Allure Report
         run: |
           allure generate target/allure-results-ui --clean -o target/allure-report-ui
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./target/allure-report-ui
+
   pages:
-    needs: run-api-tests
+    needs: [ run-api-tests, run-ui-tests ]
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -166,3 +171,4 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+

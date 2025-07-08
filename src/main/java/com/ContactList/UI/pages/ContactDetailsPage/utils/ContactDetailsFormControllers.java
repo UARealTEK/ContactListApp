@@ -2,8 +2,8 @@ package com.ContactList.UI.pages.ContactDetailsPage.utils;
 
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
-import com.ContactList.UI.utils.customUtils.WaitUtils;
-import com.ContactList.UI.utils.customUtils.mappers.Mappers;
+import com.ContactList.UI.utils.customUtils.waitUtils.WaitUtils;
+import com.ContactList.utils.mappers.Mappers;
 import com.microsoft.playwright.Page;
 import lombok.Getter;
 

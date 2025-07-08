@@ -2,7 +2,7 @@ package com.ContactList.UI.pages.ListPage.utils;
 
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsFormControllers;
-import com.ContactList.UI.utils.customUtils.mappers.Mappers;
+import com.ContactList.utils.mappers.Mappers;
 import com.microsoft.playwright.Locator;
 
 /**

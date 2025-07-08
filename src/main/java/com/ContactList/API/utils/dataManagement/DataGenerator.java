@@ -18,6 +18,8 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
+import static com.ContactList.utils.mappers.Mappers.contactPayloadFieldSetters;
+
 public class DataGenerator {
 
     private static final Faker faker = new Faker();
@@ -33,19 +35,7 @@ public class DataGenerator {
      * must be updated accordingly.
      */
 
-    private static final Map<String, Consumer<ContactsBodyPayload>> contactPayloadFieldSetters = Map.of(
-            "firstName", payload -> payload.setFirstName(faker.name().name().substring(0,10)),
-            "birthdate", payload -> payload.setBirthdate(getRandomBirthday()),
-            "lastName", payload -> payload.setLastName(faker.name().lastName()),
-            "email", payload -> payload.setEmail(faker.internet().emailAddress()),
-            "phone", payload -> payload.setPhone(faker.number().digits(10)),
-            "city", payload -> payload.setCity(faker.address().city()),
-            "stateProvince", payload -> payload.setStateProvince(faker.address().state()),
-            "postalCode", payload -> payload.setPostalCode(faker.address().zipCode()),
-            "country", payload -> payload.setCountry(faker.address().country())
-    );
-
-    private static String getRandomBirthday() {
+    public static String getRandomBirthday() {
         Date birthday = faker.date().birthday(10,40);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd");
         LocalDate date = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -127,7 +117,7 @@ public class DataGenerator {
         Field[] fields = ContactsBodyPayload.class.getDeclaredFields();
 
         List<String> fieldNames = Arrays.stream(fields)
-                .filter(field -> !Modifier.isFinal(field.getModifiers()))
+                .filter(field -> !Modifier.isFinal(field.getModifiers()) && field.getType() == String.class)
                 .map(Field::getName)
                 .toList();
 

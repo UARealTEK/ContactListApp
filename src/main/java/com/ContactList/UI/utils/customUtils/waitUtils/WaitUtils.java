@@ -1,4 +1,4 @@
-package com.ContactList.UI.utils.customUtils;
+package com.ContactList.UI.utils.customUtils.waitUtils;
 
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Locator;

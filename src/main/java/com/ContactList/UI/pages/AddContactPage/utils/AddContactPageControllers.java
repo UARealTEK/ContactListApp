@@ -3,7 +3,7 @@ package com.ContactList.UI.pages.AddContactPage.utils;
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
 import com.ContactList.UI.pages.ListPage.utils.ContactTableControllers;
-import com.ContactList.UI.utils.customUtils.WaitUtils;
+import com.ContactList.UI.utils.customUtils.waitUtils.WaitUtils;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import lombok.Getter;

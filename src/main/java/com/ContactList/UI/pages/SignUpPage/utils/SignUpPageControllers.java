@@ -2,7 +2,7 @@ package com.ContactList.UI.pages.SignUpPage.utils;
 
 import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
-import com.ContactList.UI.utils.customUtils.WaitUtils;
+import com.ContactList.UI.utils.customUtils.waitUtils.WaitUtils;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Page;
 

@@ -1,6 +1,6 @@
 package com.ContactList.API.core.payloads.ContactsPayloads;
 
-import com.ContactList.UI.utils.customUtils.mappers.Mappers;
+import com.ContactList.utils.mappers.Mappers;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;

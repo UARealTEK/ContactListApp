@@ -3,7 +3,7 @@ package com.ContactList.UI.pages.ListPage.utils;
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.UI.BaseClasses.BaseComponent;
 import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsFormControllers;
-import com.ContactList.UI.utils.customUtils.WaitUtils;
+import com.ContactList.UI.utils.customUtils.waitUtils.WaitUtils;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -24,13 +24,6 @@ public class ContactTableControllers extends BaseComponent {
 
     public int getAmountOfRows() {
         return page.locator(table + " " + tableRows).count();
-    }
-
-    /**
-     * May be deprecated
-     */
-    public Locator getCell(Locator row, int cell) {
-        return row.locator("td:not([hidden])").nth(cell);
     }
 
     public void clickRow(int rowIndex1Based) {

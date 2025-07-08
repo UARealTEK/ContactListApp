@@ -1,14 +1,14 @@
 package com.ContactList.UI.pages.EditContactPage.utils;
 
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
-import com.ContactList.UI.utils.customUtils.mappers.Mappers;
+import com.ContactList.utils.mappers.Mappers;
 import com.microsoft.playwright.Page;
 
 import java.util.Map;
 import java.util.Optional;
 
 import static com.ContactList.UI.pages.EditContactPage.utils.EditContactControllers.editContactForm;
-import static com.ContactList.UI.utils.customUtils.mappers.Mappers.CONTACT_PAYLOAD_ENTRY_MAPPING;
+import static com.ContactList.utils.mappers.Mappers.CONTACT_PAYLOAD_ENTRY_MAPPING;
 
 public class ContactEditor {
 

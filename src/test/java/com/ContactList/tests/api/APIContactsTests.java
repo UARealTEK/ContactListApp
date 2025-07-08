@@ -30,6 +30,7 @@ import io.qameta.allure.*;
 @Tag("api")
 public class APIContactsTests {
 
+
     @Link(name = "Internal documentation", url = "https://www.youtube.com/watch?v=xvFZjo5PgG0")
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
@@ -132,20 +133,25 @@ public class APIContactsTests {
     @DisplayName("Request for partially editing a Contact")
     @Description("partially editing a Contact")
     @Story("patchContact request")
-    @RepeatedTest(10)
+    @RepeatedTest(100)
     public void checkPartiallyUpdateRandomContact() {
-        SoftAssertions soft = new SoftAssertions();
-        ContactsService service = new ContactsService();
+            SoftAssertions soft = new SoftAssertions();
+            ContactsService service = new ContactsService();
 
-        UserResponse user = UserApiHelper.createRandomUserWithOneContact();
-        ContactResponse contact = ContactApiHelper.getAnyContact(user);
-        ContactsBodyPayload payload = DataGenerator.getRandomContactPayloadEntry();
+            UserResponse user = UserApiHelper.createRandomUserWithOneContact();
+            ContactResponse contact = ContactApiHelper.getAnyContact(user);
+            ContactsBodyPayload payload = DataGenerator.getRandomContactPayloadEntry();
 
-        Response response = service.patchContactRequest(user,payload,contact);
+            System.out.println("original contact data -> " + contact);
+            System.out.println("supplement payload -> " + payload);
 
-        soft.assertThat(response.getStatusCode()).isEqualTo(200);
+            Response response = service.patchContactRequest(user,payload,contact);
 
-        soft.assertAll();
+            System.out.println("Logs for debugging -> " + response.then().log().all());
+
+            soft.assertThat(response.getStatusCode()).isEqualTo(200);
+
+            soft.assertAll();
     }
 
     @Link(name = "Internal documentation", url = "https://www.youtube.com/watch?v=xvFZjo5PgG0")

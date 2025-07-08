@@ -20,7 +20,7 @@ jobs:
         run: echo "suite = ${{ github.event.inputs.suite }}"
 
   run-api-tests:
-    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.suite == 'api' || github.event.inputs.suite == 'both' }}
+    if: ${{ github.event_name != 'workflow_dispatch' || contains(fromJson('["api","both"]'), github.event.inputs.suite) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,7 +42,7 @@ jobs:
           mvn clean test -Djunit.jupiter.tags=api -Dallure.results.directory=target/allure-results/api
 
   run-ui-tests:
-    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.suite == 'ui' || github.event.inputs.suite == 'both' }}
+    if: ${{ github.event_name != 'workflow_dispatch' || contains(fromJson('["ui","both"]'), github.event.inputs.suite) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

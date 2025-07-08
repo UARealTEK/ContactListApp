@@ -2,7 +2,7 @@ name: Run API Tests and Deploy Allure Report
 
 on:
   push:
-    branches: [ main, dev, feature, UIFeature ]
+    branches: [ main, dev, feature, UIFeature, ContactsManagementEnchancement ]
   pull_request:
     branches: [ main, dev, feature, UIFeature ]
 

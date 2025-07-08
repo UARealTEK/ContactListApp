@@ -26,7 +26,7 @@ public class UIUserTests extends BaseTest {
 
     @Link(name = "Another test", url = "https://www.youtube.com/watch?v=vKVzRbsMnTQ")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Users UI")
     @DisplayName("Opening a starting base page")
     @Story("UserUI")
     @Test
@@ -46,7 +46,7 @@ public class UIUserTests extends BaseTest {
      */
     @Link(name = "Another test", url = "https://www.youtube.com/watch?v=vKVzRbsMnTQ")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Users UI")
     @DisplayName("Logging in a user using already signed UP user data")
     @Story("UserUI")
     @Test
@@ -64,7 +64,7 @@ public class UIUserTests extends BaseTest {
 
     @Link(name = "Another test", url = "https://www.youtube.com/watch?v=vKVzRbsMnTQ")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Users UI")
     @DisplayName("Opening a SignUP page")
     @Story("UserUI")
     @Test
@@ -79,7 +79,7 @@ public class UIUserTests extends BaseTest {
 
     @Link(name = "Another test", url = "https://www.youtube.com/watch?v=vKVzRbsMnTQ")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Users UI")
     @DisplayName("Full SignUp user flow")
     @Story("UserUI")
     @RepeatedTest(10)
@@ -96,7 +96,7 @@ public class UIUserTests extends BaseTest {
 
     @Link(name = "Another test", url = "https://www.youtube.com/watch?v=vKVzRbsMnTQ")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Users UI")
     @DisplayName("Canceling out of SignUp process")
     @Story("UserUI")
     @Test

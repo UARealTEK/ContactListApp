@@ -22,7 +22,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("logging out A user after logging in")
     @Description("logging out after signing up")
     @Story("ContactsUI")
@@ -42,7 +42,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("opening add contacts page")
     @Description("opening add contacts page to create a potential user")
     @Story("ContactsUI")
@@ -62,7 +62,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("Adding a contact using predefined data")
     @Description("Adding a contact")
     @Story("ContactsUI")
@@ -83,7 +83,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("Adding a contact using predefined data along with Dynamic Fields")
     @Description("Adding a contact including dynamic fields")
     @Story("ContactsUI")
@@ -106,7 +106,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("Canceling out of opened Contact Add Page")
     @Description("Clicking on 'Cancel' button on the Contact Add Page")
     @Story("ContactsUI")
@@ -133,7 +133,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("Viewing a contacts details page which contains predefined added data")
     @Description("Opening contact Details page")
     @Story("ContactsUI")
@@ -162,7 +162,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("Opening Edit Contact page for the already added contact")
     @Description("Opening Edit Contact page")
     @Story("ContactsUI")
@@ -187,7 +187,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("Editing already added user with predefined different set of data")
     @Description("Editing already added user")
     @Story("ContactsUI")
@@ -215,7 +215,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("Partially editing a contact(only one specific field) using predefined data")
     @Description("Partially editing a contact")
     @Story("ContactsUI")
@@ -245,7 +245,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("Deleting existing contact from the contacts list")
     @Description("Deleting existing contact")
     @Story("ContactsUI")
@@ -270,7 +270,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("Canceling out of the Edit Contact Page")
     @Description("Canceling out of the Edit")
     @Story("ContactsUI")
@@ -296,7 +296,7 @@ public class UIContactsTests extends BaseTest {
 
     @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
-    @Feature("UI AQA")
+    @Feature("Contacts UI")
     @DisplayName("Logging out from the opened Contact Details page")
     @Description("Logging out from the Contact Details page")
     @Story("ContactsUI")

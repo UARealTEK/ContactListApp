@@ -5,6 +5,11 @@ on:
     branches: [ main, dev, feature, UIFeature ]
   pull_request:
     branches: [ main, dev, feature, UIFeature ]
+  workflow_dispatch:
+    inputs:
+      dummy:
+        description: 'Manual trigger (no effect, placeholder)'
+        required: false
 
 jobs:
   run-api-tests:

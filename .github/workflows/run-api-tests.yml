@@ -120,6 +120,8 @@ jobs:
   pages:
     needs: generate-report
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
     permissions:
       pages: write
       id-token: write

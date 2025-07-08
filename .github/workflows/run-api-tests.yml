@@ -41,6 +41,13 @@ jobs:
           echo "Running API tests..."
           mvn clean test -Djunit.jupiter.tags=api -Dallure.results.directory=target/allure-results/api
 
+      - name: Upload API test results
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-results
+          path: target/allure-results/api
+
   run-ui-tests:
     if: ${{ github.event_name != 'workflow_dispatch' || contains(fromJson('["ui","both"]'), github.event.inputs.suite) }}
     runs-on: ubuntu-latest
@@ -63,18 +70,38 @@ jobs:
           echo "Running UI tests..."
           mvn clean test -Djunit.jupiter.tags=ui -Dallure.results.directory=target/allure-results/ui
 
+      - name: Upload UI test results
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-results
+          path: target/allure-results/ui
+
+
   generate-report:
     needs: [run-api-tests, run-ui-tests]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      - name: Download API results
+        uses: actions/download-artifact@v4
+        with:
+          name: api-results
+          path: target/allure-results/api
+
+      - name: Download UI results
+        uses: actions/download-artifact@v4
+        with:
+          name: ui-results
+          path: target/allure-results/ui
+
       - name: Download and install Allure CLI
         run: |
           curl -o allure.tgz -L https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
           tar -xzf allure.tgz
           sudo mv allure-2.24.0 /opt/allure
-          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure 
 
       - name: Merge test results
         run: |

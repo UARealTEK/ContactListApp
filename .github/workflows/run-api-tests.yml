@@ -1,4 +1,4 @@
-name: Run API Tests and Deploy Allure Report
+name: Run Tests and Deploy Allure Report
 
 on:
   push:
@@ -16,152 +16,78 @@ jobs:
   run-api-tests:
     if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.suite == 'api' || github.event.inputs.suite == 'both' }}
     runs-on: ubuntu-latest
-
+    outputs:
+      api-ran: ${{ steps.api-step.outcome == 'success' }}
     steps:
-      - name: Checkout current branch
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '22'
 
-      - name: Cache Maven packages
-        uses: actions/cache@v3
+      - uses: actions/cache@v3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
 
-      - name: Run API tests with tag
-        run: mvn clean test -Djunit.jupiter.tags=api -Dallure.results.directory=target/allure-results
+      - name: Run API tests
+        id: api-step
+        run: mvn clean test -Djunit.jupiter.tags=api -Dallure.results.directory=target/allure-results/api
 
-      - name: Checkout gh-pages branch to retrieve report history
-        uses: actions/checkout@v4
+  run-ui-tests:
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.suite == 'ui' || github.event.inputs.suite == 'both' }}
+    runs-on: ubuntu-latest
+    outputs:
+      ui-ran: ${{ steps.ui-step.outcome == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
         with:
-          repository: ${{ github.repository }}
-          ref: gh-pages
-          path: gh-pages
+          distribution: 'temurin'
+          java-version: '22'
 
-      - name: Copy previous Allure history
-        run: |
-          mkdir -p target/allure-results/history
-          cp -R gh-pages/history/* target/allure-results/history || echo "No previous history found"
+      - uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
+
+      - name: Run UI tests
+        id: ui-step
+        run: mvn clean test -Djunit.jupiter.tags=ui -Dallure.results.directory=target/allure-results/ui
+
+  generate-report:
+    needs: [run-api-tests, run-ui-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Download and install Allure CLI
         run: |
-          curl -o allure-2.24.0.tgz -L https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
-          tar -xzf allure-2.24.0.tgz
+          curl -o allure.tgz -L https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
+          tar -xzf allure.tgz
           sudo mv allure-2.24.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
 
-      - name: Verify Allure CLI installation
-        run: allure --version
-
-      - name: Generate Allure Report via CLI
+      - name: Merge test results
         run: |
-          set -e
-          echo "Generating Allure report..."
-          allure generate target/allure-results --clean -o target/allure-report
-          echo "Allure report files:"
-          find target/allure-report -type f
+          mkdir -p target/allure-results
+          cp -r target/allure-results/api/* target/allure-results/ || echo "No API results"
+          cp -r target/allure-results/ui/* target/allure-results/ || echo "No UI results"
 
-      - name: Verify target/allure-report exists
-        run: |
-          if [ ! -d "target/allure-report" ]; then
-            echo "❌ ERROR: target/allure-report directory not found"
-            exit 1
-          else
-            echo "✅ target/allure-report successfully generated"
-            ls -la target/allure-report
-          fi
-
-      - name: Copy history to final report
-        run: |
-          mkdir -p target/site/allure-maven-plugin/history
-          cp -R target/allure-results/history/* target/site/allure-maven-plugin/history || echo "No history to copy"
-
-      - name: Clean old gh-pages output
-        run: rm -rf gh-pages/* || echo "No gh-pages dir to clean"
+      - name: Generate Combined Allure Report
+        run: allure generate target/allure-results --clean -o target/allure-report
 
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./target/allure-report
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Debug allure-results
-        run: |
-          echo "Files in target/allure-results:"
-          ls -la target/allure-results
-          echo "Looking for *.json"
-          find target/allure-results -name '*.json'
-
-      - name: Comment on PR with Allure Report URL
-        if: github.event_name == 'pull_request'
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          message: |
-            ✅ Allure report has been generated:  
-            🔗 [View Report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/)
-
-      - name: Debug Allure Report Files
-        run: |
-          find target/allure-report -type f
-          cat target/allure-report/widgets/summary.json || echo "Missing summary.json"      
-
-  run-ui-tests:
-    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.suite == 'ui' || github.event.inputs.suite == 'both' }}
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout current branch
-        uses: actions/checkout@v4
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '22'
-
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
-
-      - name: Run UI tests with tag
-        run: mvn clean test -Djunit.jupiter.tags=ui -Dallure.results.directory=target/allure-results-ui
-
-      - name: Copy previous Allure UI history
-        run: |
-          mkdir -p target/allure-results-ui/history
-          cp -R gh-pages/ui-history/* target/allure-results-ui/history || echo "No previous history found"
-
-      - name: Download and install Allure CLI
-        run: |
-          curl -o allure-2.24.0.tgz -L https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
-          tar -xzf allure-2.24.0.tgz
-          sudo mv allure-2.24.0 /opt/allure
-          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-
-      - name: Generate UI Allure Report
-        run: |
-          allure generate target/allure-results-ui --clean -o target/allure-report-ui
-      - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./target/allure-report-ui
-
   pages:
-    needs: [ run-api-tests, run-ui-tests ]
+    needs: generate-report
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -171,4 +97,3 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-

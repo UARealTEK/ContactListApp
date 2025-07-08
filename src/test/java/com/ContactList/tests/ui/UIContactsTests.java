@@ -10,15 +10,22 @@ import com.ContactList.UI.pages.EditContactPage.EditContactPage;
 import com.ContactList.UI.pages.ListPage.ListPage;
 import com.ContactList.UI.pages.LoginPage.LoginPage;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
+import io.qameta.allure.*;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-//TODO:
-// - think about merging all necessary chain method calls into one (for proper SRP principle to work)
-// - Question for Stanislav -> better to leave as it is? Or to indeed merge those chain calls into one method? how does it work?
+@Tag("ui")
 public class UIContactsTests extends BaseTest {
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("logging out A user after logging in")
+    @Description("logging out after signing up")
+    @Story("ContactsUI")
     @Test
     public void checkLogoutProcessAfterSignUp() {
         SoftAssertions soft = new SoftAssertions();
@@ -33,6 +40,12 @@ public class UIContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("opening add contacts page")
+    @Description("opening add contacts page to create a potential user")
+    @Story("ContactsUI")
     @Test
     public void checkOpeningAddContactPage() {
         SoftAssertions soft = new SoftAssertions();
@@ -47,6 +60,12 @@ public class UIContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("Adding a contact using predefined data")
+    @Description("Adding a contact")
+    @Story("ContactsUI")
     @Test
     public void checkSimpleContactAddingFlow() {
         SoftAssertions soft = new SoftAssertions();
@@ -62,6 +81,12 @@ public class UIContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("Adding a contact using predefined data along with Dynamic Fields")
+    @Description("Adding a contact including dynamic fields")
+    @Story("ContactsUI")
     @Test
     public void checkRichContactAddFlow() {
         SoftAssertions soft = new SoftAssertions();
@@ -79,6 +104,12 @@ public class UIContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("Canceling out of opened Contact Add Page")
+    @Description("Clicking on 'Cancel' button on the Contact Add Page")
+    @Story("ContactsUI")
     @Test
     public void checkCancelContactAddFlow() {
         SoftAssertions soft = new SoftAssertions();
@@ -100,6 +131,12 @@ public class UIContactsTests extends BaseTest {
      * Additional check for verification of the Data in the Contacts Table
      */
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("Viewing a contacts details page which contains predefined added data")
+    @Description("Opening contact Details page")
+    @Story("ContactsUI")
     @RepeatedTest(3)
     public void checkViewContactDetailsPage() {
         SoftAssertions soft = new SoftAssertions();
@@ -123,6 +160,12 @@ public class UIContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("Opening Edit Contact page for the already added contact")
+    @Description("Opening Edit Contact page")
+    @Story("ContactsUI")
     @Test
     public void checkOpeningEditFormForAddedContact() {
         SoftAssertions soft = new SoftAssertions();
@@ -142,7 +185,13 @@ public class UIContactsTests extends BaseTest {
         soft.assertAll();
     }
 
-    @RepeatedTest(3)
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("Editing already added user with predefined different set of data")
+    @Description("Editing already added user")
+    @Story("ContactsUI")
+    @Test
     public void checkContactEditing() {
         SoftAssertions soft = new SoftAssertions();
         UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
@@ -164,6 +213,12 @@ public class UIContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("Partially editing a contact(only one specific field) using predefined data")
+    @Description("Partially editing a contact")
+    @Story("ContactsUI")
     @Test
     public void checkPartialContactEditing() {
         SoftAssertions soft = new SoftAssertions();
@@ -188,6 +243,12 @@ public class UIContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("Deleting existing contact from the contacts list")
+    @Description("Deleting existing contact")
+    @Story("ContactsUI")
     @Test
     public void checkDeletingExistingContact() {
         SoftAssertions soft = new SoftAssertions();
@@ -207,6 +268,12 @@ public class UIContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("Canceling out of the Edit Contact Page")
+    @Description("Canceling out of the Edit")
+    @Story("ContactsUI")
     @Test
     public void checkCancelingOutOfEditContactForm() {
         SoftAssertions soft = new SoftAssertions();
@@ -227,6 +294,12 @@ public class UIContactsTests extends BaseTest {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
+    @Owner("Volodymyr")
+    @Feature("UI AQA")
+    @DisplayName("Logging out from the opened Contact Details page")
+    @Description("Logging out from the Contact Details page")
+    @Story("ContactsUI")
     @Test
     public void checkLogoutFromContactDetails() {
         SoftAssertions soft = new SoftAssertions();

@@ -103,3 +103,47 @@ jobs:
         run: |
           find target/allure-report -type f
           cat target/allure-report/widgets/summary.json || echo "Missing summary.json"      
+
+  run-ui-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '22'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
+
+      - name: Run UI tests with tag
+        run: mvn clean test -Djunit.jupiter.tags=ui -Dallure.results.directory=target/allure-results-ui
+
+      - name: Copy previous Allure UI history
+        run: |
+          mkdir -p target/allure-results-ui/history
+          cp -R gh-pages/ui-history/* target/allure-results-ui/history || echo "No previous history found"
+
+      - name: Generate UI Allure Report
+        run: |
+          allure generate target/allure-results-ui --clean -o target/allure-report-ui
+
+      - name: Copy UI history to final report
+        run: |
+          mkdir -p target/site/allure-maven-plugin/ui-history
+          cp -R target/allure-results-ui/history/* target/site/allure-maven-plugin/ui-history || echo "No history to copy"
+
+      - name: Deploy Allure UI Report to GitHub Pages (subfolder)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/allure-report-ui
+          destination_dir: ui-report

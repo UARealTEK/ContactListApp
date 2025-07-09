@@ -45,21 +45,20 @@ jobs:
 
   generate-report:
     needs: [run-api-tests, run-ui-tests]
+    if: always()
     runs-on: ubuntu-latest
-    # Run generate-report if at least one test job succeeded
-    if: ${{ needs.run-api-tests.result == 'success' || needs.run-ui-tests.result == 'success' }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download API results
-        if: ${{ needs.run-api-tests.result == 'success' }}
+      - name: Download API results (if available)
+        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: api-results
           path: target/allure-results/api
 
-      - name: Download UI results
-        if: ${{ needs.run-ui-tests.result == 'success' }}
+      - name: Download UI results (if available)
+        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: ui-results
@@ -126,9 +125,6 @@ jobs:
             mkdir -p upload-artifact
             echo "<html><body><h1>No Allure report found</h1></body></html>" > upload-artifact/index.html
           fi
-          echo "Contents of upload-artifact:"
-          ls -R upload-artifact
-        shell: bash
 
       - uses: actions/upload-pages-artifact@v3
         with:

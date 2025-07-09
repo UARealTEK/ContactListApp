@@ -89,7 +89,7 @@ jobs:
           mkdir -p target/allure-results/merged
           cp -r target/allure-results/api/* target/allure-results/merged/ 2>/dev/null || echo "No API results"
           cp -r target/allure-results/ui/* target/allure-results/merged/ 2>/dev/null || echo "No UI results"
-          cp -r target/allure-results/history target/allure-results/merged/ || echo "No history to preserve"
+          cp -r target/allure-results/history/* target/allure-results/merged/ || echo "No history to preserve"
 
           if [ "$(ls -A target/allure-results/merged | grep -v history)" ]; then
             allure generate target/allure-results/merged --clean -o target/allure-report

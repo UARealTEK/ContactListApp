@@ -132,6 +132,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: target/allure-report
+          name: github-pages  # ✅ FIXED: required for deploy-pages to work
 
   pages:
     needs: generate-report
@@ -145,3 +146,6 @@ jobs:
     steps:
       - name: Deploy Allure report to GitHub Pages
         uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifact_name: github-pages  # ✅ this must match the upload name

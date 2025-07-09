@@ -134,6 +134,9 @@ jobs:
           git commit -m "Update Allure history [skip ci]" || echo "No changes"
           git push origin gh-pages
 
+      - name: List final report contents
+        run: ls -la target/allure-report
+
       - name: Upload artifact for GitHub Pages
         if: always()
         id: upload
@@ -141,8 +144,13 @@ jobs:
         with:
           path: target/allure-report
           name: github-pages
+
+      - name: Set artifact output name
+        run: echo "pages_artifact_name=github-pages" >> $GITHUB_OUTPUT
+
     outputs:
       pages_artifact_name: github-pages
+
 
   pages:
     needs: generate-report

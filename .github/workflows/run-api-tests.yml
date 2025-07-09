@@ -12,8 +12,6 @@ jobs:
   run-api-tests:
     if: ${{ github.event.inputs.suite == 'api' || github.event.inputs.suite == 'both' }}
     runs-on: ubuntu-latest
-    outputs:
-      ran: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -31,8 +29,6 @@ jobs:
   run-ui-tests:
     if: ${{ github.event.inputs.suite == 'ui' || github.event.inputs.suite == 'both' }}
     runs-on: ubuntu-latest
-    outputs:
-      ran: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -50,6 +46,8 @@ jobs:
   generate-report:
     needs: [run-api-tests, run-ui-tests]
     runs-on: ubuntu-latest
+    outputs:
+      pages_artifact_name: ${{ steps.upload.outputs.artifact-name }}
     steps:
       - uses: actions/checkout@v4
 
@@ -112,9 +110,6 @@ jobs:
             echo "<html><body><h1>No test results found</h1></body></html>" > target/allure-report/index.html
           fi
 
-      - name: List Allure report contents
-        run: ls -R target/allure-report || echo "Report directory missing!"
-
       - name: Save updated history to gh-pages
         run: |
           mkdir -p gh-pages/history
@@ -134,9 +129,6 @@ jobs:
           git commit -m "Update Allure history [skip ci]" || echo "No changes"
           git push origin gh-pages
 
-      - name: List final report contents
-        run: ls -la target/allure-report
-
       - name: Upload artifact for GitHub Pages
         if: always()
         id: upload
@@ -145,19 +137,12 @@ jobs:
           path: target/allure-report
           name: github-pages
 
-      - name: Set artifact output name
-        run: echo "pages_artifact_name=github-pages" >> $GITHUB_OUTPUT
-
-    outputs:
-      pages_artifact_name: github-pages
-
-
   pages:
     needs: generate-report
     runs-on: ubuntu-latest
+    if: always()
     environment:
       name: github-pages
-    if: always()
     permissions:
       pages: write
       id-token: write

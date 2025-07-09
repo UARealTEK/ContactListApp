@@ -133,15 +133,11 @@ jobs:
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-          git clone --depth=1 --branch=gh-pages https://github.com/${{ github.repository }} gh-pages
+          git clone --depth=1 --branch=gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
           if [ -d gh-pages/history ]; then
             mkdir -p target/allure-results/history
             cp -r gh-pages/history/* target/allure-results/history/
           fi
-      
-
-      - name: Generate Combined Allure Report
-        run: allure generate target/allure-results --clean -o target/allure-report
 
       - name: Save updated history to gh-pages
         run: |
@@ -149,7 +145,8 @@ jobs:
           cd gh-pages
           git add history
           git commit -m "Update Allure history [skip ci]" || echo "No changes to commit"
-          git push
+          git push origin gh-pages
+      
 
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3

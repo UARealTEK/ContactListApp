@@ -133,7 +133,6 @@ jobs:
           path: target/allure-report
           name: github-pages
 
-
   pages:
     needs: generate-report
     runs-on: ubuntu-latest

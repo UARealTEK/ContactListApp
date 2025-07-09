@@ -1,6 +1,10 @@
 name: Run Tests and Deploy Allure Report
 
 on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
   workflow_dispatch:
     inputs:
       suite:
@@ -10,7 +14,7 @@ on:
 
 jobs:
   run-api-tests:
-    if: ${{ github.event.inputs.suite == 'api' || github.event.inputs.suite == 'both' }}
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.suite == 'api' || github.event.inputs.suite == 'both' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +31,7 @@ jobs:
           path: target/allure-results/api
 
   run-ui-tests:
-    if: ${{ github.event.inputs.suite == 'ui' || github.event.inputs.suite == 'both' }}
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.suite == 'ui' || github.event.inputs.suite == 'both' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -107,11 +111,11 @@ jobs:
       - name: Save updated history to gh-pages
         run: |
           mkdir -p gh-pages/history
-          if [ "${{ github.event.inputs.suite }}" == "api" ] || [ "${{ github.event.inputs.suite }}" == "both" ]; then
+          if [ "${{ github.event.inputs.suite }}" == "api" ] || [ "${{ github.event.inputs.suite }}" == "both" ] || [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
             mkdir -p gh-pages/history/api
             cp -r target/allure-report/history/* gh-pages/history/api/ || echo "No API history to save"
           fi
-          if [ "${{ github.event.inputs.suite }}" == "ui" ] || [ "${{ github.event.inputs.suite }}" == "both" ]; then
+          if [ "${{ github.event.inputs.suite }}" == "ui" ] || [ "${{ github.event.inputs.suite }}" == "both" ] || [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
             mkdir -p gh-pages/history/ui
             cp -r target/allure-report/history/* gh-pages/history/ui/ || echo "No UI history to save"
           fi

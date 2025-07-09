@@ -127,10 +127,12 @@ jobs:
           git push origin gh-pages
 
       - name: Upload artifact for GitHub Pages
+        if: always()
         uses: actions/upload-pages-artifact@v3
         with:
           path: target/allure-report
           name: github-pages
+
 
   pages:
     needs: generate-report

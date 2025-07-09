@@ -68,16 +68,11 @@ jobs:
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git clone --depth=1 --branch=gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages
-          
           mkdir -p target/allure-results/history
-
           if [ -d gh-pages/history/api ] && [ "${{ github.event.inputs.suite }}" != "ui" ]; then
-            echo "Restoring API history"
             cp -r gh-pages/history/api/* target/allure-results/history/ || true
           fi
-
           if [ -d gh-pages/history/ui ] && [ "${{ github.event.inputs.suite }}" != "api" ]; then
-            echo "Restoring UI history"
             cp -r gh-pages/history/ui/* target/allure-results/history/ || true
           fi
 
@@ -91,19 +86,13 @@ jobs:
       - name: Merge results and generate report
         run: |
           mkdir -p target/allure-results/merged
-
           cp -r target/allure-results/api/* target/allure-results/merged/ 2>/dev/null || echo "No API results"
           cp -r target/allure-results/ui/* target/allure-results/merged/ 2>/dev/null || echo "No UI results"
           cp -r target/allure-results/history target/allure-results/merged/ || echo "No history to preserve"
 
-          echo "Files in merged:"
-          ls -la target/allure-results/merged || echo "Merged dir missing"
-
           if [ "$(ls -A target/allure-results/merged | grep -v history)" ]; then
-            echo "Generating Allure report..."
             allure generate target/allure-results/merged --clean -o target/allure-report
           else
-            echo "No test results found. Generating fallback HTML"
             mkdir -p target/allure-report
             echo "<html><body><h1>No test results found</h1></body></html>" > target/allure-report/index.html
           fi
@@ -111,17 +100,14 @@ jobs:
       - name: Save updated history to gh-pages
         run: |
           mkdir -p gh-pages/history
-
           if [ "${{ github.event.inputs.suite }}" == "api" ] || [ "${{ github.event.inputs.suite }}" == "both" ]; then
             mkdir -p gh-pages/history/api
             cp -r target/allure-report/history/* gh-pages/history/api/ || echo "No API history to save"
           fi
-
           if [ "${{ github.event.inputs.suite }}" == "ui" ] || [ "${{ github.event.inputs.suite }}" == "both" ]; then
             mkdir -p gh-pages/history/ui
             cp -r target/allure-report/history/* gh-pages/history/ui/ || echo "No UI history to save"
           fi
-
           cd gh-pages
           git add history
           git commit -m "Update Allure history [skip ci]" || echo "No changes"
@@ -130,14 +116,16 @@ jobs:
       - name: Upload artifact for GitHub Pages (if report exists)
         run: |
           if [ -d "target/allure-report" ]; then
-             echo "Allure report found, uploading..."
+            echo "Allure report found, preparing upload..."
             mkdir -p upload-artifact
             cp -r target/allure-report/* upload-artifact/
-           else
-             echo "No Allure report found. Skipping artifact upload."
-             mkdir -p upload-artifact
+          else
+            echo "No Allure report found. Generating fallback page..."
+            mkdir -p upload-artifact
             echo "<html><body><h1>No Allure report found</h1></body></html>" > upload-artifact/index.html
           fi
+          echo "Contents of upload-artifact:"
+          ls -R upload-artifact
         shell: bash
 
       - uses: actions/upload-pages-artifact@v3
@@ -159,4 +147,4 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifact_name: github-pages  # ✅ this must match the upload name
+          artifact_name: github-pages

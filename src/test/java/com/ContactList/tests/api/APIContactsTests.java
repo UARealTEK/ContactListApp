@@ -142,12 +142,7 @@ public class APIContactsTests {
             ContactResponse contact = ContactApiHelper.getAnyContact(user);
             ContactsBodyPayload payload = DataGenerator.getRandomContactPayloadEntry();
 
-            System.out.println("original contact data -> " + contact);
-            System.out.println("supplement payload -> " + payload);
-
             Response response = service.patchContactRequest(user,payload,contact);
-
-            System.out.println("Logs for debugging -> " + response.then().log().all());
 
             soft.assertThat(response.getStatusCode()).isEqualTo(200);
 

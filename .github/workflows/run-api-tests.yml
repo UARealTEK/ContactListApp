@@ -132,7 +132,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: target/allure-report
-          name: github-pages
 
   pages:
     needs: generate-report
@@ -148,4 +147,3 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifact_name: github-pages

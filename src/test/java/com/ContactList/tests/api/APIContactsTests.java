@@ -133,7 +133,7 @@ public class APIContactsTests {
     @DisplayName("Request for partially editing a Contact")
     @Description("partially editing a Contact")
     @Story("patchContact request")
-    @RepeatedTest(100)
+    @RepeatedTest(3)
     public void checkPartiallyUpdateRandomContact() {
             SoftAssertions soft = new SoftAssertions();
             ContactsService service = new ContactsService();

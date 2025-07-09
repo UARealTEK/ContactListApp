@@ -136,16 +136,20 @@ jobs:
 
       - name: Upload artifact for GitHub Pages
         if: always()
+        id: upload
         uses: actions/upload-pages-artifact@v3
         with:
           path: target/allure-report
+          name: github-pages
+    outputs:
+      pages_artifact_name: github-pages
 
   pages:
     needs: generate-report
     runs-on: ubuntu-latest
-    if: always()
     environment:
       name: github-pages
+    if: always()
     permissions:
       pages: write
       id-token: write
@@ -154,3 +158,4 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          artifact_name: ${{ needs.generate-report.outputs.pages_artifact_name }}

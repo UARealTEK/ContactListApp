@@ -128,24 +128,34 @@ jobs:
           if [ -d temp-history/history ]; then
             cp -r temp-history/history target/allure-results/
           fi
+          
+      - name: Restore history from previous GitHub Pages
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git clone --depth=1 --branch=gh-pages https://github.com/${{ github.repository }} gh-pages
+          if [ -d gh-pages/history ]; then
+            mkdir -p target/allure-results/history
+            cp -r gh-pages/history/* target/allure-results/history/
+          fi
+      
 
       - name: Generate Combined Allure Report
         run: allure generate target/allure-results --clean -o target/allure-report
 
-      - name: Upload Allure history
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-history
-          path: target/allure-report/history
+      - name: Save updated history to gh-pages
+        run: |
+          cp -r target/allure-report/history gh-pages/
+          cd gh-pages
+          git add history
+          git commit -m "Update Allure history [skip ci]" || echo "No changes to commit"
+          git push
 
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./target/allure-report
           name: github-pages
-
-
 
   pages:
     needs: generate-report

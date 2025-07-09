@@ -77,12 +77,12 @@ jobs:
 
           if [ -d gh-pages/history/api ] && [ "${{ github.event.inputs.suite }}" != "ui" ]; then
             echo "Restoring API history"
-            cp -r gh-pages/history/api/* target/allure-results/history/
+            cp -r gh-pages/history/api/* target/allure-results/history/ || true
           fi
-          
+
           if [ -d gh-pages/history/ui ] && [ "${{ github.event.inputs.suite }}" != "api" ]; then
             echo "Restoring UI history"
-            cp -r gh-pages/history/ui/* target/allure-results/history/
+            cp -r gh-pages/history/ui/* target/allure-results/history/ || true
           fi
 
       - name: Install Allure CLI
@@ -94,18 +94,23 @@ jobs:
 
       - name: Merge results and generate report
         run: |
-          mkdir -p target/allure-results
+          mkdir -p target/allure-results/merged
 
-          cp -r target/allure-results/api/* target/allure-results/ 2>/dev/null || echo "No API results"
-          cp -r target/allure-results/ui/* target/allure-results/ 2>/dev/null || echo "No UI results"
+          cp -r target/allure-results/api/* target/allure-results/merged/ 2>/dev/null || echo "No API results"
+          cp -r target/allure-results/ui/* target/allure-results/merged/ 2>/dev/null || echo "No UI results"
+          cp -r target/allure-results/history target/allure-results/merged/ || echo "No history to preserve"
 
-          if [ "$(ls -A target/allure-results | grep -v history)" ]; then
-            allure generate target/allure-results --clean -o target/allure-report
+          if [ "$(ls -A target/allure-results/merged | grep -v history)" ]; then
+            echo "Generating Allure report..."
+            allure generate target/allure-results/merged --clean -o target/allure-report
           else
             echo "No test results found. Skipping report generation."
             mkdir -p target/allure-report
             echo "<html><body><h1>No test results found</h1></body></html>" > target/allure-report/index.html
           fi
+
+      - name: List Allure report contents
+        run: ls -R target/allure-report || echo "Report directory missing!"
 
       - name: Save updated history to gh-pages
         run: |
@@ -128,6 +133,7 @@ jobs:
 
       - name: Upload artifact for GitHub Pages
         if: always()
+        continue-on-error: true
         uses: actions/upload-pages-artifact@v3
         with:
           path: target/allure-report

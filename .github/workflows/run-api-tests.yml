@@ -80,6 +80,10 @@ jobs:
 
   generate-report:
     needs: [ run-api-tests, run-ui-tests ]
+    if: |
+      always() &&
+      (needs.run-api-tests.result == 'success' || needs.run-api-tests.result == 'skipped') &&
+      (needs.run-ui-tests.result == 'success' || needs.run-ui-tests.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -159,6 +163,7 @@ jobs:
 
   pages:
     needs: generate-report
+    if: always()
     runs-on: ubuntu-latest
     environment:
       name: github-pages

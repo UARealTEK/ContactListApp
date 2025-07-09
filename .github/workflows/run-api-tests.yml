@@ -127,12 +127,23 @@ jobs:
           git commit -m "Update Allure history [skip ci]" || echo "No changes"
           git push origin gh-pages
 
-      - name: Upload artifact for GitHub Pages
-        if: always()
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload artifact for GitHub Pages (if report exists)
+        run: |
+          if [ -d "target/allure-report" ]; then
+             echo "Allure report found, uploading..."
+            mkdir -p upload-artifact
+            cp -r target/allure-report/* upload-artifact/
+           else
+             echo "No Allure report found. Skipping artifact upload."
+             mkdir -p upload-artifact
+            echo "<html><body><h1>No Allure report found</h1></body></html>" > upload-artifact/index.html
+          fi
+        shell: bash
+
+      - uses: actions/upload-pages-artifact@v3
         with:
-          path: target/allure-report
-          name: github-pages  # ✅ FIXED: required for deploy-pages to work
+          path: upload-artifact
+          name: github-pages
 
   pages:
     needs: generate-report

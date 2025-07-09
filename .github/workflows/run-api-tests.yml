@@ -97,6 +97,8 @@ jobs:
             mkdir -p target/allure-report
             echo "<html><body><h1>No test results found</h1></body></html>" > target/allure-report/index.html
           fi
+      - name: Show generated history files
+        run: ls -R target/allure-report/history || echo "No history generated"
 
       - name: Save updated history to gh-pages
         run: |

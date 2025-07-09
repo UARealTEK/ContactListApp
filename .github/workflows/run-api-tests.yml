@@ -145,5 +145,3 @@ jobs:
     steps:
       - name: Deploy Allure report to GitHub Pages
         uses: actions/deploy-pages@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}

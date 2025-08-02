@@ -112,7 +112,8 @@ public class APIUserTests {
     public void checkLoginUser() {
         SoftAssertions soft = new SoftAssertions();
 
-        Response response = new UserService().loginUser(DataGenerator.getUserLoginPayload());
+        Response response = new UserService()
+                .loginUser(DataGenerator.getUserLoginPayload());
 
         System.out.println(response.getBody().as(UserResponse.class).toString());
         soft.assertThat(response.getStatusCode()).isEqualTo(200);

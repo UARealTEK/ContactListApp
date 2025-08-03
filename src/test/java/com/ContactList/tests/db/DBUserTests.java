@@ -4,6 +4,8 @@ import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
 import com.ContactList.API.core.responses.userResponses.UserResponse;
 import com.ContactList.API.core.services.UserService;
 import com.ContactList.API.utils.dataManagement.DataGenerator;
+import com.ContactList.API.utils.helpers.UserApiHelper;
+import com.ContactList.demo.DTOs.UserDTO;
 import com.ContactList.demo.Reporitories.UserRepository;
 import com.ContactList.demo.utils.CustomDBAssertions;
 import com.ContactList.demo.utils.UserDbUtils;
@@ -13,6 +15,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootTest(classes = com.ContactList.demo.Application.class)
 @Tag("db")
@@ -35,11 +39,27 @@ public class DBUserTests {
 
         soft.assertThat(response.getStatusCode()).isEqualTo(201);
         soft.assertThat(dbRowCountAfter).isEqualTo(dbRowCountBefore + 1);
-        soft.assertThat(CustomDBAssertions.isUserDTOEqualToResponse(userRepository, response.as(UserResponse.class))).isTrue();
+        soft.assertThat(CustomDBAssertions.isUserDTOEqualToResponseBody(userRepository, response.as(UserResponse.class))).isTrue();
+        soft.assertThat(response.as(UserResponse.class).getToken()).isEqualTo(userRepository.findTopByOrderByIdDesc().getToken());
 
-        System.out.printf("The user data is: %s%n", response.as(UserResponse.class).getUser().toString());
-        System.out.printf("Token is -> %s", response.as(UserResponse.class).getToken());
-        System.out.printf("Last injected user is -> %s", userRepository.findTopByOrderByIdDesc().toString());
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkGetUser() {
+        SoftAssertions soft = new SoftAssertions();
+        long userID = ThreadLocalRandom.current().nextLong(1, userRepository.count());
+        UserDTO dto = userRepository
+                .findById(userID).
+                orElseThrow(() -> new RuntimeException("The user was not found with ID -> " + userID));
+
+        Response response = new UserService().getUserProfile(dto);
+
+        System.out.println(response.getBody().asPrettyString());
+        System.out.println(dto);
+
+        soft.assertThat(response.getStatusCode()).isEqualTo(200);
+        soft.assertThat(CustomDBAssertions.isSpecificUserDTOEqualToResponseBody(userRepository, response.as(UserResponse.User.class), userID)).isTrue();
 
         soft.assertAll();
     }

@@ -5,9 +5,11 @@ import com.ContactList.API.enums.headers.Headers;
 import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
 import com.ContactList.API.core.payloads.UserPayloads.UserLoginPayload;
 import com.ContactList.API.core.responses.userResponses.UserResponse;
+import com.ContactList.demo.DTOs.UserDTO;
 import io.restassured.response.Response;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class UserService extends BaseService {
     private static final String BASE_PATH = "users";
@@ -19,6 +21,15 @@ public class UserService extends BaseService {
     public Response getUserProfile(UserResponse userToken) {
         String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
         Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), userToken.getToken());
+        return getRequest(path, headers);
+    }
+
+    /**
+     * Overloaded method for specific Data Driven tests
+     */
+    public Response getUserProfile(UserDTO user) {
+        String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
+        Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken());
         return getRequest(path, headers);
     }
 

@@ -1,17 +1,23 @@
 package com.ContactList.demo.DTOs;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "users")
+@Data
 public class UserDTO {
 
     @Id
-    private String id;  // if your DB uses String IDs; else use Long/UUID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "external_id")
+    private String externalID;
     private String firstName;
     private String lastName;
     private String email;
     private String version;
+
+    private String token;
 }

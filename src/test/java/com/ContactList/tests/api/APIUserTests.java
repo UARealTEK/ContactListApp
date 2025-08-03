@@ -33,7 +33,6 @@ public class APIUserTests {
         System.out.println(response.getBody().asPrettyString());
         System.out.println(payload);
 
-
         soft.assertThat(response.getStatusCode()).isEqualTo(201);
 
         soft.assertAll();

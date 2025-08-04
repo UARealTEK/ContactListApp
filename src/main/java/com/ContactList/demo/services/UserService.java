@@ -7,6 +7,8 @@ import io.restassured.response.Response;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -20,6 +22,10 @@ public class UserService {
         return userRepository.count();
     }
 
+    public List<Long> getAllUserIDs() {
+        return userRepository.findAllUserIds();
+    }
+
     public UserDTO getLatestUser() {
         return userRepository.findTopByOrderByIdDesc();
     }
@@ -27,6 +33,11 @@ public class UserService {
     public UserDTO getUserByID(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("the user was not found with ID " + id));
+    }
+
+    public UserDTO getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("the user was not found with email " + email));
     }
 
     public void saveUserToDB(Response response) {
@@ -66,5 +77,10 @@ public class UserService {
         if (!user.getVersion().equals(dto.getVersion())) {
             dto.setVersion(user.getVersion());
         }
+    }
+
+    @Transactional
+    public void deleteUserFromDB(UserDTO user) {
+        userRepository.delete(user);
     }
 }

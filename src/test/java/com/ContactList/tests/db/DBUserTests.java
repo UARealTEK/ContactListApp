@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootTest(classes = com.ContactList.demo.Application.class)
@@ -45,7 +46,13 @@ public class DBUserTests {
     @Test
     public void checkGetUser() {
         SoftAssertions soft = new SoftAssertions();
-        long userID = ThreadLocalRandom.current().nextLong(1, userService.getUserCount());
+        List<Long> ids = userService.getAllUserIDs();
+
+        if (ids.isEmpty()) {
+            throw new RuntimeException("No users found in the DB");
+        }
+
+        long userID = ids.get(ThreadLocalRandom.current().nextInt(ids.size()));
         UserDTO dto = userService.getUserByID(userID);
 
         Response response = new UserService().getUserProfile(dto);
@@ -61,7 +68,13 @@ public class DBUserTests {
     public void checkUpdateUser() {
         SoftAssertions soft = new SoftAssertions();
         long dbRowCountBefore = userService.getUserCount();
-        long userID = ThreadLocalRandom.current().nextLong(1, userService.getUserCount());
+        List<Long> ids = userService.getAllUserIDs();
+
+        if (ids.isEmpty()) {
+            throw new RuntimeException("No users found in the DB");
+        }
+
+        long userID = ids.get(ThreadLocalRandom.current().nextInt(ids.size()));
         UserBodyPayload user = DataGenerator.getRandomUserPayload();
         UserDTO dto = userService.getUserByID(userID);
 
@@ -76,6 +89,33 @@ public class DBUserTests {
                 .isTrue();
         soft.assertThat(dbRowCountBefore == dbRowCountAfter).isTrue();
 
+
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkDeleteUser() {
+        SoftAssertions soft = new SoftAssertions();
+        long dbRowCountBefore = userService.getUserCount();
+        List<Long> ids = userService.getAllUserIDs();
+
+        if (ids.isEmpty()) {
+            throw new RuntimeException("No users found in the DB");
+        }
+
+        long userID = ids.get(ThreadLocalRandom.current().nextInt(ids.size()));
+        UserDTO dto = userService.getUserByID(userID);
+
+        Response response = new UserService().deleteUser(dto);
+        userService.deleteUserFromDB(dto);
+
+        long dbRowCountAfter = userService.getUserCount();
+
+        soft.assertThat(response.getStatusCode()).isEqualTo(200);
+        soft.assertThat(dbRowCountAfter).isEqualTo(dbRowCountBefore -1);
+        soft.assertThatThrownBy(() -> userService.getUserByEmail(dto.getEmail()))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("the user was not found with email ");
 
         soft.assertAll();
     }

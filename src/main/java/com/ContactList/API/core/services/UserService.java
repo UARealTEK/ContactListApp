@@ -67,4 +67,10 @@ public class UserService extends BaseService {
         return deleteRequest(path,header);
     }
 
+    public Response deleteUser(UserDTO userToken) {
+        String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
+        Map<String,String> header = Map.of(Headers.AUTHORIZATION.getHeader(), userToken.getToken());
+        return deleteRequest(path,header);
+    }
+
 }

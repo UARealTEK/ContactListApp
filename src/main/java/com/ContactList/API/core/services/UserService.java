@@ -44,6 +44,12 @@ public class UserService extends BaseService {
         return patchRequest(headers, payload, path);
     }
 
+    public Response patchUserRequest(UserBodyPayload payload, UserDTO userToken) {
+        String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
+        Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), userToken.getToken());
+        return patchRequest(headers, payload, path);
+    }
+
     public Response logoutUser(UserResponse userToken) {
         String path = BASE_PATH + "/" + UserEndpoints.LOGOUT.getEndpoint();
         Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), userToken.getToken());

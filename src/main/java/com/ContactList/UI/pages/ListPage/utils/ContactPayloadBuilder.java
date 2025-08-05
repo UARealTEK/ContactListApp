@@ -8,6 +8,11 @@ import com.microsoft.playwright.Locator;
 /**
  * custom utility used to gather the data from the specific Table row and present it in well-composed ContactBodyPayload
  */
+//TODO: remove boilerplate part (name parts) -> create separate method that will accept header name (th) -> it will find ID of the column
+// TODO: e.g -> getTableValue(TableHeader header) -> it will use this index and do what it has to do
+
+// TODO: create tests for comparing API response (data that was received after opening the contact page / table) with displayed UI data
+// TODO:
 public class ContactPayloadBuilder {
 
     private static void populateContactName(Locator rowLocator, ContactsBodyPayload payload) {

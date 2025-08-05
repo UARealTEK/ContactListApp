@@ -13,6 +13,7 @@ public enum TableHeaders {
     CITY_STATE_POSTAL_CODE(5),
     COUNTRY(6);
 
+    //TODO: замість індексу - забирать назву колонки
     private final int index;
 
     TableHeaders(int index) {

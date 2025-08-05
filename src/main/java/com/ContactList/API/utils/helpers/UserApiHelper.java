@@ -10,7 +10,7 @@ import io.restassured.response.Response;
 public class UserApiHelper {
 
     public static UserResponse createRandomUser() {
-        int attempts = 3;
+        int attempts = 10;
         int currentAttempts = 0;
 
         while (currentAttempts < attempts) {
@@ -34,7 +34,7 @@ public class UserApiHelper {
     }
 
     public static UserResponse createSpecificUser(UserBodyPayload payload) {
-        int attempts = 3;
+        int attempts = 10;
         int currentAttempts = 0;
 
         while (currentAttempts < attempts) {
@@ -61,4 +61,6 @@ public class UserApiHelper {
         new ContactsService().addContactRequest(user);
         return user;
     }
+
+
 }

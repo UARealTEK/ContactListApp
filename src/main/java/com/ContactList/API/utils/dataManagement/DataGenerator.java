@@ -3,7 +3,9 @@ package com.ContactList.API.utils.dataManagement;
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
 import com.ContactList.API.core.payloads.UserPayloads.UserLoginPayload;
+import com.ContactList.API.core.responses.userResponses.UserResponse;
 import com.ContactList.API.core.services.UserService;
+import com.ContactList.API.utils.helpers.UserApiHelper;
 import com.github.javafaker.Faker;
 import io.restassured.response.Response;
 
@@ -15,6 +17,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
+
+import static com.ContactList.utils.mappers.Mappers.contactPayloadFieldSetters;
 
 public class DataGenerator {
 
@@ -31,35 +35,33 @@ public class DataGenerator {
      * must be updated accordingly.
      */
 
-    private static final Map<String, Consumer<ContactsBodyPayload>> contactPayloadFieldSetters = Map.of(
-            "firstName", payload -> payload.setFirstName(faker.name().name().substring(0,10)),
-            "birthdate", payload -> payload.setBirthdate(getRandomBirthday()),
-            "lastName", payload -> payload.setLastName(faker.name().lastName()),
-            "email", payload -> payload.setEmail(faker.internet().emailAddress()),
-            "phone", payload -> payload.setPhone(faker.number().digits(10)),
-            "city", payload -> payload.setCity(faker.address().city()),
-            "stateProvince", payload -> payload.setStateProvince(faker.address().state()),
-            "postalCode", payload -> payload.setPostalCode(faker.address().zipCode()),
-            "country", payload -> payload.setCountry(faker.address().country())
-    );
-
-    private static String getRandomBirthday() {
+    public static String getRandomBirthday() {
         Date birthday = faker.date().birthday(10,40);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd");
         LocalDate date = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        return date.format(formatter);
+        return date.format(formatter).trim();
     }
 
     public static UserBodyPayload getRandomUserPayload() {
         String firstName = faker.name().name().substring(0,3);
-        String lastName = faker.name().lastName();
+        String lastName = faker.name().lastName().substring(0,3);
         String email = faker.internet().emailAddress();
         String password = faker.internet().password();
         return new UserBodyPayload(firstName,lastName,email,password);
     }
 
-    public static UserLoginPayload getUserLoginPayload() {
+    /**
+     * <p>Additional method that will generate a unique email address</p>
+     * <p>This approach is aimed at creating the user, storing its email and then deleting it completely to ensure email address is preserved</p>
+     */
+    public static UserBodyPayload getRandomSafeUserPayload() {
         UserBodyPayload payload = DataGenerator.getRandomUserPayload();
+        payload.setEmail(DataGenerator.getValidUserEmail());
+        return payload;
+    }
+
+    public static UserLoginPayload getUserLoginPayload() {
+        UserBodyPayload payload = DataGenerator.getRandomSafeUserPayload();
         Response response = new UserService().addUserRequest(payload);
 
         if (response.getStatusCode() != 201) {
@@ -71,22 +73,30 @@ public class DataGenerator {
     }
 
     public static ContactsBodyPayload getRandomContactPayload() {
-        String firstName = faker.name().name().substring(0,3);
-        String lastName = faker.name().lastName();
-        String email = faker.internet().emailAddress();
-        String phone = faker.number().digits(10);
-        String city = faker.address().city();
-        String stateProvince = faker.address().state();
-        String postalCode = faker.address().zipCode();
-        String country = faker.address().country().substring(0,3);
+        String firstName = faker.name().name().substring(0,3).split(" ")[0].trim();
+        String lastName = faker.name().lastName().split(" ")[0].trim();
+        String email = getValidUserEmail().split(" ")[0].trim();
+        String phone = faker.number().digits(10).split(" ")[0].trim();
+        String city = faker.address().city().split(" ")[0].trim();
+        String stateProvince = faker.address().state().split(" ")[0].trim();
+        String postalCode = faker.address().zipCode().split(" ")[0].trim();
+        String country = faker.address().country().substring(0,3).split(" ")[0].trim();
         return new ContactsBodyPayload(firstName, lastName, getRandomBirthday(), email, phone, city, stateProvince, postalCode, country);
     }
 
     public static ContactsBodyPayload getRandomRichContactPayload() {
         ContactsBodyPayload body = getRandomContactPayload();
-        body.collectStreetFields("street1", faker.address().streetAddress());
-        body.collectStreetFields("street2", faker.address().secondaryAddress());
+        body.collectStreetFields("street1", faker.address().streetAddress().split(" ")[0].trim());
+        body.collectStreetFields("street2", faker.address().secondaryAddress().split(" ")[0].trim());
         return body;
+    }
+
+    public static String getValidUserEmail() {
+        UserResponse user = UserApiHelper.createRandomUser();
+        String validEmail = user.getUser().getEmail();
+
+        new UserService().deleteUser(user);
+        return validEmail;
     }
 
     /**
@@ -107,7 +117,7 @@ public class DataGenerator {
         Field[] fields = ContactsBodyPayload.class.getDeclaredFields();
 
         List<String> fieldNames = Arrays.stream(fields)
-                .filter(field -> !Modifier.isFinal(field.getModifiers()))
+                .filter(field -> !Modifier.isFinal(field.getModifiers()) && field.getType() == String.class)
                 .map(Field::getName)
                 .toList();
 

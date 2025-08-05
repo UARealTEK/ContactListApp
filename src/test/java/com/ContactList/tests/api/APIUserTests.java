@@ -16,17 +16,18 @@ import org.assertj.core.api.SoftAssertions;
 import io.qameta.allure.*;
 
 @Tag("api")
-public class UserTests {
+public class APIUserTests {
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for adding a User")
-    @Step("Request for adding a User")
+    @Description("adding a User")
     @Story("addUser request")
     @Test
     public void checkAddUser() {
         SoftAssertions soft = new SoftAssertions();
-        UserBodyPayload payload = DataGenerator.getRandomUserPayload();
+        UserBodyPayload payload = DataGenerator.getRandomSafeUserPayload();
         Response response = new UserService().addUserRequest(payload);
 
         System.out.println(response.getBody().asPrettyString());
@@ -38,10 +39,11 @@ public class UserTests {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for getting a User")
-    @Step("Request for getting a User")
+    @Description("getting a User")
     @Story("getUser request")
     @Test
     public void checkGetUser() {
@@ -54,16 +56,17 @@ public class UserTests {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for updating a User")
-    @Step("Request for updating a User")
+    @Description("updating a User")
     @Story("putUser request")
     @Test
     public void checkUpdateUser() {
         SoftAssertions soft = new SoftAssertions();
         UserResponse user = UserApiHelper.createRandomUser();
-        Response patch = new UserService().patchUserRequest(DataGenerator.getRandomUserPayload(), user);
+        Response patch = new UserService().patchUserRequest(DataGenerator.getRandomSafeUserPayload(), user);
 
         soft.assertThat(user.getUser().getId()).isEqualTo(patch.as(UserResponse.User.class).getId());
         soft.assertThat(patch.getStatusCode()).isEqualTo(200);
@@ -71,10 +74,11 @@ public class UserTests {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for logging out of a system as a User")
-    @Step("Request for logging out of a system as a User")
+    @Description("logging out of a system as a User")
     @Story("postUser request to logout endpoint")
     @Test
     public void checkLogoutUser() {
@@ -98,10 +102,11 @@ public class UserTests {
      * This is confirmed by the fact that executing a login request with these credentials returns a 200 OK response.
      */
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for logging in a system as an existing User")
-    @Step("Request for logging in a system as an existing User")
+    @Description("logging in a system as an existing User")
     @Story("postUser request to login endpoint")
     @Test
     public void checkLoginUser() {
@@ -115,10 +120,11 @@ public class UserTests {
         soft.assertAll();
     }
 
+    @Link(name = "Just for a test", url = "https://www.youtube.com/watch?v=DUUgn0fMMnw")
     @Owner("Volodymyr")
     @Feature("UserAPI")
     @DisplayName("Request for removing a User")
-    @Step("Request for removing a User")
+    @Description("Request for removing a User")
     @Story("deleteUser request")
     @Test
     public void checkDeleteUser() {

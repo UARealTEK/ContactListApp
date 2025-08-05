@@ -8,9 +8,11 @@ import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
 public enum PageEndpoints {
 
     CONTACT_LIST("contactList"),
-    ADD_USER("addUser"),
+    SIGN_UP("addUser"),
     LOGIN("login"),
-    ADD_CONTACT("addContact");
+    ADD_CONTACT("addContact"),
+    EDIT_CONTACT("editContact"),
+    CONTACT_DETAILS("contactDetails");
 
     private final String endpoint;
 
@@ -18,12 +20,16 @@ public enum PageEndpoints {
         this.endpoint = endpoint;
     }
 
+    public static String getFullDefaultURL() {
+        return config().baseURL();
+    }
+
     public static String getFullContactListURL() {
         return config().baseURL() + CONTACT_LIST.getEndpoint();
     }
 
     public static String getFullSignUpURL() {
-        return config().baseURL() + ADD_USER.getEndpoint();
+        return config().baseURL() + SIGN_UP.getEndpoint();
     }
 
     public static String getFullLoginURL() {
@@ -32,5 +38,13 @@ public enum PageEndpoints {
 
     public static String getFullAddContactURL() {
         return config().baseURL() + ADD_CONTACT.getEndpoint();
+    }
+
+    public static String getFullContactDetailsURL() {
+        return config().baseURL() + CONTACT_DETAILS.getEndpoint();
+    }
+
+    public static String getFullEditContactURL() {
+        return config().baseURL() + EDIT_CONTACT.getEndpoint();
     }
 }

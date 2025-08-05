@@ -21,14 +21,12 @@ public class SignUpPage extends BasePage {
     public ListPage signUpUser(UserBodyPayload payload) {
         controllers.fillUserData(payload);
         controllers.clickSignUp();
-
         return PageManager.createInstance(page, ListPage.class);
     }
 
     @Step("Cancel signUp process by clicking on the 'Cancel' button")
     public LoginPage cancelSignUp() {
         controllers.clickOnCancel();
-
         return PageManager.createInstance(page, LoginPage.class);
     }
 }

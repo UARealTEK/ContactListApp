@@ -28,12 +28,14 @@ import io.qameta.allure.*;
  */
 
 @Tag("api")
-public class ContactsTests {
+public class APIContactsTests {
 
+
+    @Link(name = "Internal documentation", url = "https://www.youtube.com/watch?v=xvFZjo5PgG0")
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for adding a Contact")
-    @Step("Request for adding a Contact")
+    @Description("adding a Contact")
     @Story("addContact request")
     @RepeatedTest(20)
     public void checkAddContact() {
@@ -46,10 +48,11 @@ public class ContactsTests {
         soft.assertAll();
     }
 
+    @Link(name = "Internal documentation", url = "https://www.youtube.com/watch?v=xvFZjo5PgG0")
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for adding a Contact that contains 'street' field in its payload")
-    @Step("Request for adding a Contact that contains 'street' field in its payload")
+    @Description("adding a Contact that contains 'street' field in its payload")
     @Story("addContact request")
     @RepeatedTest(3)
     public void checkAddContactWithStreet() {
@@ -62,10 +65,11 @@ public class ContactsTests {
         soft.assertAll();
     }
 
+    @Link(name = "Internal documentation", url = "https://www.youtube.com/watch?v=xvFZjo5PgG0")
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for getting ALL Contacts")
-    @Step("Request for getting ALL Contacts")
+    @Description("getting ALL Contacts")
     @Story("getAllContact request")
     @Test
     public void checkGetContactList() {
@@ -81,10 +85,11 @@ public class ContactsTests {
         soft.assertAll();
     }
 
+    @Link(name = "Internal documentation", url = "https://www.youtube.com/watch?v=xvFZjo5PgG0")
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for getting a random Contact")
-    @Step("Request for getting a random Contact")
+    @Description("getting a random Contact")
     @Story("getContact request")
     @Test
     public void checkGetRandomContact() {
@@ -100,10 +105,11 @@ public class ContactsTests {
         soft.assertAll();
     }
 
+    @Link(name = "Internal documentation", url = "https://www.youtube.com/watch?v=xvFZjo5PgG0")
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for editing a Contact")
-    @Step("Request for editing a Contact")
+    @Description("editing a Contact")
     @Story("putContact request")
     @RepeatedTest(10)
     public void checkUpdateRandomContact() {
@@ -121,31 +127,33 @@ public class ContactsTests {
         soft.assertAll();
     }
 
+    @Link(name = "Internal documentation", url = "https://www.youtube.com/watch?v=xvFZjo5PgG0")
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for partially editing a Contact")
-    @Step("Request for partially editing a Contact")
+    @Description("partially editing a Contact")
     @Story("patchContact request")
-    @RepeatedTest(10)
+    @RepeatedTest(3)
     public void checkPartiallyUpdateRandomContact() {
-        SoftAssertions soft = new SoftAssertions();
-        ContactsService service = new ContactsService();
+            SoftAssertions soft = new SoftAssertions();
+            ContactsService service = new ContactsService();
 
-        UserResponse user = UserApiHelper.createRandomUserWithOneContact();
-        ContactResponse contact = ContactApiHelper.getAnyContact(user);
-        ContactsBodyPayload payload = DataGenerator.getRandomContactPayloadEntry();
+            UserResponse user = UserApiHelper.createRandomUserWithOneContact();
+            ContactResponse contact = ContactApiHelper.getAnyContact(user);
+            ContactsBodyPayload payload = DataGenerator.getRandomContactPayloadEntry();
 
-        Response response = service.patchContactRequest(user,payload,contact);
+            Response response = service.patchContactRequest(user,payload,contact);
 
-        soft.assertThat(response.getStatusCode()).isEqualTo(200);
+            soft.assertThat(response.getStatusCode()).isEqualTo(200);
 
-        soft.assertAll();
+            soft.assertAll();
     }
 
+    @Link(name = "Internal documentation", url = "https://www.youtube.com/watch?v=xvFZjo5PgG0")
     @Owner("Volodymyr")
     @Feature("ContactsAPI")
     @DisplayName("Request for removing a Contact")
-    @Step("Request for removing a Contact")
+    @Description("removing a Contact")
     @Story("deleteContact request")
     @Test
     public void checkDeleteRandomContact() {

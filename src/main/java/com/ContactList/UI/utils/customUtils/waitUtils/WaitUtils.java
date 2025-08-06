@@ -69,6 +69,7 @@ public class WaitUtils {
         }
     }
 
+    //TODO: figure this out
     public static Response waitForResponse(Page page, ListPageEndpoints endpoint) {
         return page.waitForResponse((Response response) ->
                 response.url().contains("/contacts") && response.status() == 200

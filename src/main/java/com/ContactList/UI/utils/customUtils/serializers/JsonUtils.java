@@ -5,6 +5,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 //TODO: read about it. IDK nothing about serialization
+
+/**
+ * Custom serializer utility. Needed since I'm not working with RestAssured in this project
+ */
 public class JsonUtils {
     private static final ObjectMapper mapper = new ObjectMapper();
 

@@ -21,6 +21,8 @@ public class ContactTableControllers extends BaseComponent {
     private static final String table = "table#myTable";
     @Getter
     private static final String tableRows = "tr.contactTableBodyRow";
+    @Getter
+    private static final String tableHeaders = table + " thead.contactTableHead tr th";
 
     public int getAmountOfRows() {
         return page.locator(table + " " + tableRows).count();
@@ -45,6 +47,6 @@ public class ContactTableControllers extends BaseComponent {
 
     public ContactsBodyPayload getContactData(int row) {
         Locator rowlocator = page.locator(tableRows).nth(row -1);
-        return ContactPayloadBuilder.fromRow(rowlocator);
+        return ContactPayloadBuilder.fromRow(page, rowlocator);
     }
 }

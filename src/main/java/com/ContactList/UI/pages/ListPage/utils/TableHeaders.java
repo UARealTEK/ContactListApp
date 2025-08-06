@@ -5,18 +5,17 @@ import lombok.Getter;
 @Getter
 public enum TableHeaders {
 
-    NAME(0),
-    BIRTHDATE(1),
-    EMAIL(2),
-    PHONE(3),
-    ADDRESS(4),
-    CITY_STATE_POSTAL_CODE(5),
-    COUNTRY(6);
+    NAME("Name"),
+    BIRTHDATE("Birthdate"),
+    EMAIL("Email"),
+    PHONE("Phone"),
+    ADDRESS("Address"),
+    CITY_STATE_POSTAL_CODE("City, State/Province, Postal Code"),
+    COUNTRY("Country");
 
-    //TODO: замість індексу - забирать назву колонки
-    private final int index;
+    private final String columnName;
 
-    TableHeaders(int index) {
-        this.index = index;
+    TableHeaders(String columnName) {
+        this.columnName = columnName;
     }
 }

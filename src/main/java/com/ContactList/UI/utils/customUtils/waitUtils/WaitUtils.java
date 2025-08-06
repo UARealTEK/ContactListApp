@@ -1,10 +1,13 @@
 package com.ContactList.UI.utils.customUtils.waitUtils;
 
+import com.ContactList.UI.pages.ListPage.utils.ListPageEndpoints;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
+import com.microsoft.playwright.Response;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import java.util.function.Predicate;
 
 import java.util.List;
 
@@ -55,12 +58,21 @@ public class WaitUtils {
         }
     }
 
+    /**
+     * Overloaded method which is needed to wait for BASE page opening
+     */
     public static void waitForPageURL(Page page) {
         try {
             page.waitForURL(config().baseURL());
         } catch (PlaywrightException e) {
-            throw new AssertionError("The page URL has not changed after the click. " +
-                    "expected URL to be -> " + config().baseURL(), e);
+            throw new AssertionError("The page URL has not changed after the click. " + "expected URL to be -> " + config().baseURL(), e);
         }
     }
+
+    public static Response waitForResponse(Page page, ListPageEndpoints endpoint) {
+        return page.waitForResponse((Response response) ->
+                response.url().contains("/contacts") && response.status() == 200
+        );
+    }
+
 }

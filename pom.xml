@@ -21,7 +21,7 @@
     <properties>
         <java.version>21</java.version>
         <allure.version>2.24.0</allure.version>
-        <playwright.version>1.44.0</playwright.version>
+        <playwright.version>1.54.0</playwright.version>
     </properties>
 
     <!-- Force Logback version -->
@@ -92,7 +92,7 @@
         <dependency>
             <groupId>com.microsoft.playwright</groupId>
             <artifactId>playwright</artifactId>
-            <version>${playwright.version}</version>
+            <version>1.54.0</version>
         </dependency>
 
         <!-- Allure Reporting -->
@@ -146,7 +146,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <release>21</release>
                     <annotationProcessorPaths>
@@ -156,6 +156,11 @@
                             <version>1.18.32</version>
                         </path>
                     </annotationProcessorPaths>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <forkCount>1</forkCount>
+                    <reuseForks>true</reuseForks>
+                    <disableForkedProcessOutputRedirection>false</disableForkedProcessOutputRedirection>
+                    <forkedProcessTimeoutInSeconds>120</forkedProcessTimeoutInSeconds>
                 </configuration>
             </plugin>
         </plugins>

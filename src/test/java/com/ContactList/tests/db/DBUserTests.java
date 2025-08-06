@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
+//TODO: Think about storing userPassword in the Database. It is available in the UserBodyPayload
 @SpringBootTest(classes = com.ContactList.demo.Application.class)
 @Tag("db")
 public class DBUserTests {

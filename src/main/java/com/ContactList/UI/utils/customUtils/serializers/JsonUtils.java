@@ -10,9 +10,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Custom serializer utility. Needed since I'm not working with RestAssured in this project
  */
 public class JsonUtils {
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper;
 
     static {
+        mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 

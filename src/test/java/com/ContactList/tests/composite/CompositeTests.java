@@ -5,29 +5,30 @@ import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
 import com.ContactList.API.utils.dataManagement.DataGenerator;
 import com.ContactList.UI.BaseClasses.BaseTest;
 import com.ContactList.UI.pages.ListPage.ListPage;
-import com.ContactList.UI.pages.ListPage.utils.ListPageEndpoints;
+import com.ContactList.UI.utils.customUtils.assertions.CustomAPIAssertions;
 import com.ContactList.UI.utils.customUtils.listeners.ResponseListeners;
-import com.ContactList.UI.utils.customUtils.serializers.JsonUtils;
-import com.ContactList.UI.utils.customUtils.waitUtils.WaitUtils;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.ContactList.demo.DTOs.ContactDTO;
+import com.ContactList.demo.services.ContactService;
+import com.ContactList.demo.utils.CustomDBAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 @Tag("composite")
+@SpringBootTest(classes = com.ContactList.demo.Application.class)
 public class CompositeTests extends BaseTest {
 
-    //TODO: Add DTO class for Contacts. Check that after adding -> user is added in the Database as well
-    // TODO: think about how contacts are placed in the "contacts" endpoint response? I don't know what is the rule.
-    //  Which are placed at the top? Same as in the table?
-    //TODO: read about ObjectMappers
-    //TODO: read about Object.equals()
+    @Autowired
+    private ContactService contactService;
+
+    //TODO: Think about performing DB save queries right INSIDE of the UI actions
     @Test
     public void checkSimpleContactAddingFlow() {
         SoftAssertions soft = new SoftAssertions();
+        Long countBefore = contactService.getContactCount();
         UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
         ContactsBodyPayload payload = DataGenerator.getRandomContactPayload();
         ResponseListeners.clear();
@@ -39,16 +40,15 @@ public class CompositeTests extends BaseTest {
                 .openAddContactPage()
                 .addContact(payload);
 
-        try {
-            List<ContactsBodyPayload> payloads = JsonUtils
-                    .parseList(ResponseListeners.getCapturedContactsResponse().text(), new TypeReference<>(){});
-            System.out.println(payloads.getFirst());
-            System.out.println(payload);
-            soft.assertThat(payloads.getFirst().equals(payload)).isTrue();
-        } catch (RuntimeException e) {
-            throw new AssertionError("The payload was empty. Contacts APi call was probably not caught");
-        }
+        contactService.saveContactToDB(ResponseListeners.getCapturedContactsResponse());
+        Long countAfter = contactService.getContactCount();
 
+        //Check that added contact on UI (obtained via .getLatestContactData()) matches with received '/contacts' response
+        CustomAPIAssertions.assertAddedContact(soft,listPage.getTable().getLatestContactData());
+        //Check that added contact on UI (obtained via .getLatestContactData()) matches with data for the latest added user in DB
+        CustomDBAssertions.isLatestContactDTOEqualToUI(contactService,listPage.getTable().getLatestContactData());
+
+        soft.assertThat(countBefore == countAfter -1).isTrue();
         soft.assertThat(listPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactListURL());
 
         soft.assertAll();

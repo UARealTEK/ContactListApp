@@ -11,6 +11,9 @@ public class ContactDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "external_id")
+    private String externalID;
     private String firstName;
     private String lastName;
     private String birthdate;

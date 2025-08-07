@@ -74,6 +74,12 @@
             <version>5.4.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.25.3</version>
+        </dependency>
+
         <!-- Additional Rest-Assured modules (test scope) -->
         <dependency>
             <groupId>io.rest-assured</groupId>
@@ -156,11 +162,6 @@
                             <version>1.18.32</version>
                         </path>
                     </annotationProcessorPaths>
-                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
-                    <forkCount>1</forkCount>
-                    <reuseForks>true</reuseForks>
-                    <disableForkedProcessOutputRedirection>false</disableForkedProcessOutputRedirection>
-                    <forkedProcessTimeoutInSeconds>120</forkedProcessTimeoutInSeconds>
                 </configuration>
             </plugin>
         </plugins>

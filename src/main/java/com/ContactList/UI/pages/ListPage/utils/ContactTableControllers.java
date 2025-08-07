@@ -49,4 +49,9 @@ public class ContactTableControllers extends BaseComponent {
         Locator rowlocator = page.locator(tableRows).nth(row -1);
         return ContactPayloadBuilder.fromRow(page, rowlocator);
     }
+
+    public ContactsBodyPayload getLatestContactData() {
+        Locator rowlocator = page.locator(tableRows).nth(0);
+        return ContactPayloadBuilder.fromRow(page, rowlocator);
+    }
 }

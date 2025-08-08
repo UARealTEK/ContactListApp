@@ -25,6 +25,7 @@ public class CompositeTests extends BaseTest {
     private ContactService contactService;
 
     //TODO: Think about performing DB save queries right INSIDE of the UI actions
+    //TODO: Add DBContacts tests
     @Test
     public void checkSimpleContactAddingFlow() {
         SoftAssertions soft = new SoftAssertions();
@@ -36,6 +37,7 @@ public class CompositeTests extends BaseTest {
 
         ListPage listPage = loginPage
                 .openSignUpPage()
+                //I'm not going to save this user into a DB during THIS test. This flow is present in the DB Tests
                 .signUpUser(user)
                 .openAddContactPage()
                 .addContact(payload);
@@ -51,6 +53,31 @@ public class CompositeTests extends BaseTest {
         soft.assertThat(countBefore == countAfter -1).isTrue();
         soft.assertThat(listPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactListURL());
 
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkRichContactAddFlow() {
+        SoftAssertions soft = new SoftAssertions();
+        Long countBefore = contactService.getContactCount();
+        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
+        ContactsBodyPayload contact = DataGenerator.getRandomRichContactPayload();
+        ResponseListeners.clear();
+        ResponseListeners.attachContactsListener(page);
+
+        ListPage listPage = loginPage
+                .openSignUpPage()
+                .signUpUser(user)
+                .openAddContactPage()
+                .addContact(contact);
+
+        contactService.saveContactToDB(ResponseListeners.getCapturedContactsResponse());
+        CustomAPIAssertions.assertAddedContact(soft,contact);
+        CustomDBAssertions.isLatestContactDTOEqualToUI(contactService,listPage.getTable().getLatestContactData());
+
+        Long countAfter = contactService.getContactCount();
+        soft.assertThat(countAfter == countBefore + 1).isTrue();
+        soft.assertThat(listPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactListURL());
         soft.assertAll();
     }
 

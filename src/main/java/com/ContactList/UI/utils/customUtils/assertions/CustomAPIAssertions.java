@@ -16,6 +16,8 @@ public class CustomAPIAssertions {
      * @param payload -> {@code ContactsBodyPayload} object that will be compared to the FIRST (latest) added contact
      *                which is obtained using {@code Response.of()} method
      */
+
+    //TODO: modify the method so it works with exact specified contact (instead of picking up the FIRST from the list)
     public static void assertAddedContact(SoftAssertions soft,ContactsBodyPayload payload) {
         try {
             List<ContactsBodyPayload> payloads = JsonUtils

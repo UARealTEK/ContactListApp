@@ -6,6 +6,7 @@ import com.ContactList.UI.BaseClasses.BasePage;
 import com.ContactList.UI.pages.ListPage.ListPage;
 import com.ContactList.UI.pages.SignUpPage.SignUpPage;
 import com.ContactList.UI.utils.Managers.PageManager;
+import com.ContactList.UI.utils.customUtils.waitUtils.WaitUtils;
 import io.qameta.allure.Step;
 
 import static com.ContactList.UI.utils.Managers.ConfigurationManager.config;
@@ -32,12 +33,15 @@ public class LoginPage extends BasePage {
         return PageManager.createInstance(page, SignUpPage.class);
     }
 
+    //TODO: Think about adding explicit waits for cases when Im testing API and UI simultaneously
     @Step("Log in as a user with specified Credentials")
     public ListPage loginAsUser(UserBodyPayload payload) {
         this.openLoginPage();
         controllers.fillUserName(payload);
         controllers.fillPassword(payload);
         controllers.clickOnLogin();
-        return PageManager.createInstance(page,ListPage.class);
+        ListPage listPage = PageManager.createInstance(page,ListPage.class);
+        WaitUtils.waitForAllTableData(listPage);
+        return listPage;
     }
 }

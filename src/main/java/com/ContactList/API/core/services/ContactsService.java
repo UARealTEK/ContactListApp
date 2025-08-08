@@ -31,6 +31,11 @@ public class ContactsService extends BaseService {
         return postRequest(payload, Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken()), BASE_PATH);
     }
 
+    public Response addSpecificContactRequest(UserResponse user, ContactsBodyPayload contact) {
+        System.out.printf("user data: %s%n", user.getToken());
+        return postRequest(contact, Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken()), BASE_PATH);
+    }
+
     public Response addRichContactRequest(UserResponse user) {
         ContactsBodyPayload payload = DataGenerator.getRandomRichContactPayload();
         return postRequest(payload, Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken()), BASE_PATH);

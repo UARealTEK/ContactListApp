@@ -2,20 +2,28 @@ package com.ContactList.tests.composite;
 
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
+import com.ContactList.API.core.responses.contactsResponses.ContactResponse;
+import com.ContactList.API.core.responses.userResponses.UserResponse;
+import com.ContactList.API.core.services.ContactsService;
+import com.ContactList.API.core.services.UserService;
 import com.ContactList.API.utils.dataManagement.DataGenerator;
 import com.ContactList.UI.BaseClasses.BaseTest;
 import com.ContactList.UI.pages.ListPage.ListPage;
 import com.ContactList.UI.utils.customUtils.assertions.CustomAPIAssertions;
 import com.ContactList.UI.utils.customUtils.listeners.ResponseListeners;
+import com.ContactList.UI.utils.customUtils.serializers.JsonUtils;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
-import com.ContactList.demo.DTOs.ContactDTO;
 import com.ContactList.demo.services.ContactService;
 import com.ContactList.demo.utils.CustomDBAssertions;
+import com.fasterxml.jackson.core.type.TypeReference;
+import io.restassured.response.Response;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @Tag("composite")
 @SpringBootTest(classes = com.ContactList.demo.Application.class)
@@ -24,38 +32,13 @@ public class CompositeTests extends BaseTest {
     @Autowired
     private ContactService contactService;
 
-    //TODO: Think about performing DB save queries right INSIDE of the UI actions
     //TODO: Add DBContacts tests
-    @Test
-    public void checkSimpleContactAddingFlow() {
-        SoftAssertions soft = new SoftAssertions();
-        Long countBefore = contactService.getContactCount();
-        UserBodyPayload user = DataGenerator.getRandomSafeUserPayload();
-        ContactsBodyPayload payload = DataGenerator.getRandomContactPayload();
-        ResponseListeners.clear();
-        ResponseListeners.attachContactsListener(page);
-
-        ListPage listPage = loginPage
-                .openSignUpPage()
-                //I'm not going to save this user into a DB during THIS test. This flow is present in the DB Tests
-                .signUpUser(user)
-                .openAddContactPage()
-                .addContact(payload);
-
-        contactService.saveContactToDB(ResponseListeners.getCapturedContactsResponse());
-        Long countAfter = contactService.getContactCount();
-
-        //Check that added contact on UI (obtained via .getLatestContactData()) matches with received '/contacts' response
-        CustomAPIAssertions.assertAddedContact(soft,listPage.getTable().getLatestContactData());
-        //Check that added contact on UI (obtained via .getLatestContactData()) matches with data for the latest added user in DB
-        CustomDBAssertions.isLatestContactDTOEqualToUI(contactService,listPage.getTable().getLatestContactData());
-
-        soft.assertThat(countBefore == countAfter -1).isTrue();
-        soft.assertThat(listPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactListURL());
-
-        soft.assertAll();
-    }
-
+    //TODO: add Generic check to verify API ('contacts') and UI (Full Table data) -> check order
+    //TODO: -> split test -> 1. Send API Request to Add Contact
+    //TODO: on UI -> open the page for the user for which the contact was added (see step 1) ->
+    // check that corresponding contact on UI is displayed
+    // TODO: use the approach when we first do some UI action. THEN -> perform API request ->
+    //  compare data on UI with received response from API
     @Test
     public void checkRichContactAddFlow() {
         SoftAssertions soft = new SoftAssertions();
@@ -78,6 +61,34 @@ public class CompositeTests extends BaseTest {
         Long countAfter = contactService.getContactCount();
         soft.assertThat(countAfter == countBefore + 1).isTrue();
         soft.assertThat(listPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactListURL());
+        soft.assertAll();
+    }
+
+    @Test
+    public void checkAPIConsistencyWithUI() {
+        SoftAssertions soft = new SoftAssertions();
+        ResponseListeners.clear();
+        ResponseListeners.attachContactsListener(page);
+
+        UserBodyPayload userBody = DataGenerator.getRandomSafeUserPayload(); // User Body Payload
+        Response userResponse = new UserService().addUserRequest(userBody); // performed API request to create a User
+        UserResponse user = userResponse.as(UserResponse.class); // fully created User
+        soft.assertThat(userResponse.getStatusCode()).isEqualTo(201); // assert that User was successfully created
+
+        ContactsBodyPayload payload = DataGenerator.getRandomContactPayload(); // Contact Body payload
+        Response contactResponse = new ContactsService().addSpecificContactRequest(user,payload); // performed API request to create a contact
+        soft.assertThat(contactResponse.getStatusCode()).isEqualTo(201); // assert that Contact was successfully created
+
+        //Manual UI login using created User data
+        ListPage listPage = loginPage
+                .loginAsUser(userBody);
+
+        //Assert that latest (the only one) added contact is equal to the received Response from the '/contacts' API request
+        CustomAPIAssertions.assertAddedContact(soft,listPage.getTable().getLatestContactData()); // parse '/contacts' API request
+
+        //Assert that latest (The only one) added contact is equal to the one which was created using API request
+        soft.assertThat(listPage.getTable().getLatestContactData().equals(payload)).isTrue();
+
         soft.assertAll();
     }
 

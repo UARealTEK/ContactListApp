@@ -1,5 +1,7 @@
 package com.ContactList.UI.utils.customUtils.waitUtils;
 
+import com.ContactList.UI.pages.ContactDetailsPage.utils.ContactDetailsFormControllers;
+import com.ContactList.UI.pages.ListPage.ListPage;
 import com.ContactList.UI.pages.ListPage.utils.ListPageEndpoints;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.microsoft.playwright.Locator;
@@ -30,7 +32,7 @@ public class WaitUtils {
     public static void waitForAll(Page page, List<String> selectors) {
         for (String selector : selectors) {
             page.locator(selector)
-                    .waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3000));
+                    .waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(config().timeout()));
         }
     }
 
@@ -47,6 +49,13 @@ public class WaitUtils {
             } catch (PlaywrightException e) {
                 throw new AssertionError("field " + selector + " was not ready");
             }
+        }
+    }
+
+    public static void waitForAllTableData(ListPage page) {
+        List<Locator> locators = page.getTable().getTableLocators();
+        for (Locator locator : locators) {
+            locator.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(config().timeout()));
         }
     }
 

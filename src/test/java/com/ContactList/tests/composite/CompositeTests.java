@@ -2,7 +2,6 @@ package com.ContactList.tests.composite;
 
 import com.ContactList.API.core.payloads.ContactsPayloads.ContactsBodyPayload;
 import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
-import com.ContactList.API.core.responses.contactsResponses.ContactResponse;
 import com.ContactList.API.core.responses.userResponses.UserResponse;
 import com.ContactList.API.core.services.ContactsService;
 import com.ContactList.API.core.services.UserService;
@@ -11,19 +10,15 @@ import com.ContactList.UI.BaseClasses.BaseTest;
 import com.ContactList.UI.pages.ListPage.ListPage;
 import com.ContactList.UI.utils.customUtils.assertions.CustomAPIAssertions;
 import com.ContactList.UI.utils.customUtils.listeners.ResponseListeners;
-import com.ContactList.UI.utils.customUtils.serializers.JsonUtils;
 import com.ContactList.UI.utils.endpoints.PageEndpoints;
 import com.ContactList.demo.services.ContactService;
 import com.ContactList.demo.utils.CustomDBAssertions;
-import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.response.Response;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @Tag("composite")
 @SpringBootTest(classes = com.ContactList.demo.Application.class)

@@ -5,9 +5,11 @@ import com.ContactList.API.enums.headers.Headers;
 import com.ContactList.API.core.payloads.UserPayloads.UserBodyPayload;
 import com.ContactList.API.core.payloads.UserPayloads.UserLoginPayload;
 import com.ContactList.API.core.responses.userResponses.UserResponse;
+import com.ContactList.demo.DTOs.UserDTO;
 import io.restassured.response.Response;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class UserService extends BaseService {
     private static final String BASE_PATH = "users";
@@ -23,11 +25,26 @@ public class UserService extends BaseService {
     }
 
     /**
+     * Overloaded method for specific Data Driven tests
+     */
+    public Response getUserProfile(UserDTO user) {
+        String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
+        Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), user.getToken());
+        return getRequest(path, headers);
+    }
+
+    /**
      * @param payload -> payload which will be used as a data replacement
      * FYI:
      * PATCH request method is only allowed for changing the user data. PUT is not permitted
      */
     public Response patchUserRequest(UserBodyPayload payload, UserResponse userToken) {
+        String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
+        Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), userToken.getToken());
+        return patchRequest(headers, payload, path);
+    }
+
+    public Response patchUserRequest(UserBodyPayload payload, UserDTO userToken) {
         String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
         Map<String,String> headers = Map.of(Headers.AUTHORIZATION.getHeader(), userToken.getToken());
         return patchRequest(headers, payload, path);
@@ -45,6 +62,12 @@ public class UserService extends BaseService {
     }
 
     public Response deleteUser(UserResponse userToken) {
+        String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
+        Map<String,String> header = Map.of(Headers.AUTHORIZATION.getHeader(), userToken.getToken());
+        return deleteRequest(path,header);
+    }
+
+    public Response deleteUser(UserDTO userToken) {
         String path = BASE_PATH + "/" + UserEndpoints.ME.getEndpoint();
         Map<String,String> header = Map.of(Headers.AUTHORIZATION.getHeader(), userToken.getToken());
         return deleteRequest(path,header);

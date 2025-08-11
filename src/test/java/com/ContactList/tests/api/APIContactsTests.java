@@ -30,7 +30,6 @@ import io.qameta.allure.*;
 @Tag("api")
 public class APIContactsTests {
 
-
     @Link(name = "Internal documentation", url = "https://www.youtube.com/watch?v=xvFZjo5PgG0")
     @Owner("Volodymyr")
     @Feature("ContactsAPI")

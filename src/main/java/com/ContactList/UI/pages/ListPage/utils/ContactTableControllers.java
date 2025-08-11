@@ -9,7 +9,10 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 public class ContactTableControllers extends BaseComponent {
 
@@ -21,6 +24,8 @@ public class ContactTableControllers extends BaseComponent {
     private static final String table = "table#myTable";
     @Getter
     private static final String tableRows = "tr.contactTableBodyRow";
+    @Getter
+    private static final String tableHeaders = table + " thead.contactTableHead tr th";
 
     public int getAmountOfRows() {
         return page.locator(table + " " + tableRows).count();
@@ -45,6 +50,20 @@ public class ContactTableControllers extends BaseComponent {
 
     public ContactsBodyPayload getContactData(int row) {
         Locator rowlocator = page.locator(tableRows).nth(row -1);
-        return ContactPayloadBuilder.fromRow(rowlocator);
+        return ContactPayloadBuilder.fromRow(page, rowlocator);
+    }
+
+    public ContactsBodyPayload getLatestContactData() {
+        Locator rowlocator = page.locator(tableRows).nth(0);
+        return ContactPayloadBuilder.fromRow(page, rowlocator);
+    }
+
+    public List<Locator> getTableLocators() {
+        WaitUtils.waitUntilElementIsDisplayed(page, ContactTableControllers.getTable());
+        List<Locator> locators = new ArrayList<>();
+        IntStream.range(0, getAmountOfRows()).forEach(value ->  {
+            locators.add(page.locator(tableRows).nth(value));
+        });
+        return locators;
     }
 }

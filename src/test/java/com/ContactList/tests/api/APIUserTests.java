@@ -33,7 +33,6 @@ public class APIUserTests {
         System.out.println(response.getBody().asPrettyString());
         System.out.println(payload);
 
-
         soft.assertThat(response.getStatusCode()).isEqualTo(201);
 
         soft.assertAll();
@@ -112,7 +111,8 @@ public class APIUserTests {
     public void checkLoginUser() {
         SoftAssertions soft = new SoftAssertions();
 
-        Response response = new UserService().loginUser(DataGenerator.getUserLoginPayload());
+        Response response = new UserService()
+                .loginUser(DataGenerator.getUserLoginPayload());
 
         System.out.println(response.getBody().as(UserResponse.class).toString());
         soft.assertThat(response.getStatusCode()).isEqualTo(200);

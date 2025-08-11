@@ -8,6 +8,7 @@ import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import org.junit.jupiter.api.*;
+import org.springframework.stereotype.Component;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class BaseTest {

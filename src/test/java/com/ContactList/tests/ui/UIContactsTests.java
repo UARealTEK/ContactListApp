@@ -75,7 +75,8 @@ public class UIContactsTests extends BaseTest {
         ListPage listPage = loginPage
                 .openSignUpPage()
                 .signUpUser(user)
-                .openAddContactPage().addContact(payload);
+                .openAddContactPage()
+                .addContact(payload);
 
         soft.assertThat(listPage.getCurrentURL()).isEqualTo(PageEndpoints.getFullContactListURL());
         soft.assertAll();

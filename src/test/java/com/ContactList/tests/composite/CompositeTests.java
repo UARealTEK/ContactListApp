@@ -29,10 +29,7 @@ public class CompositeTests extends BaseTest {
 
     //TODO: Add DBContacts tests
     //TODO: add Generic check to verify API ('contacts') and UI (Full Table data) -> check order
-    //TODO: -> split test -> 1. Send API Request to Add Contact
-    //TODO: on UI -> open the page for the user for which the contact was added (see step 1) ->
-    // check that corresponding contact on UI is displayed
-    // TODO: use the approach when we first do some UI action. THEN -> perform API request ->
+    //TODO: use the approach when we first do some UI action. THEN -> perform API request ->
     //  compare data on UI with received response from API
     @Test
     public void checkRichContactAddFlow() {
